@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'Foro.apps.ForoConfig',
+    'Galeria.apps.GaleriaConfig',
+    'Juego.apps.JuegoConfig',
+    'Miscelaneo.apps.MiscelaneoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

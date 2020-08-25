@@ -1,0 +1,14 @@
+{% extends "Miscelaneo/Base.html" %}
+{% block contenido %}
+<h1>Registrate</h1>
+
+<form method="POST">
+    {{ formulario.as_p }}
+    {% csrf_token %}
+    <button type="submit">Registrar</button>
+</form>
+
+<hr />
+
+<a href="/login">Iniciar sesión</a>
+{% endblock %}

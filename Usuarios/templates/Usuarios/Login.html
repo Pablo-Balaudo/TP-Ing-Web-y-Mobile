@@ -1,0 +1,21 @@
+{% extends "Juego/Base.html" %}
+
+{% block titulo %}
+	<title>Log In</title>
+{% endblock titulo %}
+
+{% block contenido %}
+    <form method="POST">
+        {% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Log In" />
+		<input type="checkbox" checked="checked">Remember Me
+    </form>
+	<div>
+		¿No te has registrado?
+		<a href="/register">Crear cuenta nueva</a>
+		<hr>
+		<a href="/forgotpassword">¿Olvidaste tu contraseña?</a>
+	</div>
+
+{% endblock contenido %}

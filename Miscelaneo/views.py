@@ -4,10 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login as do_login
 
 
-
-
-
-
 def miscelaneo(request):
     formulario = UserCreationForm()
     if request.method == "POST":
@@ -18,9 +14,9 @@ def miscelaneo(request):
             # Si el usuario se crea correctamente 
             if usuario is not None:
                 do_login(request, usuario)
-                return redirect('')
+                return render(request, 'Miscelaneo/Miscelaneo.html')
 
-    # eliminamos el exceso de texto ayuda que se genera automaticamente             
+    # eliminamos el exceso de texto ayuda que se genera automaticamente
     formulario.fields['username'].help_text = None
     formulario.fields['password1'].help_text = None
     formulario.fields['password2'].help_text = None

@@ -4,16 +4,27 @@
     <meta charset="UTF-8">
     {% block titulo %}{% endblock titulo%}
 </head>
-<body style="color:white; background-color: black">
+<body style="color:white; background-color: black; font-size: xx-large">
 	<hr>
 	<a href='/'>MyLittlePixel</a>
 	<a href='/foro/'>Foro</a>
 	<a href='/galeria/'>Galeria</a>
 	<a href='/miscelaneo/'>About</a>
-	<hr>
-	<a href='/login'>Ingresar</a>
 	<a href='/register'>Registrarme</a>
 	<hr>
+	{% if user.is_authenticated %}
+		<a href='/profile'>Mi cuenta</a>
+		<a href='/logout'>Cerrar Sesión</a>
+	{% else %}
+		<a href='/login'>Ingresar</a>
+		<a href='/register'>Registrarme</a>
+	{% endif %}
+	<hr>
+	{% if messages %}
+		{% for message in messages %}
+			{{ message }}
+		{% endfor %}
+	{% endif %}
     {% block contenido %}{% endblock contenido %}
 </body>
 </html>

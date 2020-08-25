@@ -1,4 +1,9 @@
-{% extends "Foro/Base.html" %}
+{% extends "Juego/Base.html" %}
+
+{% block titulo %}
+    <title>Foro</title>
+{% endblock titulo %}
+
 {% block contenido %}
     <h1>Esta es la pagina del Foro en un archivo HTML</h1>
     {% for post in Posts %}

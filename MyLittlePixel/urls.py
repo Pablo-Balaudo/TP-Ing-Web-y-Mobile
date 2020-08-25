@@ -24,10 +24,10 @@ urlpatterns = [
     path('foro/', include('Foro.urls')),
     path('galeria/', include('Galeria.urls')),
     path('miscelaneo/', include('Miscelaneo.urls')),
-    path('register/', include('Usuarios.urls')),
+    path('register/', user_views.register, name='Register'),
     path('login/', auth_views.LoginView.as_view(template_name='Usuarios/Login.html'), name='Login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='Usuarios/Logout.html'), name='Logout'),
     path('profile/', user_views.profile, name='Profile'),
-    path('forgotpassword/', include('Usuarios.urls')),
-    path('resendverification', include('Usuarios.urls')),
+    path('forgotpassword/', user_views.forgotpassword, name='ForgotPassword'),
+    path('resendverification/', user_views.resendverification, name='ResendVerification'),
 ]

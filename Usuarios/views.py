@@ -22,6 +22,12 @@ def register(request):
 
     return render(request, 'Usuarios/Register.html', {'form': form})
 
+def forgotpassword(request):
+    return render(request, 'Juego/Forgotpassword.html')
+
+
+def resendverification(request):
+    return render(request, 'Juego/Resendverification.html')
 
 @login_required
 def profile(request):

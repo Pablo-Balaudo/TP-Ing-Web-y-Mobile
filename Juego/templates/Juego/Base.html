@@ -6,17 +6,17 @@
 </head>
 <body style="color:white; background-color: black; font-size: xx-large">
 	<hr>
-	<a href='/'>MyLittlePixel</a>
-	<a href='/foro/'>Foro</a>
-	<a href='/galeria/'>Galeria</a>
-	<a href='/miscelaneo/'>Miscelaneo</a>
+	<a href='/' style="color:Gold;">MyLittlePixel</a>
+	<a href='/foro/' style="color:Gold;">Foro</a>
+	<a href='/galeria/' style="color:Gold;">Galeria</a>
+	<a href='/miscelaneo/' style="color:Gold;">Miscelaneo</a>
 	<hr>
 	{% if user.is_authenticated %}
-		<a href='/profile/'>Mi cuenta</a>
-		<a href='/logout/'>Cerrar Sesión</a>
+		<a href='/profile/' style="color:Gold;">Mi cuenta</a>
+		<a href='/logout/' style="color:Gold;">Cerrar Sesión</a>
 	{% else %}
-		<a href='/login/'>Ingresar</a>
-		<a href='/register/'>Registrarme</a>
+		<a href='/login/' style="color:Gold;">Ingresar</a>
+		<a href='/register/' style="color:Gold;">Registrarme</a>
 	{% endif %}
 	<hr>
 	{% if messages %}

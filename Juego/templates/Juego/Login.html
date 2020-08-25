@@ -1,4 +1,4 @@
-{% extends "Base.html" %}
+{% extends "Juego/Base.html" %}
 {% block contenido %}
 <h1>Iniciar sesión</h1>
 <form action="." method="post">
@@ -15,9 +15,9 @@
 	<hr>		
 	<div>
 		¿No te has registrado?
-		<a href="Register.html">Crear cuenta nueva</a>
+		<a href="/register">Crear cuenta nueva</a>
 		<hr>
-		<a href="Forgotpassword.html">¿Olvidaste tu contraseña?</a>		
+		<a href="/forgotpassword">¿Olvidaste tu contraseña?</a>
 	</div>
 </form>
-{% endblock %}
+{% endblock contenido %}

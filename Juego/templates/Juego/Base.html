@@ -9,15 +9,14 @@
 	<a href='/'>MyLittlePixel</a>
 	<a href='/foro/'>Foro</a>
 	<a href='/galeria/'>Galeria</a>
-	<a href='/miscelaneo/'>About</a>
-	<a href='/register'>Registrarme</a>
+	<a href='/miscelaneo/'>Miscelaneo</a>
 	<hr>
 	{% if user.is_authenticated %}
-		<a href='/profile'>Mi cuenta</a>
-		<a href='/logout'>Cerrar Sesión</a>
+		<a href='/profile/'>Mi cuenta</a>
+		<a href='/logout/'>Cerrar Sesión</a>
 	{% else %}
-		<a href='/login'>Ingresar</a>
-		<a href='/register'>Registrarme</a>
+		<a href='/login/'>Ingresar</a>
+		<a href='/register/'>Registrarme</a>
 	{% endif %}
 	<hr>
 	{% if messages %}

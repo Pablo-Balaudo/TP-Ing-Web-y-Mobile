@@ -1,21 +1,21 @@
 {% extends "Juego/Base.html" %}
-
+{% load crispy_forms_tags %}
 {% block titulo %}
-	<title>Register</title>
+	<title>Registro</title>
 {% endblock titulo %}
 
 {% block contenido %}
 
     <form method="POST">
         {% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" value="Registrarse" />
-		<input type="checkbox" checked="checked">Estás de acuerdo con nuestros términos de servicio
+        <fieldset><legend><strong>Registro</strong></legend>{{ form|crispy }}</fieldset>
+		<input type="submit" value="Registrarse"/>
+		<input type="checkbox" required>Estás de acuerdo con nuestros términos de servicio
     </form>
 	<div>
-		<a href="/login" style="color:Gold;">¿Ya tienes cuenta?</a>
+		<a class="link" href="/login">¿Ya tienes cuenta?</a>
 		<hr>
-		<a href="/resendverification" style="color:Gold;">Reenviar correo de verificación</a>
+		<a class="link" href="/resendverification">Reenviar correo de verificación</a>
 	</div>
 
 {% endblock contenido %}

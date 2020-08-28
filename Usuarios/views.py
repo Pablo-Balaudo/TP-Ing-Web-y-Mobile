@@ -22,11 +22,6 @@ def register(request):
 
     return render(request, 'Usuarios/Register.html', {'form': form})
 
-
-def forgotpassword(request):
-    return render(request, 'Usuarios/Forgotpassword.html')
-
-
 def resendverification(request):
     return render(request, 'Usuarios/Resendverification.html')
 

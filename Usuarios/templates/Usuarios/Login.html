@@ -1,21 +1,21 @@
 {% extends "Juego/Base.html" %}
-
+{% load crispy_forms_tags %}
 {% block titulo %}
-	<title>Log In</title>
+	<title>Ingresar</title>
 {% endblock titulo %}
 
 {% block contenido %}
     <form method="POST">
         {% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" value="Log In" />
-		<input type="checkbox" checked="checked">Remember Me
+		<fieldset><legend><strong>Iniciar sesión</strong></legend>{{ form|crispy }}</fieldset>
+		<input type="submit" value="Ingresar" />
+		<input type="checkbox" checked="checked">Recuerdame
     </form>
 	<div>
 		¿No te has registrado?
-		<a href="/register" style="color:Gold;">Crear cuenta nueva</a>
+		<a class ="link" href="/register">Crear cuenta nueva</a>
 		<hr>
-		<a href="/forgotpassword" style="color:Gold;">¿Olvidaste tu contraseña?</a>
+		<a class ="link" href="/password-reset">¿Olvidaste tu contraseña?</a>
 	</div>
 
 {% endblock contenido %}

@@ -1,15 +1,14 @@
 {% extends "Juego/Base.html" %}
 
 {% block titulo %}
-	<title>Resend Verification</title>
+	<title>Reenviar verificación</title>
 {% endblock titulo %}
 
 {% block contenido %}
-<h1>Reenviar correo de verificación</h1>
 <form>
 	<div class="container">
 		<div>
-			<input type="email" placeholder="E-mail" name="email" required>
+			<fieldset><legend><strong>Reenviar correo de verificación</strong></legend><input type="email" placeholder="E-mail" name="email" required></fieldset>
 		</div>
 		<input type="submit" value="Reenviar" />
 	</div>

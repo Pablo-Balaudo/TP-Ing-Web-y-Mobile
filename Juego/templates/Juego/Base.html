@@ -2,21 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <style>.link {color:Gold;}</style>    
     {% block titulo %}{% endblock titulo%}
 </head>
 <body style="color:white; background-color: black; font-size: xx-large">
 	<hr>
-	<a href='/' style="color:Gold;">MyLittlePixel</a>
-	<a href='/foro/' style="color:Gold;">Foro</a>
-	<a href='/galeria/' style="color:Gold;">Galeria</a>
-	<a href='/miscelaneo/' style="color:Gold;">Miscelaneo</a>
+	<a class="link" href='/'>MyLittlePixel</a>
+	<a class="link" href='/foro/'>Foro</a>
+	<a class="link" href='/galeria/'>Galeria</a>
+	<a class="link" href='/miscelaneo/'>Miscelaneo</a>
 	<hr>
 	{% if user.is_authenticated %}
-		<a href='/profile/' style="color:Gold;">Mi cuenta</a>
-		<a href='/logout/' style="color:Gold;">Cerrar Sesión</a>
+		<a class="link" href='/profile/'>Mi cuenta</a>
+		<a class="link" href='/logout/'>Cerrar Sesión</a>
 	{% else %}
-		<a href='/login/' style="color:Gold;">Ingresar</a>
-		<a href='/register/' style="color:Gold;">Registrarme</a>
+		<a class="link" href='/login/'>Ingresar</a>
+		<a class="link" href='/register/'>Registrarme</a>
 	{% endif %}
 	<hr>
 	{% if messages %}

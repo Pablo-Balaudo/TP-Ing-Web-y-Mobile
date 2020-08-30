@@ -5,5 +5,45 @@
 {% endblock titulo %}
 
 {% block contenido %}
-    <h1>Esta es la pagina del Juego en un archivo HTML</h1>
+    <h1 id="titulo">Esta es la pagina del Juego en un archivo HTML</h1>
+    <canvas id="Canvas" width="1000" height="1000"
+            style="border: 1px solid #ffffff;
+            /*transform: translate(600px, 350px) scale(1);*/
+            -ms-interpolation-mode: nearest-neighbor;
+            image-rendering: pixelated;
+            ">
+        Activa JavaScript
+    </canvas>
+
+<script type="text/javascript" language="javascript">
+var c = document.getElementById("Canvas");
+var context = c.getContext("2d");
+
+// Box width
+var bw = 1000;
+// Box height
+var bh = 1000;
+// Padding
+var p = 0;
+var n = 0
+
+context.fillStyle = 'gold';
+context.fillRect(0, 0, bw, bh);
+
+function drawBoard(){
+    for (var x = 0; x <= bw; x += bw/10) {
+        context.moveTo(n + x + p, p);
+        context.lineTo(n + x + p, bh + p);
+    }
+
+    for (var x = 0; x <= bh; x += bh/10) {
+        context.moveTo(p, n + x + p);
+        context.lineTo(bw + p, n + x + p);
+    }
+    context.strokeStyle = "black";
+    context.stroke();
+}
+
+drawBoard();
+</script>
 {% endblock %}

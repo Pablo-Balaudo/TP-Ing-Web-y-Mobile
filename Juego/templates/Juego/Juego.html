@@ -6,37 +6,54 @@
 
 {% block contenido %}
     <h1 id="titulo">Esta es la pagina del Juego en un archivo HTML</h1>
+    <p id="x">Coord X</p>
+    <p id="y">Coord Y</p>
+    <p>Falta calibrar obtener coordenedas cerca de las lineas</p>
     <canvas id="Canvas" width="1000" height="1000"
             style="border: 1px solid #ffffff;
-            /*transform: translate(600px, 350px) scale(1);*/
+            transform: translate(400px);
             -ms-interpolation-mode: nearest-neighbor;
-            image-rendering: pixelated;
-            ">
+            image-rendering: pixelated;"
+            onclick="getMouse(onclick, Canvas)">
         Activa JavaScript
     </canvas>
+    <button onclick="copy()" style="transform: translate(-900px, -999px)">Test para dibujar (no implementado)</button>
 
-<script type="text/javascript" language="javascript">
+<script id="test">
+    function getCursorPosition(canvas, event)
+    {
+        var rect = canvas.getBoundingClientRect();
+        var x = event.clientX - rect.left;
+        var y = event.clientY - rect.top;
+        document.getElementById("x").innerHTML = "Coord X " + Math.ceil((x-1)/20);
+        document.getElementById("y").innerHTML = "Coord Y " + Math.ceil((y-1)/20);
+        return [x, y];
+    }
+    var canvas = document.querySelector('canvas');
+    canvas.addEventListener('mousedown', function(e){getCursorPosition(canvas, e)});
+</script>
+
+<script id="DibujarGrilla" type="text/javascript" language="javascript">
 var c = document.getElementById("Canvas");
 var context = c.getContext("2d");
 
 // Box width
-var bw = 1000;
+var bw = 999;
 // Box height
-var bh = 1000;
+var bh = 999;
 // Padding
-var p = 0;
+var p = 0.6;
 var n = 0
 
 context.fillStyle = 'gold';
 context.fillRect(0, 0, bw, bh);
 
 function drawBoard(){
-    for (var x = 0; x <= bw; x += bw/10) {
+    for (var x = 0; x <= bw; x += bw/50) {
         context.moveTo(n + x + p, p);
         context.lineTo(n + x + p, bh + p);
     }
-
-    for (var x = 0; x <= bh; x += bh/10) {
+    for (var x = 0; x <= bh; x += bh/50) {
         context.moveTo(p, n + x + p);
         context.lineTo(bw + p, n + x + p);
     }
@@ -44,6 +61,13 @@ function drawBoard(){
     context.stroke();
 }
 
+function copy() {
+  var imgData = ctx.getImageData(10, 10, 50, 50);
+  ctx.putImageData((255, 255, 255, 255), 10, 70);
+}
+
 drawBoard();
+
 </script>
+
 {% endblock %}

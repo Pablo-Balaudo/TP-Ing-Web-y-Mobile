@@ -14,6 +14,7 @@
 	<a class="link" href='/foro/'>Foro</a>
 	<a class="link" href='/galeria/'>Galeria</a>
 	<a class="link" href='/miscelaneo/'>Miscelaneo</a>
+	<a style="font-size: small; position: relative; right: -300px;">Commit 40</a>
 	<hr>
 	{% if user.is_authenticated %}
 		<a class="link" href='/profile/'>Mi cuenta</a>
@@ -29,7 +30,6 @@
 		{% endfor %}
 	{% endif %}
     {% block contenido %}{% endblock contenido %}
-	<a style="font-size: small; position: relative; right: 1200px;">Commit 35</a>
 </body>
 
 </html>

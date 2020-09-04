@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+#Para los formularios
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+
+
 
 class Usuario(User):
 
@@ -11,18 +16,10 @@ class Usuario(User):
         proxy = True
 
 
-class Pixel(models.Model):
-    color = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(255)])
-    vidas = models.PositiveIntegerField(default=1, validators=[MaxValueValidator(5)])
-    coordenadaX = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(50)])
-    coordenadaY = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(50)])
-    #clave foranea
-    dueño = models.ForeignKey('auth.User', models.SET_NULL, blank=True, null=True,)
 
 
 
-
-class Lienzo(models.Model):
+class Grupo(models.Model):
     id = models.AutoField(primary_key=True)
     fechainicio = models.DateTimeField()
     fechafin = models.DateTimeField()
@@ -30,10 +27,15 @@ class Lienzo(models.Model):
     bloqueado = models.BooleanField(default=False)
 
 
-
-
-
-
+class UserRegisterForm(UserCreationForm):    
+    username = forms.CharField(label='', max_length=20, widget=forms.TextInput(attrs={'placeholder': 'Nombre de usuario'}))
+    email = forms.EmailField(label='', max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Correo electrónico'}))
+    password1 = forms.CharField(label='',min_length=8,max_length=20,widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
+    password2 = forms.CharField(label='',min_length=8,max_length=20,widget=forms.PasswordInput(attrs={'placeholder': 'Confirmar contraseña'}))
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
 
 
 

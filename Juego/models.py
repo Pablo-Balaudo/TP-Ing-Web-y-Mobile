@@ -17,7 +17,7 @@ class Pixel(models.Model):
 
 class Lienzo(models.Model):
     id = models.AutoField(primary_key=True)
-    fechainicio = models.DateTimeField()
-    fechafin = models.DateTimeField()
+   # fechainicio = models.DateTimeField()
+   # fechafin = models.DateTimeField()
     guardado = models.BooleanField(default=False)
     bloqueado = models.BooleanField(default=False)

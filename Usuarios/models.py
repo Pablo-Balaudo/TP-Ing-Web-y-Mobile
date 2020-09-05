@@ -1,30 +1,45 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+#  import datetime
+#  from datetime import timedelta
+#Para la extencion de la clase User
+from django.contrib.auth.models import User
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 #Para los formularios
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 
+class Usuario(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, primary_key=True)
+  #  FechaRegistro = models.DateTimeField(auto_now_add = True)
+    # El tiempo de espera figura en minutos
+  #  TiempoEspera = models.DurationField(default = timedelta(days=1))
+    Puntos = models.IntegerField(default=0)
+    # Fecha a partir de la cual puede pintar otra vez
+  #  FechaJuego = models.DateTimeField(default=FechaRegistro)  
+    WeAreLegion = models.BooleanField(default=False)
+    PixelOfLife = models.BooleanField(default=False)
+    Conectado = models.BooleanField(default=False)
+    Baneado = models.BooleanField(default=False)
 
-class Usuario(User):
+@receiver(post_save, sender=User)
+def CrearUsuario(sender, instance, created, **kwargs):
+    if created:
+        Usuario.objects.create(user=instance)
+        
+@receiver(post_save, sender=User)
+def GuardarUsuario(sender, instance, **kwargs):
+    instance.usuario.save()    
 
 
-    
-
-    class Meta:
-        proxy = True
 
 
 
 
 
-class Grupo(models.Model):
-    id = models.AutoField(primary_key=True)
-    fechainicio = models.DateTimeField()
-    fechafin = models.DateTimeField()
-    guardado = models.BooleanField(default=False)
-    bloqueado = models.BooleanField(default=False)
 
 
 class UserRegisterForm(UserCreationForm):    

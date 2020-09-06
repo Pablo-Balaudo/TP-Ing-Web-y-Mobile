@@ -11,18 +11,84 @@
     <h1 id="titulo">Esta es la pagina del Juego en un archivo HTML</h1>
     <p id="x">Coord X</p>
     <p id="y">Coord Y</p>
-    <p id="test">test</p>
 
-    <canvas id="Canvas" width="1000" height="1000"
-            style="border: 1px solid #ffffff;
-            transform: translate(400px,-200px);
-            -ms-interpolation-mode: nearest-neighbor;
-            image-rendering: pixelated;"
-            onclick="getCursorPosition(Canvas, onclick)">
-        Activa JavaScript
-    </canvas>
+    <div class = "col-md-12">
+        <button onclick="drawBoard()">Reset</button>
+    </div>
 
-    <button onclick="drawBoard()" style="transform: translate(-1000px, -1000px)">Reset</button>
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,255,255,255])">Blanco</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,255,255,127])">Plateado</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([127,127,127,127])">Gris</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,255,255,0])">Negro</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,0,0,255])">Rojo</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,0,0,127])">Rojo Oscuro</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,255,0,255])">Amarillo</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,255,0,127])">Amarillo Oscuro</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,0,255,255])">Rosado</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([255,0,255,127])">Rosado Oscuro</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([0,255,0,255])">Verde</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([0,255,0,127])">Verde Oscuro</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([0,255,255,255])">Cyan</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([0,255,255,127])">Cyan Oscuro</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([0,0,255,255])">Azul</button>
+    </div>
+
+    <div class = "col-md-12">
+        <button onclick="cambiarColor([0,0,255,127])">Azul Oscuro</button>
+    </div>
+
+    <div class = "col-md-12">
+        <canvas id="Canvas" width="1000" height="1000"
+                style="border: 1px solid #ffffff;
+                transform: translate(200px, -75%);
+                -ms-interpolation-mode: nearest-neighbor;
+                image-rendering: pixelated;">
+            Activa JavaScript
+        </canvas>
+    </div>
 
 <script id="Clicks">
 
@@ -36,14 +102,29 @@
         document.getElementById("x").innerHTML = "Coord X " + x;
         document.getElementById("y").innerHTML = "Coord Y " + y;
 
-        pintar(x, y, canvas)
+        if (((x >= 1) && (x <= 50)) && ((y >= 1) && (y <= 50)))
+        {
+            pintar(x, y, canvas);
+        }
+        else
+        {
+            alert("Has clickeado muy cerca del borde");
+        }
     }
+
     var canvas = document.querySelector('Canvas');
-    canvas.addEventListener('mousedown', function(e){getCursorPosition(Canvas, e)});
+    canvas.addEventListener('click', function(event){getCursorPosition(canvas, event)});
 
 </script>
 
 <script id="Pintar">
+
+    color_to_paint = [255,255,255,255]
+
+    function cambiarColor(color)
+    {
+        color_to_paint = color
+    }
 
     function pintar(x, y, canvas)
     {
@@ -55,10 +136,10 @@
         for (let i = 0; i < imageData.data.length; i += 4)
         {
             // Modify pixel data
-            imageData.data[i + 0] = 190;  // R value
-            imageData.data[i + 1] = 0;    // G value
-            imageData.data[i + 2] = 210;  // B value
-            imageData.data[i + 3] = 255;  // A value
+            imageData.data[i + 0] = color_to_paint[0];  // R value
+            imageData.data[i + 1] = color_to_paint[1];  // G value
+            imageData.data[i + 2] = color_to_paint[2];  // B value
+            imageData.data[i + 3] = color_to_paint[3];  // A value
         }
         // Draw image data to the canvas
         context.putImageData(imageData, x*20-20, y*20-20);
@@ -79,7 +160,7 @@
     var n = 0
     function drawBoard()
     {
-        context.fillStyle = 'gold';
+        context.fillStyle = 'black';
         context.fillRect(0, 0, bw, bh);
         for (var x = 0; x <= bw; x += bw/50) {
             context.moveTo(n + x + p, p);

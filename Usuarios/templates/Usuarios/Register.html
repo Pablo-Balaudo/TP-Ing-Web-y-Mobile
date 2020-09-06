@@ -4,13 +4,20 @@
 	<title>Registro</title>
 {% endblock titulo %}
 
+{% block javascript %}
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock javascript %}
+
 {% block contenido %}
 
     <form method="POST">
         {% csrf_token %}
         <fieldset><legend><strong>Registro</strong></legend>{{ form|crispy }}</fieldset>
+		<hr>
+		<div class="g-recaptcha" data-sitekey="6LezWcgZAAAAAHFyCc4_Q_um741Z-iUzAIycxgVD"></div>
 		<input type="submit" value="Registrarse"/>
 		<input type="checkbox" required>Estás de acuerdo con nuestros términos de servicio
+		<hr>
     </form>
 	<div>
 		<a class="link" href="/login">¿Ya tienes cuenta?</a>

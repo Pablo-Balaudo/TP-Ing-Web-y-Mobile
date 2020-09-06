@@ -1,14 +1,17 @@
 {% extends "Juego/Base.html" %}
-
+{% load crispy_forms_tags %}
 {% block titulo %}
 	<title>Reenviar verificación</title>
 {% endblock titulo %}
 
 {% block contenido %}
-<form>
+<form method="POST">
+	{% csrf_token %}
 	<div class="container">
 		<div>
-			<fieldset><legend><strong>Reenviar correo de verificación</strong></legend><input type="email" placeholder="E-mail" name="email" required></fieldset>
+			<fieldset><legend><strong>Reenviar correo de verificación</strong></legend>
+			{{form|crispy}}
+			</fieldset>
 		</div>
 		<input type="submit" value="Reenviar" />
 	</div>

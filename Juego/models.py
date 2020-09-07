@@ -9,7 +9,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-
+#La cantidad total de pixeles es de CanvasSize x CanvasSize (Ej: si CanvasSize = 50, entonces hay 50x50 pixeles)
 CanvasSize = 51
 
 
@@ -23,8 +23,8 @@ class Lienzo(models.Model):
 
 class Pixel(models.Model):
 
-    coordenadaX = models.IntegerField(default = 0, validators=[MaxValueValidator(TamañoLienzo)])
-    coordenadaY = models.IntegerField(default = 0, validators=[MaxValueValidator(TamañoLienzo)])
+    coordenadaX = models.IntegerField(default = 0, validators=[MaxValueValidator(CanvasSize)])
+    coordenadaY = models.IntegerField(default = 0, validators=[MaxValueValidator(CanvasSize)])
     lienzo = models.ForeignKey(Lienzo, on_delete = models.CASCADE, null = True)
 
     color = models.IntegerField(default = 0, validators=[MaxValueValidator(20)])
@@ -36,8 +36,8 @@ class Pixel(models.Model):
 @receiver(post_save, sender=Lienzo)
 def crear_pixeles(sender, instance, created, **kwargs):
     if created:
-        for X in range(TamañoLienzo):
-            for Y in range(TamañoLienzo):
+        for X in range(CanvasSize):
+            for Y in range(CanvasSize):
                 pixel = Pixel(coordenadaX = X, coordenadaY = Y, lienzo = instance)
                 pixel.save()
   

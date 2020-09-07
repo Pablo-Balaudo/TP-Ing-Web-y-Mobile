@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 import datetime
 #  from datetime import timedelta
@@ -15,7 +14,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 class Usuario(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
-    # FechaRegistro = models.DateTimeField(auto_now_add = True)
+    FechaRegistro = models.DateTimeField(auto_now_add = True)
     # El tiempo de espera figura en minutos
     # TiempoEspera = models.DurationField(default = timedelta(days=1))
     Puntos = models.IntegerField(default=0)
@@ -26,12 +25,11 @@ class Usuario(models.Model):
     Conectado = models.BooleanField(default=False)
     Baneado = models.BooleanField(default=False)
 
-
+#Esto es semejante a los eventos y delegados, permitiendo que al crearse un user, automaticamente se cree un usuario asociado
 @receiver(post_save, sender=User)
 def crear_usuario(sender, instance, created, **kwargs):
     if created:
         Usuario.objects.create(user=instance)
-
 
 @receiver(post_save, sender=User)
 def guardar_usuario(sender, instance, **kwargs):
@@ -39,14 +37,19 @@ def guardar_usuario(sender, instance, **kwargs):
 
 
 class UserRegisterForm(UserCreationForm):
+    
     username = forms.CharField(label='', max_length=20,
-                               widget=forms.TextInput(attrs={'placeholder': 'Nombre de usuario'}))
+    widget=forms.TextInput(attrs={'placeholder': 'Nombre de usuario'}))
+
     email = forms.EmailField(label='', max_length=40,
-                             widget=forms.TextInput(attrs={'placeholder': 'Correo electrónico'}))
+    widget=forms.TextInput(attrs={'placeholder': 'Correo electrónico'}))
+
     password1 = forms.CharField(label='', min_length=8, max_length=20,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
+    widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
+
     password2 = forms.CharField(label='', min_length=8, max_length=20,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Confirmar contraseña'}))
+    widget=forms.PasswordInput(attrs={'placeholder': 'Confirmar contraseña'}))
+
 
     class Meta:
         model = User

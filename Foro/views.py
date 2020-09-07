@@ -14,4 +14,3 @@ Posts_Test = [{'Autor': 'Twilight Sparkle',
 def foro(request):
     contenido = {'Posts': Posts_Test}
     return render(request, 'Foro/Foro.html', contenido)
-

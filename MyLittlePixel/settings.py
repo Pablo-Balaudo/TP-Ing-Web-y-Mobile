@@ -16,7 +16,6 @@ import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = ')qw5-wmml06s^%9ial8ujj=lgm7ppx*l67onrz1u7cr*lserzb'
 DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
-
 
 # Application definition
 
@@ -43,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'crispy_forms',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MyLittlePixel.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -86,7 +83,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -106,7 +102,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -119,7 +114,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -140,4 +134,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'cuentaparatp2020@gmail.com'
 EMAIL_HOST_PASSWORD = 'M3ss1S3V4D3lB4rc3l0n4'
 
-GOOGLE_RECAPTCHA_SECRET_KEY= '6LezWcgZAAAAAD9tUD_9ZlsoPA0o4gqA4zzsOKgl'
+GOOGLE_RECAPTCHA_SECRET_KEY = '6LezWcgZAAAAAD9tUD_9ZlsoPA0o4gqA4zzsOKgl'

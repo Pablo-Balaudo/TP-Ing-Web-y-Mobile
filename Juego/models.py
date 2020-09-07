@@ -2,7 +2,6 @@ from django.db import models
 import datetime
 
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from django.conf import settings
@@ -23,11 +22,18 @@ class Lienzo(models.Model):
 
 class Pixel(models.Model):
 
+    #Para diferenciar/identificar los pixeles los unos de los otros
     coordenadaX = models.IntegerField(default = 0, validators=[MaxValueValidator(CanvasSize)])
     coordenadaY = models.IntegerField(default = 0, validators=[MaxValueValidator(CanvasSize)])
     lienzo = models.ForeignKey(Lienzo, on_delete = models.CASCADE, null = True)
-
-    color = models.IntegerField(default = 0, validators=[MaxValueValidator(20)])
+    
+    #para determinar el color
+    Red = models.PositiveSmallIntegerField(default = 255, validators=[MaxValueValidator(256)])
+    Green = models.PositiveSmallIntegerField(default = 255, validators=[MaxValueValidator(256)])
+    Blue = models.PositiveSmallIntegerField(default = 255, validators=[MaxValueValidator(256)])
+    Alpha = models.PositiveSmallIntegerField(default = 255, validators=[MaxValueValidator(256)])
+    
+    #Datos propios del juego
     vidas = models.PositiveIntegerField(default = 1, validators=[MaxValueValidator(5)])
     dueño = models.ForeignKey('auth.User', models.SET_NULL, blank=True, null=True)
 

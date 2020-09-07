@@ -14,8 +14,8 @@ CanvasSize = 51
 
 class Lienzo(models.Model):
     id = models.AutoField(primary_key=True)
-    # fechainicio = models.DateTimeField()
-    # fechafin = models.DateTimeField()
+    fechainicio = models.DateTimeField(auto_now_add = True)
+    fechafin = models.DateTimeField(null=True, default=None)
     guardado = models.BooleanField(default=False)
     bloqueado = models.BooleanField(default=False)
 

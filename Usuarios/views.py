@@ -3,7 +3,8 @@ from django.contrib import messages
 from .models import UserRegisterForm, Resendverification
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-#Para el registro
+
+# Para el registro
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -14,18 +15,19 @@ from django.conf import settings
 import urllib
 import json
 
-def send_email_activation(user,email,request):
-    current_site= str(get_current_site(request))
+
+def send_email_activation(user, email, request):
+    current_site = str(get_current_site(request))
     mail_subject = 'Activa tu cuenta en MyLittlePixel'
     message = render_to_string('Usuarios/Activation.html',
-                       {
-                           'user': user,
-                           'domain': current_site,
-                           'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                           'token': generate_token.make_token(user)
-                       }
-                       )
-    
+                               {
+                                   'user': user,
+                                   'domain': current_site,
+                                   'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                                   'token': generate_token.make_token(user)
+                               }
+                               )
+
     return EmailMessage(
         mail_subject,
         message,
@@ -33,12 +35,13 @@ def send_email_activation(user,email,request):
         [email]
     )
 
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
 
-            #RECAPTCHA
+            # RECAPTCHA
             recaptcha_response = request.POST.get('g-recaptcha-response')
             url = 'https://www.google.com/recaptcha/api/siteverify'
             values = {
@@ -50,24 +53,24 @@ def register(request):
             response = urllib.request.urlopen(req)
             result = json.loads(response.read().decode())
 
-            if result['success'] == False:
-                messages.add_message(request, messages.ERROR,'reCAPTCHA inválido. Inténtelo de nuevo.')
-                return render(request,'Usuarios/Register.html',{'form': form},status=400)
+            if not result['success']:
+                messages.add_message(request, messages.ERROR, 'reCAPTCHA inválido. Inténtelo de nuevo.')
+                return render(request, 'Usuarios/Register.html', {'form': form}, status=400)
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password1 = form.cleaned_data['password1']
-            
+
             if User.objects.filter(email=email).exists():
-                messages.add_message(request, messages.ERROR,'Correo electrónico en uso, elige otro.')
-                return render(request,'Usuarios/Register.html',{'form': form},status=400)
+                messages.add_message(request, messages.ERROR, 'Correo electrónico en uso, elige otro.')
+                return render(request, 'Usuarios/Register.html', {'form': form}, status=400)
             else:
                 user = form.save(commit=False)
                 user.is_active = False
                 user.save()
-                
-                email_message = send_email_activation(user,email,request)       
+
+                email_message = send_email_activation(user, email, request)
                 email_message.send(fail_silently=False)
-                
+
                 messages.success(request, f'Tu cuenta ha sido creada!')
                 return redirect('/login')
     else:
@@ -77,25 +80,27 @@ def register(request):
     form.fields['username'].help_text = None
     form.fields['password1'].help_text = None
     form.fields['password2'].help_text = None
-    
+
     return render(request, 'Usuarios/Register.html', {'form': form})
+
 
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
 
-        #Si el usuario ya está activo lo manda directo al login
+        # Si el usuario ya está activo lo manda directo al login
         if user.is_active:
             return redirect('/login')
 
-        user.is_active=True
+        user.is_active = True
         user.save()
         return render(request, 'Usuarios/Email_activation.html')
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-        
+
     return render(request, 'Usuarios/Email_activation_failed.html')
+
 
 def resendverification(request):
     if request.method == 'POST':
@@ -103,13 +108,13 @@ def resendverification(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             if not User.objects.filter(email=email).exists():
-                messages.add_message(request, messages.ERROR,'Correo electrónico incorrecto.')
-                return render(request,'Usuarios/Resendverification.html',{'form': form},status=400)
+                messages.add_message(request, messages.ERROR, 'Correo electrónico incorrecto.')
+                return render(request, 'Usuarios/Resendverification.html', {'form': form}, status=400)
             else:
                 user = User.objects.get(email=email)
-                email_message = send_email_activation(user,email,request)
+                email_message = send_email_activation(user, email, request)
                 email_message.send(fail_silently=False)
-                
+
                 messages.success(request, f'Se ha reenviado un correo para la activación de su cuenta!')
                 return redirect('/login')
     else:

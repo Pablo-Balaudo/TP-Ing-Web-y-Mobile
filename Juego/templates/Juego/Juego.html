@@ -93,85 +93,94 @@
         </canvas>
     </div>
 
-<script id="DibujarGrilla" type="text/javascript" language="javascript">
+    <script id="DibujarGrilla" type="text/javascript" language="javascript">
 
-    function drawBoard()
-    {
-        var c = document.getElementById("Canvas");
-        var context = c.getContext("2d");
-        var imageData = context.createImageData(1000, 1000);
+        function drawBoard()
+        {
+            var c = document.getElementById("Canvas");
+            var context = c.getContext("2d");
+            var imageData = context.createImageData(1000, 1000);
+
+                // Iterate through every pixel
+                for (let i = 0; i < imageData.data.length; i += 4)
+                {
+                    // Modify pixel data
+                    imageData.data[i + 0] = 0;  // R value
+                    imageData.data[i + 1] = 0;  // G value
+                    imageData.data[i + 2] = 0;  // B value
+                    imageData.data[i + 3] = 0;  // A value
+                }
+                // Draw image data to the canvas
+                context.putImageData(imageData, 0, 0);
+        }
+        drawBoard()
+
+    </script>
+
+
+    {% if user.is_authenticated %}
+        <script id="Clicks">
+
+            function getCursorPosition(canvas, event)
+            {
+                var rect = canvas.getBoundingClientRect();
+
+                var x = Math.ceil(((event.clientX - rect.left) -1) / 20);
+                var y = Math.ceil(((event.clientY - rect.top) -1) / 20);
+
+                document.getElementById("x").innerHTML = "Coord X " + x;
+                document.getElementById("y").innerHTML = "Coord Y " + y;
+
+                if (((x >= 1) && (x <= 50)) && ((y >= 1) && (y <= 50)))
+                {
+                    pintar(x, y, canvas);
+                }
+                else
+                {
+                    alert("Has clickeado muy cerca del borde");
+                }
+            }
+
+            var canvas = document.querySelector('Canvas');
+
+            
+            canvas.addEventListener('click', function(event){getCursorPosition(canvas, event)});
+
+        </script>
+	{% endif %}
+
+
+
+    
+
+    <script id="Pintar">
+
+        color_to_paint = [255,255,255,255]
+
+        function cambiarColor(color)
+        {
+            color_to_paint = color
+        }
+
+        function pintar(x, y, canvas)
+        {
+            var c = canvas
+            var context = c.getContext("2d");
+            var imageData = context.createImageData(20, 20);
 
             // Iterate through every pixel
             for (let i = 0; i < imageData.data.length; i += 4)
             {
                 // Modify pixel data
-                imageData.data[i + 0] = 0;  // R value
-                imageData.data[i + 1] = 0;  // G value
-                imageData.data[i + 2] = 0;  // B value
-                imageData.data[i + 3] = 0;  // A value
+                imageData.data[i + 0] = color_to_paint[0];  // R value
+                imageData.data[i + 1] = color_to_paint[1];  // G value
+                imageData.data[i + 2] = color_to_paint[2];  // B value
+                imageData.data[i + 3] = color_to_paint[3];  // A value
             }
             // Draw image data to the canvas
-            context.putImageData(imageData, 0, 0);
-    }
-    drawBoard()
-
-</script>
-
-<script id="Clicks">
-
-    function getCursorPosition(canvas, event)
-    {
-        var rect = canvas.getBoundingClientRect();
-
-        var x = Math.ceil(((event.clientX - rect.left) -1) / 20);
-        var y = Math.ceil(((event.clientY - rect.top) -1) / 20);
-
-        document.getElementById("x").innerHTML = "Coord X " + x;
-        document.getElementById("y").innerHTML = "Coord Y " + y;
-
-        if (((x >= 1) && (x <= 50)) && ((y >= 1) && (y <= 50)))
-        {
-            pintar(x, y, canvas);
+            context.putImageData(imageData, x*20-20, y*20-20);
         }
-        else
-        {
-            alert("Has clickeado muy cerca del borde");
-        }
-    }
 
-    var canvas = document.querySelector('Canvas');
-    canvas.addEventListener('click', function(event){getCursorPosition(canvas, event)});
-
-</script>
-
-<script id="Pintar">
-
-    color_to_paint = [255,255,255,255]
-
-    function cambiarColor(color)
-    {
-        color_to_paint = color
-    }
-
-    function pintar(x, y, canvas)
-    {
-        var c = canvas
-        var context = c.getContext("2d");
-        var imageData = context.createImageData(20, 20);
-
-        // Iterate through every pixel
-        for (let i = 0; i < imageData.data.length; i += 4)
-        {
-            // Modify pixel data
-            imageData.data[i + 0] = color_to_paint[0];  // R value
-            imageData.data[i + 1] = color_to_paint[1];  // G value
-            imageData.data[i + 2] = color_to_paint[2];  // B value
-            imageData.data[i + 3] = color_to_paint[3];  // A value
-        }
-        // Draw image data to the canvas
-        context.putImageData(imageData, x*20-20, y*20-20);
-    }
-
-</script>
+    </script>
 
 {% endblock %}

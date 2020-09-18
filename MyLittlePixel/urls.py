@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from Usuarios import views as user_views
+from Juego.views import CargarGrillaAjax
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -59,4 +60,8 @@ urlpatterns = [
          name='password_reset_complete'),
 
     path('resendverification/', user_views.resendverification, name='ResendVerification'),
+    
+    
+    #Peticiones de AJAX
+    path('ajax/Lienzo/', CargarGrillaAjax),
 ]

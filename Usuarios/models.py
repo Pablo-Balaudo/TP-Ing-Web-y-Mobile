@@ -1,7 +1,7 @@
 from django.db import models
 
 import datetime
-#  from datetime import timedelta
+# from datetime import timedelta
 # Para la extencion de la clase User
 from django.contrib.auth.models import User
 from django.conf import settings

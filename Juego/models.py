@@ -13,10 +13,11 @@ CanvasSize = 51
 
 
 class Lienzo(models.Model):
-    id = models.AutoField(primary_key=True)
+    idLienzo = models.AutoField(primary_key=True)
     fechainicio = models.DateTimeField(auto_now_add = True)
     fechafin = models.DateTimeField(null=True, default=None)
     guardado = models.BooleanField(default=False)
+    principal = models.BooleanField(default=False)
     bloqueado = models.BooleanField(default=False)
 
 
@@ -28,17 +29,22 @@ class Pixel(models.Model):
     lienzo = models.ForeignKey(Lienzo, on_delete = models.CASCADE, null = True)
     
     #para determinar el color
-    Red = models.PositiveSmallIntegerField(default = 255, validators=[MaxValueValidator(256)])
-    Green = models.PositiveSmallIntegerField(default = 255, validators=[MaxValueValidator(256)])
-    Blue = models.PositiveSmallIntegerField(default = 255, validators=[MaxValueValidator(256)])
-    Alpha = models.PositiveSmallIntegerField(default = 255, validators=[MaxValueValidator(256)])
+    Red = models.PositiveSmallIntegerField(default = 0, validators=[MaxValueValidator(256)])
+    Green = models.PositiveSmallIntegerField(default = 0, validators=[MaxValueValidator(256)])
+    Blue = models.PositiveSmallIntegerField(default = 0, validators=[MaxValueValidator(256)])
+    Alpha = models.PositiveSmallIntegerField(default = 0, validators=[MaxValueValidator(256)])
     
     #Datos propios del juego
     vidas = models.PositiveIntegerField(default = 1, validators=[MaxValueValidator(5)])
     dueño = models.ForeignKey('auth.User', models.SET_NULL, blank=True, null=True)
 
-# Para que se creen los pixeles automaticamente tras crear un lienzo
+    class Meta:
+        #Defino los atributos que "en conjunto" no se peden repetir
+        unique_together = (("coordenadaX", "coordenadaY", "lienzo"),)
 
+
+
+# Para que se creen los pixeles automaticamente tras crear un lienzo
 @receiver(post_save, sender=Lienzo)
 def crear_pixeles(sender, instance, created, **kwargs):
     if created:

@@ -7,12 +7,17 @@
 {% endblock titulo %}
 
 {% block contenido %}
+    {% load static %}
+    <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
+    <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
+    
+    
 
     <h1 id="titulo">Esta es la pagina del Juego en un archivo HTML</h1>
     <p id="x">Coord X</p>
     <p id="y">Coord Y</p>
 
-    <div>
+    <div id="BotonesColores">
         {% if request.user.is_superuser %}
             <div class = "col-md-12">
                 <button onclick="drawBoard()">Reset</button>
@@ -94,58 +99,14 @@
         </canvas>
     </div>
 
-    <script id="DibujarGrilla" type="text/javascript" language="javascript">
-
-        function drawBoard()
-        {
-            var c = document.getElementById("Canvas");
-            var context = c.getContext("2d");
-            var imageData = context.createImageData(1000, 1000);
-
-                // Iterate through every pixel
-                for (let i = 0; i < imageData.data.length; i += 4)
-                {
-                    // Modify pixel data
-                    imageData.data[i + 0] = 255;  // R value
-                    imageData.data[i + 1] = 255;  // G value
-                    imageData.data[i + 2] = 255;  // B value
-                    imageData.data[i + 3] = 255;  // A value
-                }
-                // Draw image data to the canvas
-                context.putImageData(imageData, 0, 0);
-        }
-        drawBoard()
-
-    </script>
-
 
     {% if user.is_authenticated %}
         <script id="Clicks">
 
-            function getCursorPosition(canvas, event)
-            {
-                var rect = canvas.getBoundingClientRect();
-
-                var x = Math.ceil(((event.clientX - rect.left) -1) / 20);
-                var y = Math.ceil(((event.clientY - rect.top) -1) / 20);
-
-                document.getElementById("x").innerHTML = "Coord X " + x;
-                document.getElementById("y").innerHTML = "Coord Y " + y;
-
-                if (((x >= 1) && (x <= 50)) && ((y >= 1) && (y <= 50)))
-                {
-                    pintar(x, y, canvas);
-                }
-                else
-                {
-                    alert("Has clickeado muy cerca del borde");
-                }
-            }
-
-            var canvas = document.querySelector('Canvas');
-
             
-            canvas.addEventListener('click', function(event){getCursorPosition(canvas, event)});
+            var canvas = document.querySelector('Canvas');
+            
+            canvas.addEventListener('click', function(event) {getCursorPosition(canvas, event, color_to_paint)}) ;
 
         </script>
 	{% endif %}
@@ -154,7 +115,9 @@
 
     
 
-    <script id="Pintar">
+    <script id="color">
+    
+        var canvas = document.querySelector('Canvas');
 
         color_to_paint = [0,0,0,0]
 
@@ -163,25 +126,7 @@
             color_to_paint = color
         }
 
-        function pintar(x, y, canvas)
-        {
-            var c = canvas
-            var context = c.getContext("2d");
-            var imageData = context.createImageData(20, 20);
-
-            // Iterate through every pixel
-            for (let i = 0; i < imageData.data.length; i += 4)
-            {
-                // Modify pixel data
-                imageData.data[i + 0] = color_to_paint[0];  // R value
-                imageData.data[i + 1] = color_to_paint[1];  // G value
-                imageData.data[i + 2] = color_to_paint[2];  // B value
-                imageData.data[i + 3] = color_to_paint[3];  // A value
-            }
-            // Draw image data to the canvas
-            context.putImageData(imageData, x*20-20, y*20-20);
-        }
-
+        
     </script>
 
 {% endblock %}

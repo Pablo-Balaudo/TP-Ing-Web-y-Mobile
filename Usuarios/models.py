@@ -25,15 +25,6 @@ class Usuario(models.Model):
     Conectado = models.BooleanField(default=False)
     Baneado = models.BooleanField(default=False)
 
-#Esto es semejante a los eventos y delegados, permitiendo que al crearse un user, automaticamente se cree un usuario asociado
-@receiver(post_save, sender=User)
-def crear_usuario(sender, instance, created, **kwargs):
-    if created:
-        Usuario.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def guardar_usuario(sender, instance, **kwargs):
-    instance.usuario.save()
 
 
 class UserRegisterForm(UserCreationForm):
@@ -56,6 +47,7 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
+
 class Resendverification(UserCreationForm):
     email = forms.EmailField(label='', max_length=40,
                              widget=forms.TextInput(attrs={'placeholder': 'Correo electrónico'}))
@@ -65,3 +57,15 @@ class Resendverification(UserCreationForm):
         self.fields.pop('username')
         self.fields.pop('password1')
         self.fields.pop('password2')
+
+
+
+#Esto es semejante a los eventos y delegados, permitiendo que al crearse un user, automaticamente se cree un usuario asociado
+@receiver(post_save, sender=User)
+def crear_usuario(sender, instance, created, **kwargs):
+    if created:
+        Usuario.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def guardar_usuario(sender, instance, **kwargs):
+    instance.usuario.save()

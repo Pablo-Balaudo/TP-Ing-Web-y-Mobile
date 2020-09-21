@@ -8,17 +8,13 @@ from django.core import serializers
 
 
 def juego(request):
-
-    condicion = Lienzo.objects.filter(principal=True).exists()   
-    if not condicion:
-        Lienzo.objects.create(principal=True)
-
     return render(request, 'Juego/Juego.html')
 
 def CargarGrillaAjax(request):
 
-    grillaPrincipal = Lienzo.objects.filter(principal=True)
-    pixeles = Pixel.objects.filter(lienzo__in=grillaPrincipal)
+    # Te trae la grilla principal o te la crea     
+    grillaPrincipal = Lienzo.objects.get_or_create(principal=True)
+    pixeles = Pixel.objects.filter(lienzo__in = grillaPrincipal)
     datos = []
 
     for pixel in pixeles:
@@ -31,7 +27,6 @@ def CargarGrillaAjax(request):
         }
 
         datos.append(dato)
-
     return JsonResponse(datos, safe = False)
 
 

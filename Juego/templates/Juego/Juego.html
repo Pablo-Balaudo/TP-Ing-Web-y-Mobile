@@ -1,4 +1,6 @@
 {% extends "Juego/Base.html" %}
+{% load static %}
+
 
 {% block titulo %}
 
@@ -7,126 +9,140 @@
 {% endblock titulo %}
 
 {% block contenido %}
-    {% load static %}
-    <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
-    <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
     
-    
-
-    <h1 id="titulo">Esta es la pagina del Juego en un archivo HTML</h1>
-    <p id="x">Coord X</p>
-    <p id="y">Coord Y</p>
-
-    <div id="BotonesColores">
-        {% if request.user.is_superuser %}
-            <div class = "col-md-12">
-                <button onclick="drawBoard()">Reset</button>
-            </div>
-        {% endif %}
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,255,255,255])">Blanco</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,255,255,127])">Plateado</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([127,127,127,127])">Gris</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,255,255,0])">Negro</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,0,0,255])">Rojo</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,0,0,127])">Rojo Oscuro</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,255,0,255])">Amarillo</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,255,0,127])">Amarillo Oscuro</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,0,255,255])">Rosado</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([255,0,255,127])">Rosado Oscuro</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([0,255,0,255])">Verde</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([0,255,0,127])">Verde Oscuro</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([0,255,255,255])">Cyan</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([0,255,255,127])">Cyan Oscuro</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([0,0,255,255])">Azul</button>
-        </div>
-
-        <div class = "col-md-12">
-            <button onclick="cambiarColor([0,0,255,127])">Azul Oscuro</button>
-        </div>
-    </div>
-
-    <div class = "col-md-12">
-        <canvas id="Canvas" width="1000" height="1000"
-                style="border: 1px solid #ffffff;
-                transform: translate(200px, -75%);
-                -ms-interpolation-mode: nearest-neighbor;
-                image-rendering: pixelated;
-                color:white; background-color: black;">
-            Activa JavaScript
-        </canvas>
-    </div>
-
-
-    {% if user.is_authenticated %}
-        <script id="Clicks">
-
-            
-            var canvas = document.querySelector('Canvas');
-            
-            canvas.addEventListener('click', function(event) {getCursorPosition(canvas, event, color_to_paint)}) ;
-
-        </script>
-	{% endif %}
+    <head>
+        
 
 
 
-    
+    </head>
 
-    <script id="color">
-    
-        var canvas = document.querySelector('Canvas');
-
-        color_to_paint = [0,0,0,0]
-
-        function cambiarColor(color)
-        {
-            color_to_paint = color
-        }
+    <body>
+        
+        <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
+        <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
+        
 
         
-    </script>
+    
+        <h1 id="titulo">Esta es la pagina del Juego en un archivo HTML</h1>
+        <p id="x">Coord X</p>
+        <p id="y">Coord Y</p>
+
+        <script id="Color">
+
+            
+            var color_to_paint = [0,0,0,0]
+    
+            function cambiarColor(color)
+            { color_to_paint = color }
+               
+        </script>
+
+
+
+    
+        <div id="BotonesColores">
+            
+            {% if request.user.is_superuser %}
+                <div class = "col-md-12">
+                    <button onclick="drawBoard()">Reset</button>
+                </div>
+            {% endif %}
+
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,255,255,255])">Blanco</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,255,255,127])">Plateado</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([127,127,127,127])">Gris</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,255,255,0])">Negro</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,0,0,255])">Rojo</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,0,0,127])">Rojo Oscuro</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,255,0,255])">Amarillo</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,255,0,127])">Amarillo Oscuro</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,0,255,255])">Rosado</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([255,0,255,127])">Rosado Oscuro</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([0,255,0,255])">Verde</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([0,255,0,127])">Verde Oscuro</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([0,255,255,255])">Cyan</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([0,255,255,127])">Cyan Oscuro</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([0,0,255,255])">Azul</button>
+            </div>
+    
+            <div class = "col-md-12">
+                <button onclick="cambiarColor([0,0,255,127])">Azul Oscuro</button>
+            </div>
+            
+        </div>
+    
+        <div class = "col-md-12">
+            <canvas id="Canvas" width="1000" height="1000"
+                    style="border: 1px solid #ffffff;
+                    transform: translate(200px, -75%);
+                    -ms-interpolation-mode: nearest-neighbor;
+                    image-rendering: pixelated;
+                    color:white; background-color: black;">
+                Activa JavaScript
+            </canvas>
+        </div>
+
+
+        {% if user.is_authenticated %}
+            <script id="RealizarJugada" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>
+
+            <script id="Clicks">                
+                var canvas = document.querySelector('Canvas');
+
+                canvas.addEventListener('click', function(event) {
+                    var coordenadas = getCursorPosition(canvas, event);
+                    pintar(coordenadas[0], coordenadas[1], canvas, color_to_paint);
+                }) ;
+
+            </script>
+        {% endif %}
+
+    
+    </body>
 
 {% endblock %}

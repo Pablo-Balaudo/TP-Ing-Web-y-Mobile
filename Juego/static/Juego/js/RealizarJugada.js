@@ -1,0 +1,6 @@
+
+function RealizarJugada(canvas, color)
+{
+
+    
+}

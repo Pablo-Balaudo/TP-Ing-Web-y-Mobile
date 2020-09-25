@@ -1,24 +1,31 @@
 from django.apps import AppConfig
 
 
+def CargarColores():
+        
+    from Juego.models import Color
+    from django.core.serializers import deserialize
+    import json
+
+    if Color.objects.all().count() < 149:
+        ubicacion_archivo_json = 'Juego/fixtures/Colores.json'
+        with open(ubicacion_archivo_json) as json_datos:
+            
+            colores = json.load(json_datos)
+
+            for key, value in colores.items():
+                color = Color.objects.create(Nombre=key, Red=value[0], Green=value[1], Blue=value[2], Alpha=value[3])
+                if not Color.objects.filter(Nombre=key).exists():
+                    color.save()
+                        
+            json_datos.close()  
+
 
 class JuegoConfig(AppConfig):
     name = 'Juego'
 
-    def CrearColores(self):
-        from .models import Color
-        import json
-
-        if Color.objects.count() != 0:
-            ubicacion_archivo_json = 'static/Juego/json/Colores.json'
-            json_datos = open(ubicacion_archivo_json)
-            colores = json.load(json_datos)
-            for key, value in colores.iteritems():
-                color = Color.objects.create(Nombre=key, Red=value[0], Green=value[1], Blue=value[2], Alpha=value[3])
-                color.save()            
-            json_datos.close()
-
     #Todo lo que se encuentre en este metodo se ejecutará al iniciar el sitio, antes de que cualquiera acceda a este  
     def ready(self):
-        pass
+        CargarColores()
+
 

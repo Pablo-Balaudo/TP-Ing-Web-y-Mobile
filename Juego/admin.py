@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Juego.models import Pixel, Lienzo, Jugada
+from Juego.models import Pixel, Lienzo, Jugada, Color
 
 class AdminJugadas(admin.ModelAdmin):
     #Los campos que mostrara el admin al navegar entre los Objetos
@@ -7,6 +7,7 @@ class AdminJugadas(admin.ModelAdmin):
     #Los campos que por los que admin te permitirá Buscar los Objetos
     search_fields = ("pixel", "jugador",)
 admin.site.register(Jugada, AdminJugadas)
+ 
 
 class AdminPixeles(admin.ModelAdmin):
     #Los campos que mostrara el admin al navegar entre los Objetos
@@ -29,3 +30,10 @@ class AdminLienzos(admin.ModelAdmin):
     date_hierarchy = "fechainicio"
 admin.site.register(Lienzo, AdminLienzos)
 
+
+class AdminColores(admin.ModelAdmin):
+    #Los campos que mostrara el admin al navegar entre los Objetos
+    list_display = ("Nombre", "Red", "Green", "Blue", "Alpha",)
+    #Los campos que por los que admin te permitirá Buscar los Objetos
+    search_fields = ("Nombre",)
+admin.site.register(Color, AdminColores)

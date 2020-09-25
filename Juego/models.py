@@ -33,16 +33,21 @@ class Lienzo(models.Model):
 
 class Color(models.Model):
 
-    Nombre = models.CharField(max_length=40)
+    Nombre = models.CharField(max_length=30)
     
     Red = models.PositiveSmallIntegerField(default = 0, validators=[MaxValueValidator(256)])
     Green = models.PositiveSmallIntegerField(default = 0, validators=[MaxValueValidator(256)])
     Blue = models.PositiveSmallIntegerField(default = 0, validators=[MaxValueValidator(256)])
     Alpha = models.PositiveSmallIntegerField(default = 0, validators=[MaxValueValidator(256)])
+
+    def __str__(self):
+        RGBA = ' [%i, %i, %i, %i]' % (self.Red, self.Green, self.Blue, self.Alpha) 
+        return self.Nombre + RGBA
           
     class Meta:
         #Defino los atributos que "en conjunto" no se peden repetir (Que no halla 2 colores iguales)
-        unique_together = (("Red", "Green", "Blue", "Alpha"),)
+        #unique_together = [["Red", "Green", "Blue", "Alpha"],]
+        unique_together = [["Nombre"],]
 
 
 
@@ -63,6 +68,8 @@ class Pixel(models.Model):
     vidas = models.PositiveIntegerField(default = 1, validators=[MaxValueValidator(5)])
     dueño = models.ForeignKey('auth.User', models.SET_NULL, blank=True, null=True)
 
+    def __str__(self):
+        return '({0}, {1})'.format(self.coordenadaX, self.coordenadaY)
     class Meta:
         #Defino los atributos que "en conjunto" no se peden repetir
         unique_together = (("coordenadaX", "coordenadaY", "lienzo"),)

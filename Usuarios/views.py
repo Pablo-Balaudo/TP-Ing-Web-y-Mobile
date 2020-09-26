@@ -39,7 +39,11 @@ def send_email_activation(user, email, request):
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-        if form.is_valid():
+
+        if form.is_valid():            
+            username = form.cleaned_data['username']
+            password1 = form.cleaned_data['password1']
+            email = form.cleaned_data['email']
 
             # RECAPTCHA
             recaptcha_response = request.POST.get('g-recaptcha-response')
@@ -53,15 +57,17 @@ def register(request):
             response = urllib.request.urlopen(req)
             result = json.loads(response.read().decode())
 
-            if not result['success']:
-                messages.add_message(request, messages.ERROR, 'reCAPTCHA inválido. Inténtelo de nuevo.')
-                return render(request, 'Usuarios/Register.html', {'form': form}, status=400)
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            password1 = form.cleaned_data['password1']
-
+            # MENSAJES DE ERROR
+            bandera=False
+            if not result['success']:      
+                form.add_error(None,'reCAPTCHA inválido. Inténtelo de nuevo.')
+                bandera=True
             if User.objects.filter(email=email).exists():
-                messages.add_message(request, messages.ERROR, 'Correo electrónico en uso, elige otro.')
+                form.add_error(None,'Correo electrónico en uso, elige otro.')
+                bamdera=True
+
+            # ¿HAY MENSAJES DE ERROR?
+            if bandera:
                 return render(request, 'Usuarios/Register.html', {'form': form}, status=400)
             else:
                 user = form.save(commit=False)
@@ -108,7 +114,7 @@ def resendverification(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             if not User.objects.filter(email=email).exists():
-                messages.add_message(request, messages.ERROR, 'Correo electrónico incorrecto.')
+                form.add_error(None,'Correo electrónico incorrecto.')
                 return render(request, 'Usuarios/Resendverification.html', {'form': form}, status=400)
             else:
                 user = User.objects.get(email=email)

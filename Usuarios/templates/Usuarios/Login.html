@@ -1,21 +1,62 @@
 {% extends "Juego/Base.html" %}
-{% load crispy_forms_tags %}
+{% load static %}
+
 {% block titulo %}
-	<title>Ingresar</title>
+<title>Ingresar</title>
 {% endblock titulo %}
 
 {% block contenido %}
-    <form method="POST">
-        {% csrf_token %}
-		<fieldset><legend><strong>Iniciar sesión</strong></legend>{{ form|crispy }}</fieldset>
-		<input type="submit" value="Ingresar" />
-		<input type="checkbox" checked="checked">Recuerdame
-    </form>
-	<div>
-		¿No te has registrado?
-		<a class ="link" href="/register">Crear cuenta nueva</a>
-		<hr>
-		<a class ="link" href="/password-reset">¿Olvidaste tu contraseña?</a>
-	</div>
+<div class="container">
+	<div class="d-flex justify-content-center">
+		<div class="user_card user_card_login">
+			<div class="c-center mb-3">
+		    	<h3 id="form-title"><strong>INGRESAR</strong></h3>
+		    </div>
+	    	<div class="mb-2">
+				<form method="POST">
+			        {% csrf_token %}
+					<!-- Mostrar otros errores -->
+					<div class="c-center">
+						{% for error in form.non_field_errors %}
+							<div class="mb-2">
+							    <span class="error">{{error}}</span>
+						    </div>
+						{% endfor %}
+					</div>
 
+					<div class="input-group mb-1 d-flex justify-content-center">
+						<div class="input-group-append">
+							<span class="input-group-text"><ion-icon name="person-outline"></ion-icon></span>
+						</div>
+				        {{ form.username }}
+			        </div>
+
+			        <div class="input-group mb-4 d-flex justify-content-center">
+						<div class="input-group-append">
+							<span class="input-group-text"><ion-icon name="key-outline"></ion-icon></i></span>
+						</div>
+						{{ form.password }}
+					</div>
+					<div class="mb-1 d-flex justify-content-center">
+						<input class="btn login_btn" type="submit" value="Ingresar"/>
+					</div>
+			    </form>
+			</div>
+			<div class="c-center">
+				¿No te has registrado?<a class ="link ml-2" href="/register">Crear cuenta nueva</a>
+			</div>
+			<div class="c-center">
+				<a class ="link" href="/password-reset">¿Olvidaste tu contraseña?</a>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock contenido %}
+
+{% block javascript %}
+<script>
+	var form_fields = document.getElementsByTagName('input')
+	form_fields[1].placeholder='Nombre de usuario..';
+	form_fields[2].placeholder='Contraseña..';
+</script>
+{% endblock javascript %}

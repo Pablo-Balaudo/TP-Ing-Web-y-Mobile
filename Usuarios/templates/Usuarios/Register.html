@@ -4,25 +4,104 @@
 	<title>Registro</title>
 {% endblock titulo %}
 
-{% block javascript %}
-	<script src='https://www.google.com/recaptcha/api.js'></script>
-{% endblock javascript %}
-
 {% block contenido %}
+<div class="container">
+	<div class="d-flex justify-content-center">
+		<div class="user_card user_card_register">
+			<div class="c-center mb-3">
+		    	<h3 id="form-title"><strong>REGISTRAR CUENTA</strong></h3>
+		    </div>
+	    	<div class="mb-2">
+				<form method="POST">
+			        {% csrf_token %}
+					<!-- Mostrar otros errores -->
+					<div class="c-center">
+						{% for error in form.non_field_errors %}
+							<div class="mb-2">
+							    <span class="error">{{error}}</span>
+						    </div>
+						{% endfor %}
+					</div>
 
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset><legend><strong>Registro</strong></legend>{{ form|crispy }}</fieldset>
-		<hr>
-		<div class="g-recaptcha" data-sitekey="6LezWcgZAAAAAHFyCc4_Q_um741Z-iUzAIycxgVD"></div>
-		<input type="submit" value="Registrarse"/>
-		<input type="checkbox" required>Estás de acuerdo con nuestros términos de servicio
-		<hr>
-    </form>
-	<div>
-		<a class="link" href="/login">¿Ya tienes cuenta?</a>
-		<hr>
-		<a class="link" href="/resendverification">Reenviar correo de verificación</a>
+					<div class="input-group mb-1 d-flex justify-content-center">
+						<div class="input-group-append">
+							<span class="input-group-text"><ion-icon name="person-outline"></ion-icon></span>
+						</div>
+				        {{ form.username }}			        	
+			        </div>
+			        <!-- Mostrar errores username -->
+			        <div class="c-center">
+						{% for error in form.username.errors %}
+							<div class="mb-2">
+							    <span class="error">{{error}}</span>
+						    </div>
+						{% endfor %}
+					</div>
+
+			        <div class="input-group mb-1 d-flex justify-content-center">
+						<div class="input-group-append">
+							<span class="input-group-text"><ion-icon name="mail-outline"></ion-icon></span>
+						</div>
+				        {{ form.email }}
+			        </div>			      
+	        		<!-- Mostrar errores email -->
+			        <div class="c-center">
+						{% for error in form.email.errors %}
+							<div class="mb-2">
+							    <span class="error">{{error}}</span>
+						    </div>
+						{% endfor %}
+					</div>
+
+			        <div class="input-group mb-1 d-flex justify-content-center">
+						<div class="input-group-append">
+							<span class="input-group-text"><ion-icon name="key-outline"></ion-icon></ion-icon></span>
+						</div>
+				        {{ form.password1 }}
+			        </div>
+
+			        <div class="input-group mb-1 d-flex justify-content-center">
+						<div class="input-group-append">
+							<span class="input-group-text"><ion-icon name="key-outline"></ion-icon></i></span>
+						</div>
+						{{ form.password2 }}
+					</div>
+	        		<!-- Mostrar errores password2 -->
+			        <div class="c-center">
+						{% for error in form.password2.errors %}
+							<div class="mb-2">
+							    <span class="error">{{error}}</span>
+						    </div>
+						{% endfor %}
+					</div>
+
+					<div class="mb-4 d-flex justify-content-center">
+						<div class="g-recaptcha" data-sitekey="6LezWcgZAAAAAHFyCc4_Q_um741Z-iUzAIycxgVD"></div>
+					</div>
+					<div class="mb-1 d-flex justify-content-center">
+						<input class="btn login_btn" type="submit" value="Registrarse"/>
+					</div>
+			    </form>
+			</div>
+			<div class="c-center">
+				<a class="link" href="/login">¿Ya tienes cuenta?</a>
+			</div>
+			<div class="c-center">
+				<a class="link" href="/resendverification">Reenviar correo de verificación</a>
+			</div>
+		</div>
 	</div>
-
+</div>
 {% endblock contenido %}
+
+{% block javascript %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<script>
+	var form_fields = document.getElementsByTagName('input')
+	form_fields[1].placeholder='Nombre de usuario..';
+	form_fields[2].placeholder='Correo electrónico..';
+	form_fields[3].placeholder='Contraseña...';
+	form_fields[4].placeholder='Confirma tu contraseña...';
+</script>
+{% endblock javascript %}

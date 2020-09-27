@@ -19,11 +19,7 @@
 
     <body>
         
-        <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
-        <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
-        
 
-        
         <section id="presentacion-juego">
             <div class="c-center">
                 <h1 id="titulo">LIENZO ACTUAL</h1>
@@ -32,17 +28,6 @@
         </section>
         <p id="x">Coord X</p>
         <p id="y">Coord Y</p>
-
-        <script id="Color">
-
-            
-            var color_to_paint = [0,0,0,0]
-    
-            function cambiarColor(color)
-            { color_to_paint = color }
-               
-        </script>
-
 
 
         <div class="row">
@@ -99,20 +84,42 @@
             </div>
         </div>
 
+        
+        
+        <script id="VariablesGlobales" src="{% static 'Juego/js/VariablesGlobales.js' %}"></script>
 
         {% if user.is_authenticated %}
             <script id="RealizarJugada" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>
 
-            <script id="Clicks">                
-                var canvas = document.querySelector('Canvas');
+            <script id="Clicks">   
+            
+                function EnviarJugada(color, X, Y)
+                {
+                    var csrftoken = '{{csrf_token}}';
+                    var data = JSON.stringify({ x: X, y: Y, Color: color })
 
-                canvas.addEventListener('click', function(event) {
+                    $.ajax(
+                    {
+                        headers: {"X-CSRFToken": csrftoken}, 
+                        url: "/ajax/Jugada/",
+                        type: "POST",
+                        dataType: "json",
+                        data: data 
+                    });  
+                }
+
+                canvas.addEventListener('click', function(event) { 
                     var coordenadas = getCursorPosition(canvas, event);
+                    EnviarJugada(color_to_paint, coordenadas[0], coordenadas[1]);
                     pintar(coordenadas[0], coordenadas[1], canvas, color_to_paint);
                 }) ;
 
             </script>
         {% endif %}
+
+        
+        <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
+        <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
 
     
     </body>

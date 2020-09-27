@@ -6,7 +6,6 @@ from .views import (
     PostUpdateView,
     PostDeleteView,
 )
-from . import views
 
 urlpatterns = [
     path('', PostListView.as_view(), name='Foro'),

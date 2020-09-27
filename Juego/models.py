@@ -16,7 +16,6 @@ CanvasSize = 51
 
 
 class Lienzo(models.Model):
-
     idLienzo = models.AutoField(primary_key=True)
     # Fechas que indican cuando se crea y cuando se retira la grilla
     fechainicio = models.DateTimeField(auto_now_add=True)
@@ -28,12 +27,11 @@ class Lienzo(models.Model):
     guardado = models.BooleanField(default=False)
     principal = models.BooleanField(default=False)
     bloqueado = models.BooleanField(default=False)
- 
+
 
 class Color(models.Model):
-
     Nombre = models.CharField(max_length=30)
-    
+
     Red = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(256)])
     Green = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(256)])
     Blue = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(256)])
@@ -43,7 +41,6 @@ class Color(models.Model):
         rgba = ' [%i, %i, %i, %i]' % (self.Red, self.Green, self.Blue, self.Alpha)
         return self.Nombre + rgba
 
-          
     class Meta:
         # Defino los atributos que "en conjunto" no se peden repetir (Que no halla 2 colores iguales)
         # unique_together = [["Red", "Green", "Blue", "Alpha"],]
@@ -55,14 +52,12 @@ class Pixel(models.Model):
     coordenadaX = models.IntegerField(default=0, validators=[MaxValueValidator(CanvasSize)])
     coordenadaY = models.IntegerField(default=0, validators=[MaxValueValidator(CanvasSize)])
     lienzo = models.ForeignKey(Lienzo, on_delete=models.CASCADE, blank=True)
-    
+
     color = models.ForeignKey(Color, on_delete=models.SET_NULL, blank=True, null=True)
-    
+
     # Datos propios del juego
     vidas = models.PositiveIntegerField(default=1, validators=[MaxValueValidator(5)])
-    dueño = models.ForeignKey('auth.User', on_delete=models.SET_NULL, blank=True, null=True)
-
-    
+    owner = models.ForeignKey('auth.User', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return '({0}, {1})'.format(self.coordenadaX, self.coordenadaY)
@@ -72,32 +67,31 @@ class Pixel(models.Model):
         unique_together = (("coordenadaX", "coordenadaY", "lienzo"),)
 
 
-
 class Jugada(models.Model):
-    pixel = models.ForeignKey(Pixel, on_delete = models.CASCADE)
-    jugador = models.ForeignKey('auth.User', on_delete = models.CASCADE)
-    color = models.ForeignKey(Color, on_delete = models.CASCADE)
-    fecha_creacion = models.DateTimeField(auto_now_add = True)
+    pixel = models.ForeignKey(Pixel, on_delete=models.CASCADE)
+    jugador = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     @classmethod
     def create(cls, x, y, color, user):
         jugada = cls(
-            pixel = Pixel.objects.get(coordenadaX = x, coordenadaY = y), 
-            jugador = user, 
+            pixel=Pixel.objects.get(coordenadaX=x, coordenadaY=y),
+            jugador=user,
             color=color
         )
         return Jugada
 
-    
 
 # Para que se creen los pixeles automaticamente tras crear un lienzo
 @receiver(post_save, sender=Lienzo)
 def crear_pixeles(sender, instance, created, **kwargs):
     if created:
-        for X in range(1,CanvasSize):
-            for Y in range(1,CanvasSize):
+        for X in range(1, CanvasSize):
+            for Y in range(1, CanvasSize):
                 color_por_defecto = Color.objects.get_or_create(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1)
-                pixel = Pixel(coordenadaX=X, coordenadaY=Y, lienzo=instance, color=Color.objects.get(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1))
+                pixel = Pixel(coordenadaX=X, coordenadaY=Y, lienzo=instance,
+                              color=Color.objects.get(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1))
                 pixel.save()
 
 
@@ -105,5 +99,5 @@ def crear_pixeles(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Jugada)
 def realizar_jugada(sender, instance, created, **kwargs):
     if created:
-        Pixel.objects.filter(coordenadaX=instance.pixel.coordenadaX, coordenadaY=instance.pixel.coordenadaY).update(color=instance.color, dueño=instance.jugador)
-
+        Pixel.objects.filter(coordenadaX=instance.pixel.coordenadaX, coordenadaY=instance.pixel.coordenadaY).update(
+            color=instance.color, dueño=instance.jugador)

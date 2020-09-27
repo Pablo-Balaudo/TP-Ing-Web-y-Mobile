@@ -29,7 +29,7 @@ def cargar_grilla_ajax(request):
 
     # Te trae la grilla principal o te la crea     
     grilla_principal = Lienzo.objects.get_or_create(principal=True)
-    pixeles = Pixel.objects.filter(lienzo__in = grilla_principal)
+    pixeles = Pixel.objects.filter(lienzo__in=grilla_principal)
     datos = []
 
     for pixel in pixeles:

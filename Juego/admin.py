@@ -13,7 +13,7 @@ class AdminPixeles(admin.ModelAdmin):
     #Los campos que mostrara el admin al navegar entre los Objetos
     list_display = ("lienzo", "coordenadaX","coordenadaY",)
     #Los campos que por los que admin te permitirá filtrar los Objetos
-    list_filter = ("dueño",)
+    list_filter = ("owner",)
     #Los campos que por los que admin te permitirá Buscar los Objetos
     search_fields = ("coordenadaX","coordenadaY",)
 admin.site.register(Pixel, AdminPixeles)

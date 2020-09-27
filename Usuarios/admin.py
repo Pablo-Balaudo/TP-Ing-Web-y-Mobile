@@ -3,16 +3,16 @@ from Usuarios.models import Usuario
 from django.contrib.auth.models import User
 
 
-
 class AdminUsuarios(admin.ModelAdmin):
-    #Los campos que mostrara el admin al navegar entre los usuarios
+    # Los campos que mostrara el admin al navegar entre los usuarios
     list_display = ("user", "FechaRegistro",)
-    #Los campos que por los que admin te permitirá filtrar los usuarios
+    # Los campos que por los que admin te permitirá filtrar los usuarios
     list_filter = ("Baneado", "Conectado", "PixelOfLife", "WeAreLegion",)
-    #Los campos que por los que admin te permitirá Buscar los usuarios
+    # Los campos que por los que admin te permitirá Buscar los usuarios
     search_fields = ("user",)
-    #Para establecer una jerarquia de fecha
+    # Para establecer una jerarquia de fecha
     date_hierarchy = "FechaRegistro"
+
 
 admin.site.register(Usuario, AdminUsuarios)
 

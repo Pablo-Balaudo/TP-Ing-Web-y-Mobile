@@ -58,13 +58,13 @@ def register(request):
             result = json.loads(response.read().decode())
 
             # MENSAJES DE ERROR
-            bandera=False
+            bandera = False
             if not result['success']:      
-                form.add_error(None,'reCAPTCHA inválido. Inténtelo de nuevo.')
-                bandera=True
+                form.add_error(None, 'reCAPTCHA inválido. Inténtelo de nuevo.')
+                bandera = True
             if User.objects.filter(email=email).exists():
-                form.add_error(None,'Correo electrónico en uso, elige otro.')
-                bamdera=True
+                form.add_error(None, 'Correo electrónico en uso, elige otro.')
+                bamdera = True
 
             # ¿HAY MENSAJES DE ERROR?
             if bandera:
@@ -114,7 +114,7 @@ def resendverification(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             if not User.objects.filter(email=email).exists():
-                form.add_error(None,'Correo electrónico incorrecto.')
+                form.add_error(None, 'Correo electrónico incorrecto.')
                 return render(request, 'Usuarios/Resendverification.html', {'form': form}, status=400)
             else:
                 user = User.objects.get(email=email)

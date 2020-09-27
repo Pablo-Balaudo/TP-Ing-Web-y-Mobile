@@ -1,0 +1,12 @@
+{% extends "Juego/Base.html" %}
+
+{% block titulo %}
+    <title>Foro</title>
+{% endblock titulo %}
+
+{% block contenido %}
+    <h1>Esta es la pagina del Foro en un archivo HTML</h1>
+    <h1>{{ object.title }}</h1>
+    <p>Escrito por {{ object.author }} el {{ object.date_posted|date:"d F, Y" }}</p>
+    <p>{{ object.text }}</p>
+{% endblock contenido %}

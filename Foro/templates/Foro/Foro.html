@@ -7,8 +7,8 @@
 {% block contenido %}
     <h1>Esta es la pagina del Foro en un archivo HTML</h1>
     {% for post in Posts %}
-    <h1>{{ post.Titulo }}</h1>
-    <p>Escrito por {{ post.Autor }} el {{ post.Fecha_Publicacion }}</p>
-    <p>{{ post.Contenido }}</p>
+    <h1>{{ post.title }}</h1>
+    <p>Escrito por {{ post.author }} el {{ post.date_posted|date:"d F, Y" }}</p>
+    <p>{{ post.text }}</p>
     {% endfor %}
 {% endblock contenido %}

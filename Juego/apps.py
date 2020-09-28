@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 from django.db.utils import OperationalError
 
+
 def cargar_colores():
     
     from Juego.models import Color
@@ -35,5 +36,3 @@ class JuegoConfig(AppConfig):
             cargar_colores()
         except OperationalError as ex:
             print('Aun no se cargó el modelo de datos')
-
-

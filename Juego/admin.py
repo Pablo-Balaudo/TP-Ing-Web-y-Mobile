@@ -1,7 +1,6 @@
 from django.contrib import admin
 from Juego.models import Pixel, Lienzo, Jugada, Color
 
- 
 
 class AdminPixeles(admin.ModelAdmin):
     # Los campos que mostrara el admin al navegar entre los Objetos
@@ -46,4 +45,6 @@ class AdminJugadas(admin.ModelAdmin):
     search_fields = ("pixel", "jugador", "color", )
     # Para establecer una jerarquia de fecha
     date_hierarchy = "fecha_creacion"
+
+
 admin.site.register(Jugada, AdminJugadas)

@@ -100,4 +100,4 @@ def crear_pixeles(sender, instance, created, **kwargs):
 def realizar_jugada(sender, instance, created, **kwargs):
     if created:
         Pixel.objects.filter(coordenadaX=instance.pixel.coordenadaX, coordenadaY=instance.pixel.coordenadaY).update(
-            color=instance.color, dueño=instance.jugador)
+            color=instance.color, owner=instance.jugador)

@@ -1,12 +1,16 @@
 body{
-	font-family: 'Titilium web', sans-serif;
+	font-family: 'Press Start 2P', cursive;
     background-color: #1f1f1f !important;
     color: #fff;
 }
 
 h1{
-	font-family: "Lobster", Sans-serif;
-	font-size:80px;
+	font-family: "Press Start 2P";
+	font-size:40px !important;
+}
+
+p{
+    font-size:12px;
 }
 
 .notes{	
@@ -23,6 +27,11 @@ h1{
 	text-align: center;
 }
 
+.posts{
+    text-align:justify;
+    text-justify:inter-word;
+}
+
 /* Barra de navegacion */
 .navbar {
 	background-color: #333;
@@ -33,6 +42,7 @@ h1{
   	transition: top 0.3s;
 }
 .nav-link{
+    font-size: 14px;
 	color:white;
 }
 .nav-link:hover{
@@ -60,7 +70,6 @@ ion-icon[name="mail-outline"] {
 
 /* Login */
 .user_card {
-	width: 400px;
 	margin-bottom: auto;
 	background: #030a3b;
 	position: relative;
@@ -73,10 +82,12 @@ ion-icon[name="mail-outline"] {
 	-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 5px;
 }
-.user_card_login{	
+.user_card_login{
+	width: 500px;
 	margin-top: 10%;
 }
-.user_card_register{	
+.user_card_register{
+	width: 550px;
 	margin-top: 3%;
 }
 .login_btn {
@@ -94,6 +105,10 @@ ion-icon[name="mail-outline"] {
 	border: 0 !important;
 	border-radius: 0.25rem 0 0 0.25rem !important;
 }
+.input-group{
+    line-height: 3em;
+	font-size:16px;
+}
 
 /* Mensajes*/
 .error{
@@ -105,9 +120,20 @@ ion-icon[name="mail-outline"] {
     list-style: none;
 }
 
+/* Foro */
+.article-title{
+    font-size:30px;
+}
+.article-metadata{
+    font-size:14px;
+}
+.article-content{
+    font-size:14px;
+}
+
 /* Apariencia en otros dispositivos */
 @media (max-width: 575.98px) { h1 {font-size:40px; line-height: normal;} }
-@media (min-width: 576px) and (max-width: 767.98px) { h1 {font-size:40px; line-height: normal;} }
-@media (min-width: 768px) and (max-width: 991.98px) { h1 {font-size:50px; line-height: normal;} }
-@media (min-width: 992px) and (max-width: 1199.98px) { h1 {font-size:60px; line-height: normal;} }
+@media (min-width: 576px) and (max-width: 767.98px) { h1 {font-size:35px; line-height: normal;} }
+@media (min-width: 768px) and (max-width: 991.98px) { h1 {font-size:45px; line-height: normal;} }
+@media (min-width: 992px) and (max-width: 1199.98px) { h1 {font-size:55px; line-height: normal;} }
 @media (min-width: 1200px) { h1 {font-size:70px; line-height: normal;} }

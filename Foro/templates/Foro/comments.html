@@ -1,20 +1,20 @@
 {% extends "Juego/Base.html" %}
 
 {% block titulo %}
-    <title>Posts de usuario</title>
+    <title>Foro</title>
 {% endblock titulo %}
 
 {% block contenido %}
-    <h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
-    {% for post in Posts %}
+    <h1>Esta es la pagina del Foro en un archivo HTML</h1>
+    {% for comment in Comments %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-post' post.author.username %}">{{ post.author }}</a>
-                    <small class="text-muted">{{ post.date_posted|date:"d F, Y" }}</small>
+                    <a class="mr-2" href="{% url 'user-post' comment.author.username %}">{{ comment.author }}</a>
+                    <small class="text-muted">{{ comment.date_posted|date:"d F, Y" }}</small>
                 </div>
-                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.text }}</p>
+                <h2><a class="article-title" href="{% url 'post-detail' comment.id %}">{{ comment.title }}</a></h2>
+                <p class="article-content">{{ comment.text }}</p>
             </div>
         </article>
     {% endfor %}

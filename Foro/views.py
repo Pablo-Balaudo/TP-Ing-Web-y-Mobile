@@ -9,7 +9,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,)
-from .models import Post
+from .models import Post, Comment
 
 
 def foro(request):
@@ -39,12 +39,21 @@ class UserPostListView(ListView):
 class PostDetailedView(DetailView):
     model = Post  # Use the Post model
 
+    # def get_queryset(self):
+    #     post_id = get_object_or_404(Comment, id=self.kwargs.get('id'))
+    #     return Comment.objects.filter(post=post_id).order_by('-date_posted')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['context'] = Comment.objects.filter()
+        return context
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post  # Use the Post model
     fields = ['title', 'text']
 
-    def form_valid(self, form):  # Check to stop non logged users from post
+    def form_valid(self, form):  # Check to stop non logged users from posting
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -53,7 +62,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post  # Use the Post model
     fields = ['title', 'text']
 
-    def form_valid(self, form):  # Check to stop non logged users from post
+    def form_valid(self, form):  # Check to stop non logged users from posting
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -66,6 +75,51 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post  # Use the Post model
+    success_url = '/foro'
+
+    def test_func(self):  # Check to stop non authors from updating
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+
+class CommentListView(ListView):
+    model = Comment  # Use the Comment model
+    template_name = 'Foro/comments.html'  # Use this view instead of the default one
+    context_object_name = 'Comments'  # Be referred to as "Comments", as indicated in "contenido"
+    ordering = ['-date_posted']  # Show newer posts first
+    paginate_by = 5
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment  # Use the Comment model
+    fields = ['post', 'text']
+    success_url = '/foro'
+
+    def form_valid(self, form):  # Check to stop non logged users from commenting
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment  # Use the Comment model
+    fields = ['text']
+    success_url = '/foro'
+
+    def form_valid(self, form):  # Check to stop non logged users from commenting
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):  # Check to stop non authors from updating
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment  # Use the Comment model
     success_url = '/foro'
 
     def test_func(self):  # Check to stop non authors from updating

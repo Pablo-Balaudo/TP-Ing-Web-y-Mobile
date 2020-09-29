@@ -6,7 +6,7 @@
 
 {% block contenido %}
     <article class="media content-section">
-            <div class="media-body"  style="text-align:justify; text-justify:inter-word;">
+            <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="{% url 'user-post' object.author.username %}">{{ object.author }}</a>
                     <small class="text-muted">{{ object.date_posted|date:"d F, Y" }}</small>
@@ -17,8 +17,25 @@
                       </div>
                     {% endif %}
                 </div>
-                <h2><a class="article-title" href="{% url 'post-detail' object.parent_comment %}">{{ object.title }}</a></h2>
+                <h2><a class="article-title" href="{% url 'post-detail' object.id %}">{{ object.title }}</a></h2>
                 <p class="article-content">{{ object.text }}</p>
             </div>
     </article>
+    <div>
+        <br/>
+        <hr>
+        <h2>Comments</h2>
+        <br/>
+            {% for comment in context %}
+                <strong>
+                    {{ comment.author }} -
+                    {{ comment.date_posted }}
+                </strong>
+                <br/>
+                {{ comment.text }}
+                <br/>
+                {{ comment.post }}
+                <br/>
+            {% endfor %}
+    </div>
 {% endblock contenido %}

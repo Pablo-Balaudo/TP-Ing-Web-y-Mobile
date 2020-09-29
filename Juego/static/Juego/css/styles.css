@@ -27,6 +27,11 @@ p{
 	text-align: center;
 }
 
+.posts{
+    text-align:justify;
+    text-justify:inter-word;
+}
+
 /* Barra de navegacion */
 .navbar {
 	background-color: #333;

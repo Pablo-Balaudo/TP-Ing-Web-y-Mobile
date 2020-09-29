@@ -21,12 +21,13 @@
                 <p class="article-content">{{ object.text }}</p>
             </div>
     </article>
-    <div>
+       <div>
         <br/>
         <hr>
         <h2>Comments</h2>
         <br/>
             {% for comment in context %}
+                {% if comment.post.pk == object.pk %}
                 <strong>
                     {{ comment.author }} -
                     {{ comment.date_posted }}
@@ -34,8 +35,7 @@
                 <br/>
                 {{ comment.text }}
                 <br/>
-                {{ comment.post }}
-                <br/>
+                {% endif %}
             {% endfor %}
     </div>
 {% endblock contenido %}

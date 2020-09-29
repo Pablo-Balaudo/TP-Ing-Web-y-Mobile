@@ -39,10 +39,6 @@ class UserPostListView(ListView):
 class PostDetailedView(DetailView):
     model = Post  # Use the Post model
 
-    # def get_queryset(self):
-    #     post_id = get_object_or_404(Comment, id=self.kwargs.get('id'))
-    #     return Comment.objects.filter(post=post_id).order_by('-date_posted')
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['context'] = Comment.objects.filter()
@@ -82,14 +78,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
-
-
-class CommentListView(ListView):
-    model = Comment  # Use the Comment model
-    template_name = 'Foro/comments.html'  # Use this view instead of the default one
-    context_object_name = 'Comments'  # Be referred to as "Comments", as indicated in "contenido"
-    ordering = ['-date_posted']  # Show newer posts first
-    paginate_by = 5
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):

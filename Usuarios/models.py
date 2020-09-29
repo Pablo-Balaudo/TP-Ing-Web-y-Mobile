@@ -21,7 +21,19 @@ tiempo_espera_3 = timedelta(hours=12)
 tiempo_espera_4 = timedelta(hours=6)
 tiempo_espera_5 = timedelta(hours=3)
 
+# Estados
+#STATUS_USERS = (
+#    (1, 'Pendiente de verificacion'),
+#    (2, 'Activo'),
+#    (3, 'Bloqueado'),
+#    (4, 'Eliminado'),
+#)
 
+#ASIGNATION_MOD = (
+#    (1, 'Moderador'),
+#    (2, 'Sugerido'),
+#    (3, 'Normal'),
+#)
 
 class Usuario(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)    
@@ -35,8 +47,8 @@ class Usuario(models.Model):
     Puntos = models.IntegerField(default=0)
     WeAreLegion = models.BooleanField(default=False)
     PixelOfLife = models.BooleanField(default=False)
-    Conectado = models.BooleanField(default=False)
-    Baneado = models.BooleanField(default=False)
+    # Estado_Usuario = models.IntegerField(choices=STATUS_USERS)
+    # Estado_Moderador = models.IntegerField(choices=ASIGNATION_MOD)
 
     def DefinirEspera(self):
         self.TiempoEspera = tiempo_espera_1                   

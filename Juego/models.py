@@ -11,6 +11,12 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+# Estados
+#STATUS_LIENZO = (
+#    (1, 'Actual'),
+#   (2, 'Suspendido'),
+#)
+
 # La cantidad total de pixeles es de CanvasSize x CanvasSize (Ej: si CanvasSize = 50, entonces hay 50x50 pixeles)
 CanvasSize = 51
 
@@ -24,9 +30,9 @@ class Lienzo(models.Model):
     tamano_max_X = models.IntegerField(default=51)
     tamano_max_Y = models.IntegerField(default=51)
     # booleanos que representan el estado del lienzo
-    guardado = models.BooleanField(default=False)
     principal = models.BooleanField(default=False)
-    bloqueado = models.BooleanField(default=False)
+    # Estado_Lienzo = models.IntegerField(choices=STATUS_LIENZO)
+
 
 
 class Color(models.Model):

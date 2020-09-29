@@ -17,8 +17,6 @@ admin.site.register(Pixel, AdminPixeles)
 class AdminLienzos(admin.ModelAdmin):
     # Los campos que mostrara el admin al navegar entre los Objetos
     list_display = ("fechainicio",)
-    # Los campos que por los que admin te permitirá filtrar los Objetos
-    list_filter = ("guardado", "bloqueado",)
     # Los campos que por los que admin te permitirá Buscar los Objetos
     search_fields = ("fechainicio",)
     # Para establecer una jerarquia de fecha

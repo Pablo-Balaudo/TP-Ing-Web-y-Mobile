@@ -13,7 +13,8 @@ def juego(request):
 
 def realizar_jugada_ajax(request):
 
-    datos_recibidos = json.loads(request.body.decode('utf-8'))
+    datos = request.body
+    datos_recibidos = json.loads(request.body.decode("utf-8"))
     usuario = request.user
     color = Color.objects.get(
         Red=datos_recibidos["Color"][0],
@@ -23,6 +24,8 @@ def realizar_jugada_ajax(request):
     jugada = Jugada.create(datos_recibidos["x"], datos_recibidos["y"], color, usuario)
     jugada.save()
     return JsonResponse({"resultado": True})
+
+
 
 
 def cargar_grilla_ajax(request):

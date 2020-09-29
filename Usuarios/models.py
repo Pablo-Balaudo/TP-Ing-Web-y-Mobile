@@ -1,29 +1,48 @@
 from django.db import models
 
-import datetime
-# from datetime import timedelta
+from datetime import timedelta, datetime
+
 # Para la extencion de la clase User
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 # Para los formularios
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 
+# Aqui se ubican los posibles tiempos de espera:
+
+tiempo_espera_1 = timedelta(seconds=15)
+tiempo_espera_2 = timedelta(hours=24)
+tiempo_espera_3 = timedelta(hours=12)
+tiempo_espera_4 = timedelta(hours=6)
+tiempo_espera_5 = timedelta(hours=3)
+
+
+
 class Usuario(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)    
+    
     FechaRegistro = models.DateTimeField(auto_now_add=True)
     # El tiempo de espera figura en minutos
-    # TiempoEspera = models.DurationField(default = timedelta(days=1))
-    Puntos = models.IntegerField(default=0)
+    TiempoEspera = models.DurationField(blank=True, null=True)    
     # Fecha a partir de la cual puede pintar otra vez
-    # FechaJuego = models.DateTimeField(default=FechaRegistro)
+    FechaJuego = models.DateTimeField(auto_now_add=True)  
+
+    Puntos = models.IntegerField(default=0)
     WeAreLegion = models.BooleanField(default=False)
     PixelOfLife = models.BooleanField(default=False)
     Conectado = models.BooleanField(default=False)
     Baneado = models.BooleanField(default=False)
+
+    def DefinirEspera(self):
+        self.TiempoEspera = tiempo_espera_1                   
+        self.FechaJuego = datetime.now() + self.TiempoEspera
+
+
 
 
 class UserRegisterForm(UserCreationForm):

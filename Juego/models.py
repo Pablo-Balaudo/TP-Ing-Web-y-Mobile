@@ -1,6 +1,6 @@
 from django.db import models
 
-import datetime
+from datetime import timedelta, datetime
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from django.contrib.auth.models import User
@@ -90,14 +90,37 @@ def crear_pixeles(sender, instance, created, **kwargs):
         for X in range(1, CanvasSize):
             for Y in range(1, CanvasSize):
                 color_por_defecto = Color.objects.get_or_create(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1)
-                pixel = Pixel(coordenadaX=X, coordenadaY=Y, lienzo=instance,
-                              color=Color.objects.get(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1))
+                pixel = Pixel(
+                    coordenadaX=X, 
+                    coordenadaY=Y, 
+                    lienzo=instance,
+                    color=Color.objects.get(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1)
+                )
                 pixel.save()
 
 
 # Para que, al crearse una nueva jugada, el cambio se vea reflejado directamente sobre el pixel que referencia
 @receiver(post_save, sender=Jugada)
 def realizar_jugada(sender, instance, created, **kwargs):
-    if created:
-        Pixel.objects.filter(coordenadaX=instance.pixel.coordenadaX, coordenadaY=instance.pixel.coordenadaY).update(
-            color=instance.color, owner=instance.jugador)
+    if created:       
+        
+        Pixel.objects.filter(
+            coordenadaX=instance.pixel.coordenadaX, 
+            coordenadaY=instance.pixel.coordenadaY
+        ).update(
+            color=instance.color, 
+            owner=instance.jugador
+        )
+
+        Usuario.objects.filter(user=instance.jugador).update(FechaJuego = datetime.now() + timedelta(seconds=15))
+
+
+
+
+
+
+    
+
+
+
+

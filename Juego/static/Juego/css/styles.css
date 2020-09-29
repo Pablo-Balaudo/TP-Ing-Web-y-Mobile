@@ -13,6 +13,10 @@ p{
     font-size:12px;
 }
 
+btn{
+    background-color:white !important;
+}
+
 .notes{	
 	font-size: small;
 	position: relative;

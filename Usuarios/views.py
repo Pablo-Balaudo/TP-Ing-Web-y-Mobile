@@ -77,7 +77,7 @@ def register(request):
                 email_message = send_email_activation(user, email, request)
                 email_message.send(fail_silently=False)
 
-                messages.success(request, f'Tu cuenta ha sido creada!')
+                messages.success(request, f'¡Tu cuenta ha sido creada! Se ha enviado un correo para la activación de su cuenta')
                 return redirect('/login')
     else:
         form = UserRegisterForm()

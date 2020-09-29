@@ -28,14 +28,19 @@
         <br/>
             {% for comment in context %}
                 {% if comment.post.pk == object.pk %}
-                <strong>
-                    {{ comment.author }} -
-                    {{ comment.date_posted }}
-                </strong>
-                <br/>
-                {{ comment.text }}
-                <br/>
+                    <strong>
+                        {{ comment.author }} -
+                        {{ comment.date_posted }}
+                    </strong>
+                    <br/>
+                    {{ comment.text }}
+                    <br/>
                 {% endif %}
+                <hr>
             {% endfor %}
     </div>
+    <hr><hr>
+    {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'comment-create' %}">Comentar</a>
+    {% endif %}
 {% endblock contenido %}

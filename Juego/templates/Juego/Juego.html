@@ -30,47 +30,38 @@
         <p id="y">Coord Y</p>
 
 
-        <div class="row">
+        <div class="row c-center">
             <div id="BotonesColores">
                 {% if user.is_authenticated %}
-                    <div class="btn-group" role="group" aria-label="Button group">
                         {% if request.user.is_superuser %}
-                            <button onclick="drawBoard()">Reset</button>
+                            <div class="btn-group">
+                                <button onclick="drawBoard()">Reset</button>
+                            </div>
                         {% endif %}
-
-                        <button onclick="cambiarColor([255,255,255,255])">Blanco</button>
-
-                        <button onclick="cambiarColor([255,255,255,127])">Plateado</button>
-
-                        <button onclick="cambiarColor([127,127,127,127])">Gris</button>
-
-                        <button onclick="cambiarColor([255,255,255,0])">Negro</button>
-
-                        <button onclick="cambiarColor([255,0,0,255])">Rojo</button>
-
-                        <button onclick="cambiarColor([255,0,0,127])">Rojo Oscuro</button>
-
-                        <button onclick="cambiarColor([255,255,0,255])">Amarillo</button>
-
-                        <button onclick="cambiarColor([255,255,0,127])">Amarillo Oscuro</button>
-
-                        <button onclick="cambiarColor([255,0,255,255])">Rosado</button>
-
-                        <button onclick="cambiarColor([255,0,255,127])">Rosado Oscuro</button>
-
-                        <button onclick="cambiarColor([0,255,0,255])">Verde</button>
-
-                        <button onclick="cambiarColor([0,255,0,127])">Verde Oscuro</button>
-
-                        <button onclick="cambiarColor([0,255,255,255])">Cyan</button>
-
-                        <button onclick="cambiarColor([0,255,255,127])">Cyan Oscuro</button>
-
-                        <button onclick="cambiarColor([0,0,255,255])">Azul</button>
-
-                        <button onclick="cambiarColor([0,0,255,127])">Azul Oscuro</button>
-                    </div>
-                {% endif %}                
+                        <div class="btn-group" role="group" aria-label="Sub-Button group 1">
+                            <button onclick="cambiarColor([255,255,255,255])">Blanco</button>
+                            <button onclick="cambiarColor([255,255,255,127])">Plateado</button>
+                            <button onclick="cambiarColor([127,127,127,127])">Gris</button>
+                            <button onclick="cambiarColor([255,255,255,0])">Negro</button>
+                            <button onclick="cambiarColor([255,0,0,255])">Rojo</button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Sub-Button group 2">
+                            <button onclick="cambiarColor([255,0,0,127])">Rojo Oscuro</button>
+                            <button onclick="cambiarColor([255,255,0,255])">Amarillo</button>
+                            <button onclick="cambiarColor([255,255,0,127])">Amarillo Oscuro</button>
+                            <button onclick="cambiarColor([255,0,255,255])">Rosado</button>
+                            <button onclick="cambiarColor([255,0,255,127])">Rosado Oscuro</button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Sub-Button group 3">
+                            <button onclick="cambiarColor([0,255,0,255])">Verde</button>
+                            <button onclick="cambiarColor([0,255,0,127])">Verde Oscuro</button>
+                            <button onclick="cambiarColor([0,255,255,255])">Cyan</button>
+                            <button onclick="cambiarColor([0,255,255,127])">Cyan Oscuro</button>
+                            <button onclick="cambiarColor([0,0,255,255])">Azul</button>
+                            <button onclick="cambiarColor([0,0,255,127])">Azul Oscuro</button>
+                        </div>
+                {% endif %}
+                <hr>
             </div>
         
             <div class = "col-md-12">

@@ -1,11 +1,11 @@
 {% extends "Juego/Base.html" %}
 
 {% block titulo %}
-    <title>Foro</title>
+    <title>Posts de usuario</title>
 {% endblock titulo %}
 
 {% block contenido %}
-    <h1>Esta es la pagina del Foro en un archivo HTML</h1>
+    <h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
     {% for post in Posts %}
         <article class="media content-section">
             <div class="media-body"  style="text-align:justify; text-justify:inter-word;">

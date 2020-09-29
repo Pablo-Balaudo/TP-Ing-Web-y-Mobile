@@ -5,8 +5,14 @@
 {% endblock titulo %}
 
 {% block contenido %}
-    <h1>Esta es la pagina del Foro en un archivo HTML</h1>
-    <h1>{{ object.title }}</h1>
-    <p>Escrito por {{ object.author }} el {{ object.date_posted|date:"d F, Y" }}</p>
-    <p>{{ object.text }}</p>
+    <article class="media content-section">
+            <div class="media-body"  style="text-align:justify; text-justify:inter-word;">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'user-post' object.author.username %}">{{ object.author }}</a>
+                    <small class="text-muted">{{ object.date_posted|date:"d F, Y" }}</small>
+                </div>
+                <h2><a class="article-title" href="{% url 'post-detail' object.parent_comment %}">{{ object.title }}</a></h2>
+                <p class="article-content">{{ object.text }}</p>
+            </div>
+    </article>
 {% endblock contenido %}

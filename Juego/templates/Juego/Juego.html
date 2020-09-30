@@ -78,39 +78,44 @@
         
         
         <script id="VariablesGlobales" src="{% static 'Juego/js/VariablesGlobales.js' %}"></script>
+        <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
+        <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
 
         {% if user.is_authenticated %}
-            <script id="RealizarJugada" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>
 
-            <script id="Clicks">   
+            <script id="Realizar Jugada" >   
                 
                 var csrftoken = '{{csrf_token}}';
                 
                 function EnviarJugada(color, X, Y, canvas)
                 {
-                    console.log(JSON.stringify({ x: X, y: Y, Color: color }));
-                    $.post(
+                    var datos = JSON.stringify({ x: X, y: Y, Color: color });
+                    $.ajax(
                     {
                         headers: {"X-CSRFToken": csrftoken}, 
                         url: "/ajax/Jugada/",
                         dataType: "json",
-                        data: JSON.stringify({ x: X, y: Y, Color: color }),
-                        type: "POST"
-                    }).done(pintar(X, Y, canvas, color));
+                        type: "POST",
+                        data: datos,
+                    });
                 }
 
                 canvas.addEventListener('click', function(event) { 
                     var coordenadas = getCursorPosition(canvas, event);
-                    EnviarJugada(color_to_paint, coordenadas[0], coordenadas[1], canvas);
-
+                    EnviarJugada(color_to_paint, coordenadas[0], coordenadas[1]);
+                    pintar(coordenadas[0], coordenadas[1], canvas, color_to_paint);
                 }) ;
 
+            </script>
+
+        {% else %}
+            <script id="Click">   
+                canvas.addEventListener('click', function(event) { getCursorPosition(canvas, event); }) ;
             </script>
         {% endif %}
 
         
-        <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
-        <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
+        
 
     
     </body>

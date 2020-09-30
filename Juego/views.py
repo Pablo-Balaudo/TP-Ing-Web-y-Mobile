@@ -15,14 +15,19 @@ def realizar_jugada_ajax(request):
 
     datos = request.body
     datos_recibidos = json.loads(request.body.decode("utf-8"))
-    usuario = request.user
+
     color = Color.objects.get(
         Red=datos_recibidos["Color"][0],
         Green=datos_recibidos["Color"][1],
         Blue=datos_recibidos["Color"][2],
         Alpha=datos_recibidos["Color"][3])
-    jugada = Jugada.create(datos_recibidos["x"], datos_recibidos["y"], color, usuario)
-    jugada.save()
+
+    jugador = request.user
+
+    pixel = Pixel.objects.get(coordenadaX=datos_recibidos["x"], coordenadaY=datos_recibidos["y"])
+
+    jugada = Jugada.objects.create(color=color, pixel=pixel, jugador=jugador)
+    jugada.objects.save()
     return JsonResponse({"resultado": True})
 
 

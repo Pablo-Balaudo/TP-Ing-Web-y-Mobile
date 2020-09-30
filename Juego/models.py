@@ -79,14 +79,6 @@ class Jugada(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
-    @classmethod
-    def create(cls, x, y, color, user):
-        jugada = cls(
-            pixel=Pixel.objects.get(coordenadaX=x, coordenadaY=y),
-            jugador=user,
-            color=color
-        )
-        return Jugada
 
 
 # Para que se creen los pixeles automaticamente tras crear un lienzo

@@ -40,9 +40,7 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
 
-        if form.is_valid():            
-            username = form.cleaned_data['username']
-            password1 = form.cleaned_data['password1']
+        if form.is_valid():
             email = form.cleaned_data['email']
 
             # RECAPTCHA
@@ -64,7 +62,7 @@ def register(request):
                 bandera = True
             if User.objects.filter(email=email).exists():
                 form.add_error(None, 'Correo electrónico en uso, elige otro.')
-                bamdera = True
+                bandera = True
 
             # ¿HAY MENSAJES DE ERROR?
             if bandera:
@@ -77,7 +75,8 @@ def register(request):
                 email_message = send_email_activation(user, email, request)
                 email_message.send(fail_silently=False)
 
-                messages.success(request, f'¡Tu cuenta ha sido creada! Se ha enviado un correo para la activación de su cuenta')
+                messages.success(request, f'¡Tu cuenta ha sido creada! Se ha enviado un correo para la activación de '
+                                          f'su cuenta')
                 return redirect('/login')
     else:
         form = UserRegisterForm()

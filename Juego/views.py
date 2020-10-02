@@ -35,8 +35,6 @@ def realizar_jugada_ajax(request):
 
 
 
-
-
 def cargar_grilla_ajax(request):
 
     # Te trae la grilla principal o te la crea  

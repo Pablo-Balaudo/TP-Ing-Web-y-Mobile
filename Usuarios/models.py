@@ -22,18 +22,19 @@ tiempo_espera_4 = timedelta(hours=6)
 tiempo_espera_5 = timedelta(hours=3)
 
 # Estados
-#STATUS_USERS = (
+# STATUS_USERS = (
 #    (1, 'Pendiente de verificacion'),
 #    (2, 'Activo'),
 #    (3, 'Bloqueado'),
 #    (4, 'Eliminado'),
-#)
+# )
 
-#ASIGNATION_MOD = (
+# ASIGNATION_MOD = (
 #    (1, 'Moderador'),
 #    (2, 'Sugerido'),
 #    (3, 'Normal'),
-#)
+# )
+
 
 class Usuario(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)    
@@ -50,11 +51,9 @@ class Usuario(models.Model):
     # Estado_Usuario = models.IntegerField(choices=STATUS_USERS)
     # Estado_Moderador = models.IntegerField(choices=ASIGNATION_MOD)
 
-    def DefinirEspera(self):
+    def definir_espera(self):
         self.TiempoEspera = tiempo_espera_1                   
         self.FechaJuego = datetime.now() + self.TiempoEspera
-
-
 
 
 class UserRegisterForm(UserCreationForm):

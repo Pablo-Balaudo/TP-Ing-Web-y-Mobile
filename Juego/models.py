@@ -1,21 +1,19 @@
 from django.db import models
 
 from datetime import timedelta, datetime
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator
 
-from django.contrib.auth.models import User
 from Usuarios.models import Usuario
 
 # Para definir metodos que se ejecuten tras la creacion de on objeto de una clase determinada
-from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 # Estados
-#STATUS_LIENZO = (
+# STATUS_LIENZO = (
 #    (1, 'Actual'),
 #   (2, 'Suspendido'),
-#)
+# )
 
 # La cantidad total de pixeles es de CanvasSize x CanvasSize (Ej: si CanvasSize = 50, entonces hay 50x50 pixeles)
 CanvasSize = 51
@@ -32,7 +30,6 @@ class Lienzo(models.Model):
     # booleanos que representan el estado del lienzo
     principal = models.BooleanField(default=False)
     # Estado_Lienzo = models.IntegerField(choices=STATUS_LIENZO)
-
 
 
 class Color(models.Model):
@@ -80,14 +77,12 @@ class Jugada(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
 
-
 # Para que se creen los pixeles automaticamente tras crear un lienzo
 @receiver(post_save, sender=Lienzo)
 def crear_pixeles(sender, instance, created, **kwargs):
     if created:
         for X in range(1, CanvasSize):
             for Y in range(1, CanvasSize):
-                color_por_defecto = Color.objects.get_or_create(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1)
                 pixel = Pixel(
                     coordenadaX=X, 
                     coordenadaY=Y, 
@@ -110,15 +105,4 @@ def realizar_jugada(sender, instance, created, **kwargs):
             owner=instance.jugador
         )
 
-        Usuario.objects.filter(user=instance.jugador).update(FechaJuego = datetime.now() + timedelta(seconds=15))
-
-
-
-
-
-
-    
-
-
-
-
+        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=datetime.now() + timedelta(seconds=15))

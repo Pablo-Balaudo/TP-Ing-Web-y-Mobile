@@ -4,7 +4,6 @@ from .models import Lienzo, Pixel, Jugada, Color
 from django.http import JsonResponse
 import json
 # Para convertir un objeto de una clase en en Json
-from django.core import serializers
 
 
 def juego(request):
@@ -13,7 +12,6 @@ def juego(request):
 
 def realizar_jugada_ajax(request):
 
-    datos = request.body
     datos_recibidos = json.loads(request.body.decode("utf-8"))
 
     color = Color.objects.get(
@@ -29,8 +27,6 @@ def realizar_jugada_ajax(request):
     jugada = Jugada.objects.create(color=color, pixel=pixel, jugador=jugador)
     jugada.objects.save()
     return JsonResponse({"resultado": True})
-
-
 
 
 def cargar_grilla_ajax(request):

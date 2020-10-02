@@ -49,8 +49,7 @@ class Color(models.Model):
 
     class Meta:
         # Defino los atributos que "en conjunto" no se peden repetir (Que no halla 2 colores iguales)
-        # unique_together = [["Red", "Green", "Blue", "Alpha"],]
-        unique_together = [["Nombre"], ]
+        unique_together = [["Nombre"], ["Red", "Green", "Blue", "Alpha"],]
 
 
 class Pixel(models.Model):
@@ -110,7 +109,7 @@ def realizar_jugada(sender, instance, created, **kwargs):
             owner=instance.jugador
         )
 
-        Usuario.objects.filter(user=instance.jugador).update(FechaJuego = datetime.now() + timedelta(seconds=15))
+        Usuario.objects.filter(user=instance.jugador).update(FechaJuego = datetime.now() + timedelta(minutes=1))
 
 
 

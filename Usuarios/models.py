@@ -40,7 +40,7 @@ class Usuario(models.Model):
     
     FechaRegistro = models.DateTimeField(auto_now_add=True)
     # El tiempo de espera figura en minutos
-    TiempoEspera = models.DurationField(blank=True, null=True)    
+    cooldown = models.DurationField(blank=True, null=True)    
     # Fecha a partir de la cual puede pintar otra vez
     FechaJuego = models.DateTimeField(auto_now_add=True)  
 

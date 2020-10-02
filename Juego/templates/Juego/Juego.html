@@ -97,7 +97,13 @@
                         dataType: "json",
                         type: "POST",
                         data: datos,
-                    });
+                    }).done(imprimir);
+                }
+
+                function imprimir(data)
+                {
+                    console.log(data)
+
                 }
 
                 canvas.addEventListener('click', function(event) { 

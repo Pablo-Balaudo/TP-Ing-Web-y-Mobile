@@ -1,5 +1,4 @@
 from datetime import datetime
-from django.utils import timezone
 import pytz
 # Para manejar el los archivos Json 
 from django.http import JsonResponse
@@ -7,13 +6,14 @@ import json
 from .models import Lienzo, Pixel, Jugada, Color
 from django.shortcuts import render
 
+
 def juego(request):
     return render(request, 'Juego/Juego.html')
 
 
 def realizar_jugada_ajax(request):
 
-    if (pytz.utc.localize(datetime.now()) >= request.user.usuario.FechaJuego):
+    if pytz.utc.localize(datetime.now()) >= request.user.usuario.FechaJuego:
 
         datos_recibidos = json.loads(request.body.decode("utf-8"))
 
@@ -32,7 +32,6 @@ def realizar_jugada_ajax(request):
         return JsonResponse({"resultado": True, "Espera": request.user.usuario.FechaJuego})
     else:
         return JsonResponse({"resultado": False, "Espera": request.user.usuario.FechaJuego})
-
 
 
 def cargar_grilla_ajax(request):

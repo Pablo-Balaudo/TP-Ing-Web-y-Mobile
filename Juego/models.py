@@ -41,12 +41,12 @@ class Color(models.Model):
     Alpha = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(256)])
 
     def __str__(self):
-        rgba = ' [%i, %i, %i, %i]' % (self.Red, self.Green, self.Blue, self.Alpha)
+        rgba = f' [{self.Red:d}, {self.Green:d}, {self.Blue:d}, {self.Alpha:d}]'
         return self.Nombre + rgba
 
     class Meta:
         # Defino los atributos que "en conjunto" no se peden repetir (Que no halla 2 colores iguales)
-        unique_together = [["Nombre"], ["Red", "Green", "Blue", "Alpha"],]
+        unique_together = [["Nombre"], ["Red", "Green", "Blue", "Alpha"]]
 
 
 class Pixel(models.Model):
@@ -104,7 +104,7 @@ def realizar_jugada(sender, instance, created, **kwargs):
             owner=instance.jugador
         )
 
-        Usuario.objects.filter(user=instance.jugador).update(FechaJuego = datetime.now() + timedelta(minutes=1))
+        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=datetime.now() + timedelta(minutes=1))
 
 
 

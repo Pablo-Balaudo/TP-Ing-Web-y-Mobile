@@ -62,7 +62,7 @@ urlpatterns = [
     path('resendverification/', user_views.resendverification, name='ResendVerification'),
     
     
-    #Peticiones de AJAX
+    # Peticiones de AJAX
     path('ajax/Lienzo/', cargar_grilla_ajax),
     path('ajax/Jugada/', realizar_jugada_ajax),
 ]

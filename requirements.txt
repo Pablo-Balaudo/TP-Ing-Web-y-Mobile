@@ -4,3 +4,4 @@ gunicorn
 django-crispy-forms
 six
 pylint-django==2.3.0
+pytz

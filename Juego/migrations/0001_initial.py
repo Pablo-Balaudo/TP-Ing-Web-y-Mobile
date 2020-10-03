@@ -20,10 +20,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Nombre', models.CharField(max_length=30)),
-                ('Red', models.PositiveSmallIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(256)])),
-                ('Green', models.PositiveSmallIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(256)])),
-                ('Blue', models.PositiveSmallIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(256)])),
-                ('Alpha', models.PositiveSmallIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(256)])),
+                ('Red', models.PositiveSmallIntegerField(
+                    default=0, validators=[django.core.validators.MaxValueValidator(256)])),
+                ('Green', models.PositiveSmallIntegerField(
+                    default=0, validators=[django.core.validators.MaxValueValidator(256)])),
+                ('Blue', models.PositiveSmallIntegerField(
+                    default=0, validators=[django.core.validators.MaxValueValidator(256)])),
+                ('Alpha', models.PositiveSmallIntegerField(
+                    default=0, validators=[django.core.validators.MaxValueValidator(256)])),
             ],
             options={
                 'unique_together': {('Nombre',)},
@@ -44,12 +48,18 @@ class Migration(migrations.Migration):
             name='Pixel',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('coordenadaX', models.IntegerField(default=0, validators=[django.core.validators.MaxValueValidator(51)])),
-                ('coordenadaY', models.IntegerField(default=0, validators=[django.core.validators.MaxValueValidator(51)])),
-                ('vidas', models.PositiveIntegerField(default=1, validators=[django.core.validators.MaxValueValidator(5)])),
-                ('color', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='Juego.color')),
-                ('lienzo', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to='Juego.lienzo')),
-                ('owner', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+                ('coordenadaX', models.IntegerField(
+                    default=0, validators=[django.core.validators.MaxValueValidator(51)])),
+                ('coordenadaY', models.IntegerField(
+                    default=0, validators=[django.core.validators.MaxValueValidator(51)])),
+                ('vidas', models.PositiveIntegerField(
+                    default=1, validators=[django.core.validators.MaxValueValidator(5)])),
+                ('color', models.ForeignKey(
+                    blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='Juego.color')),
+                ('lienzo', models.ForeignKey(
+                    blank=True, on_delete=django.db.models.deletion.CASCADE, to='Juego.lienzo')),
+                ('owner', models.ForeignKey(
+                    blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'unique_together': {('coordenadaX', 'coordenadaY', 'lienzo')},
@@ -60,9 +70,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('fecha_creacion', models.DateTimeField(auto_now_add=True)),
-                ('color', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Juego.color')),
-                ('jugador', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('pixel', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Juego.pixel')),
+                ('color', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='Juego.color')),
+                ('jugador', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('pixel', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='Juego.pixel')),
             ],
         ),
     ]

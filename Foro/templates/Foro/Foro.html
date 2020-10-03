@@ -5,7 +5,7 @@
 {% endblock titulo %}
 
 {% block contenido %}
-    <h1>Esta es la pagina del Foro en un archivo HTML</h1>
+    <h1>Foro</h1>
 
     {% if user.is_authenticated %}
         <a class="btn btn-primary" href="{% url 'post-create' %}">Crear post</a>

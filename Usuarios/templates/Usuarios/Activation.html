@@ -1,7 +1,7 @@
 {% autoescape off%}
 
 Hola {{user.username}}
-Haga clic en el siguiente enlace para verificar su cuenta
+Haga click en el siguiente enlace para verificar su cuenta
 http://{{domain}}{%url 'activate' uidb64=uid token=token %}
 Si cree que no es usted, ignore este correo electrónico
 

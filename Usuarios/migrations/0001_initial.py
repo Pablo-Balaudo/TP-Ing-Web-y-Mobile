@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Usuario',
             fields=[
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='auth.user')),
+                ('user', models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='auth.user')),
                 ('FechaRegistro', models.DateTimeField(auto_now_add=True)),
                 ('TiempoEspera', models.DurationField(blank=True, null=True)),
                 ('FechaJuego', models.DateTimeField(auto_now_add=True)),

@@ -1,6 +1,7 @@
 from django.db import models
 
 from datetime import timedelta, datetime
+import pytz
 from django.core.validators import MaxValueValidator
 
 from Usuarios.models import Usuario
@@ -104,7 +105,7 @@ def realizar_jugada(sender, instance, created, **kwargs):
             owner=instance.jugador
         )
 
-        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=datetime.now() + timedelta(minutes=1))
+        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=datetime.now(pytz.UTC) + timedelta(minutes=1))
 
 
 

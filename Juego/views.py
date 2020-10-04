@@ -13,7 +13,7 @@ def juego(request):
 
 def realizar_jugada_ajax(request):
 
-    if pytz.utc.localize(datetime.now()) >= request.user.usuario.FechaJuego:
+    if datetime.now(pytz.UTC) >= request.user.usuario.FechaJuego:
 
         datos_recibidos = json.loads(request.body.decode("utf-8"))
 

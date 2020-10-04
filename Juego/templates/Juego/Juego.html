@@ -100,17 +100,18 @@
                     }).done(imprimir);
                 }
 
-                function imprimir(data)
-                {
-                    console.log(data)
-
-                }
-
                 canvas.addEventListener('click', function(event) { 
                     var coordenadas = getCursorPosition(canvas, event);
                     EnviarJugada(color_to_paint, coordenadas[0], coordenadas[1]);
-                    pintar(coordenadas[0], coordenadas[1], canvas, color_to_paint);
-                }) ;
+                    pintar(coordenadas[0], coordenadas[1], canvas, color_to_paint);                 
+                });
+
+                function MostrarJugada(data)
+                {
+                    console.log(data);      
+                
+                }
+
 
             </script>
 

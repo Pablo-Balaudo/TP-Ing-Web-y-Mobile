@@ -76,19 +76,30 @@
         </div>
 
         
+        <script id="VariablesGlobales" type="text/javascript" >   
+            
+            var csrftoken = '{{csrf_token}}';
+            
+            var canvas = document.querySelector('Canvas');
+
+            var color_to_paint = [0,0,0,0]
+
+            function cambiarColor(color)
+            { color_to_paint = color }
+
+        </script>
+
         
-        <script id="VariablesGlobales" src="{% static 'Juego/js/VariablesGlobales.js' %}"></script>
-        <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
-        <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
-        <script id="ActualizarGrilla" src="{% static 'Juego/js/ActualizarGrilla.js' %}"></script>
-        
+        <script id="CargarGrilla" type="text/javascript" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
+        <script id="ObtenerCoordenadasCursor" type="text/javascript" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
+        <script id="ActualizarGrilla" type="text/javascript" src="{% static 'Juego/js/ActualizarGrilla.js' %}"></script>
+
+
         {% if user.is_authenticated %}
 
-            <script id="RealizarJugada" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>         
+            <script id="RealizarJugada" type="text/javascript" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>         
 
-            <script id="Click" >   
-                
-                var csrftoken = '{{csrf_token}}';  
+            <script id="Click" type="text/javascript" >   
 
                 canvas.addEventListener('click', function(event) { 
                     var coordenadas = getCursorPosition(canvas, event);
@@ -98,7 +109,7 @@
             </script>
 
         {% else %}
-            <script id="Click">   
+            <script id="Click" type="text/javascript">   
                 canvas.addEventListener('click', function(event) { getCursorPosition(canvas, event); }) ;
             </script>
         {% endif %}

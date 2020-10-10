@@ -106,14 +106,3 @@ def realizar_jugada(sender, instance, created, **kwargs):
         )
 
         Usuario.objects.filter(user=instance.jugador).update(FechaJuego=datetime.now(pytz.UTC) + timedelta(minutes=1))
-
-
-
-
-
-
-    
-
-
-
-

@@ -18,7 +18,5 @@ function ImprimirJugada(data)
         var x = data["X"];
         var y = data["Y"];
         pintar(x, y, canvas, data["Color"]);
-    }
-    
-                        
+    }                    
 }

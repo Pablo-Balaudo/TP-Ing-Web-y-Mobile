@@ -71,7 +71,7 @@ def cargar_jugadas_ajax(request):
         datos_recibidos = json.loads(request.body.decode("utf-8"))
         #Time = fecha y hora de la ultima vez que el usuario actualizó la grilla de su HTML
         Time = datetime.strptime(datos_recibidos["time"][0:28],'%a %b %d %Y %X %Z')
-        Time = Time.replace(tzinfo=pytz.UTC)
+        Time = Time.astimezone(pytz.utc)
         print(Time) 
         hora_actual = datetime.now(pytz.UTC)
         print(hora_actual)

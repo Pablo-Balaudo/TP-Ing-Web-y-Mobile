@@ -19,22 +19,23 @@ function pintar(x, y, canvas, color_RGBA)
     context.putImageData(imageData, x*20-20, y*20-20);
 }
 
+function cargarPixeles(data) {
+    
+    for (let index = 0; index < data.length; index++) {       
+        var x = data[index]["X"];
+        var y = data[index]["Y"];
+        var color_RGBA = data[index]["color"];  
+        pintar(x, y, canvas, color_RGBA);
+    }
+}
 
 function drawBoard(data) {
     var c = document.getElementById("Canvas");
     var context = c.getContext("2d");
     var imageData = context.createImageData(1000, 1000);
-    
-    for (let index = 0; index < data.length; index++) {
-        
-        var x = data[index]["X"];
-        var y = data[index]["Y"];
-        var color_RGBA = data[index]["color"];  
-        pintar(x, y, c, color_RGBA);
-
-    }
-    
+    cargarPixeles(data);  
 }
+
 
 
 function on_pagina_cargada() {

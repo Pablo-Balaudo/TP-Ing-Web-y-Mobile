@@ -4,15 +4,15 @@ function getCursorPosition(canvas, event)
 {
     var rect = canvas.getBoundingClientRect();
 
-    var X = Math.ceil(((event.clientX - rect.left) -1) / 20);
-    var Y = Math.ceil(((event.clientY - rect.top) -1) / 20);
+    var x = Math.ceil(((event.clientX - rect.left) -1) / 20);
+    var y = Math.ceil(((event.clientY - rect.top) -1) / 20);
 
-    document.getElementById("x").innerHTML = "Coord X " + X;
-    document.getElementById("y").innerHTML = "Coord Y " + Y;
+    document.getElementById("x").innerHTML = "Coord X " + x;
+    document.getElementById("y").innerHTML = "Coord Y " + y;
 
-    if (((X >= 1) && (X <= 50)) && ((Y >= 1) && (Y <= 50)))
-    { return [X,Y]; }
+    if (((x >= 1) && (x <= 50)) && ((y >= 1) && (y <= 50)))
+    { return [x,y]; }
     else
-    {  alert("Has clickeado muy cerca del borde"); }
+    { alert("Has clickeado muy cerca del borde"); }
 
 }

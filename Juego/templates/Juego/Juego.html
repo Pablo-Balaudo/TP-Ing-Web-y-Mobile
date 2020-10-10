@@ -80,38 +80,20 @@
         <script id="VariablesGlobales" src="{% static 'Juego/js/VariablesGlobales.js' %}"></script>
         <script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}"></script>
         <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"></script>
-
+        <script id="ActualizarGrilla" src="{% static 'Juego/js/ActualizarGrilla.js' %}"></script>
+        
         {% if user.is_authenticated %}
 
-            <script id="Realizar Jugada" >   
+            <script id="RealizarJugada" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>         
+
+            <script id="Click" >   
                 
-                var csrftoken = '{{csrf_token}}';
-                
-                function EnviarJugada(color, X, Y, canvas)
-                {
-                    var datos = JSON.stringify({ x: X, y: Y, Color: color });
-                    $.ajax(
-                    {
-                        headers: {"X-CSRFToken": csrftoken}, 
-                        url: "/ajax/Jugada/",
-                        dataType: "json",
-                        type: "POST",
-                        data: datos,
-                    }).done(imprimir);
-                }
+                var csrftoken = '{{csrf_token}}';  
 
                 canvas.addEventListener('click', function(event) { 
                     var coordenadas = getCursorPosition(canvas, event);
-                    EnviarJugada(color_to_paint, coordenadas[0], coordenadas[1]);
-                    pintar(coordenadas[0], coordenadas[1], canvas, color_to_paint);                 
+                    EnviarJugada(color_to_paint, coordenadas[0], coordenadas[1]);              
                 });
-
-                function MostrarJugada(data)
-                {
-                    console.log(data);      
-                
-                }
-
 
             </script>
 
@@ -121,7 +103,7 @@
             </script>
         {% endif %}
 
-        
+                
         
 
     

@@ -13,25 +13,36 @@ def juego(request):
 
 def realizar_jugada_ajax(request):
 
-    if datetime.now(pytz.UTC) >= request.user.usuario.FechaJuego:
+    if request.method == 'POST':
 
-        datos_recibidos = json.loads(request.body.decode("utf-8"))
+        if datetime.now(pytz.UTC) >= request.user.usuario.FechaJuego:
 
-        color = Color.objects.get(
-            Red=datos_recibidos["Color"][0],
-            Green=datos_recibidos["Color"][1],
-            Blue=datos_recibidos["Color"][2],
-            Alpha=datos_recibidos["Color"][3])
+            datos_recibidos = json.loads(request.body.decode("utf-8"))
 
-        jugador = request.user
+            color = Color.objects.get(
+                Red=datos_recibidos["Color"][0],
+                Green=datos_recibidos["Color"][1],
+                Blue=datos_recibidos["Color"][2],
+                Alpha=datos_recibidos["Color"][3])
 
-        pixel = Pixel.objects.get(coordenadaX=datos_recibidos["x"], coordenadaY=datos_recibidos["y"])
+            jugador = request.user
 
-        Jugada.objects.create(color=color, pixel=pixel, jugador=jugador)
+            pixel = Pixel.objects.get(coordenadaX=datos_recibidos["x"], coordenadaY=datos_recibidos["y"])
 
-        return JsonResponse({"resultado": True, "Espera": request.user.usuario.FechaJuego})
+            Jugada.objects.create(color=color, pixel=pixel, jugador=jugador)
+
+            Resultado = {"Resultado": True,
+                "Espera": request.user.usuario.FechaJuego, 
+                "Color": datos_recibidos["Color"], 
+                "X":datos_recibidos["x"], 
+                "Y":datos_recibidos["y"]}   
+        else:
+            Resultado = {"Resultado": False, "Espera": request.user.usuario.FechaJuego}
     else:
-        return JsonResponse({"resultado": False, "Espera": request.user.usuario.FechaJuego})
+        Resultado = {"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"}
+    
+    return JsonResponse(Resultado)
+
 
 
 def cargar_grilla_ajax(request):
@@ -51,3 +62,40 @@ def cargar_grilla_ajax(request):
 
         datos.append(dato)
     return JsonResponse(datos, safe=False)
+
+
+def cargar_jugadas_ajax(request):
+    
+    if request.method == 'POST':
+        
+        datos_recibidos = json.loads(request.body.decode("utf-8"))
+        #Time = fecha y hora de la ultima vez que el usuario actualizó la grilla de su HTML
+        Time = datetime.strptime(datos_recibidos["time"][0:28],'%a %b %d %Y %X %Z')
+        Time = Time.replace(tzinfo=pytz.UTC)
+        print(Time) 
+        hora_actual = datetime.now(pytz.UTC)
+        print(hora_actual)
+        jugadas = Jugada.objects.filter(fecha_creacion__range=[Time, hora_actual])
+
+        datos = []
+
+        for jugada in jugadas:
+
+            pixel = jugada.pixel
+            color = jugada.color
+            
+            dato = {
+                "X": pixel.coordenadaX,
+                "Y": pixel.coordenadaY,
+                "color": [color.Red, color.Green, color.Blue, color.Alpha],
+                "vidas": pixel.vidas,
+            }
+            
+            datos.append(dato)
+        
+        print(datos)
+        return JsonResponse(datos, safe=False)
+    else:
+        return JsonResponse({"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"})
+
+

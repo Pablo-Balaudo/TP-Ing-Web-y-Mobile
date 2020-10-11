@@ -99,7 +99,7 @@
 
             <script id="RealizarJugada" type="text/javascript" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>         
 
-            <script id="Click" type="text/javascript" >   
+            <script id="Click1" type="text/javascript" >
 
                 canvas.addEventListener('click', function(event) { 
                     var coordenadas = getCursorPosition(canvas, event);
@@ -109,7 +109,7 @@
             </script>
 
         {% else %}
-            <script id="Click" type="text/javascript">   
+            <script id="Click2" type="text/javascript">
                 canvas.addEventListener('click', function(event) { getCursorPosition(canvas, event); }) ;
             </script>
         {% endif %}

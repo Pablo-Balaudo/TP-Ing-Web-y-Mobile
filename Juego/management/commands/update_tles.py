@@ -26,4 +26,3 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         cargar_colores()
-

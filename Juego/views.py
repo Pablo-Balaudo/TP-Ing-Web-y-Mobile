@@ -12,7 +12,6 @@ def juego(request):
 
 
 def realizar_jugada_ajax(request):
-
     if request.method == 'POST':
 
         if datetime.now(pytz.UTC) >= request.user.usuario.FechaJuego:
@@ -31,23 +30,21 @@ def realizar_jugada_ajax(request):
 
             Jugada.objects.create(color=color, pixel=pixel, jugador=jugador)
 
-            Resultado = {"Resultado": True,
-                "Espera": request.user.usuario.FechaJuego, 
-                "Color": datos_recibidos["Color"], 
-                "X":datos_recibidos["x"], 
-                "Y":datos_recibidos["y"]}   
+            resultado = {"Resultado": True,
+                         "Espera": request.user.usuario.FechaJuego,
+                         "Color": datos_recibidos["Color"],
+                         "X": datos_recibidos["x"],
+                         "Y": datos_recibidos["y"]}
         else:
-            Resultado = {"Resultado": False, "Espera": request.user.usuario.FechaJuego}
+            resultado = {"Resultado": False, "Espera": request.user.usuario.FechaJuego}
     else:
-        Resultado = {"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"}
-    
-    return JsonResponse(Resultado)
+        resultado = {"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"}
 
+    return JsonResponse(resultado)
 
 
 def cargar_grilla_ajax(request):
-
-    # Te trae la grilla principal o te la crea  
+    # Te trae la grilla principal o te la crea
     grilla_principal = Lienzo.objects.get_or_create(principal=True)
     pixeles = Pixel.objects.filter(lienzo__in=grilla_principal)
     datos = []
@@ -65,34 +62,30 @@ def cargar_grilla_ajax(request):
 
 
 def cargar_jugadas_ajax(request):
-    
     if request.method == 'POST':
-        
+
         datos_recibidos = json.loads(request.body.decode("utf-8"))
-        #Time = fecha y hora de la ultima vez que el usuario actualizó la grilla de su HTML
-        Time = datetime.strptime(datos_recibidos["time"][0:28],'%a %b %d %Y %X %Z')
-        Time = Time.astimezone(pytz.utc)
+        # time = fecha y hora de la ultima vez que el usuario actualizó la grilla de su HTML
+        time = datetime.strptime(datos_recibidos["time"][0:28], '%a %b %d %Y %X %Z')
+        time = time.astimezone(pytz.utc)
         hora_actual = datetime.now(pytz.UTC)
-        jugadas = Jugada.objects.filter(fecha_creacion__range=[Time, hora_actual])
+        jugadas = Jugada.objects.filter(fecha_creacion__range=[time, hora_actual])
 
         datos = []
 
         for jugada in jugadas:
-
             pixel = jugada.pixel
             color = jugada.color
-            
+
             dato = {
                 "X": pixel.coordenadaX,
                 "Y": pixel.coordenadaY,
                 "color": [color.Red, color.Green, color.Blue, color.Alpha],
                 "vidas": pixel.vidas,
             }
-            
+
             datos.append(dato)
-        
+
         return JsonResponse(datos, safe=False)
     else:
         return JsonResponse({"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"})
-
-

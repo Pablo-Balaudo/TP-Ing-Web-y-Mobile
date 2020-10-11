@@ -13,7 +13,6 @@ function EnviarJugada(color, X, Y, canvas) {
 
 function ImprimirJugada(data)
 {
-    console.log(data);
     if (data["Resultado"]) {
         var x = data["X"];
         var y = data["Y"];

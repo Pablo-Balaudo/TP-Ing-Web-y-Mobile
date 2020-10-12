@@ -39,8 +39,7 @@ function drawBoard(data) {
 
 
 function on_pagina_cargada() {
-    $.ajax({url: "/ajax/Lienzo/"}).done(drawBoard); 
-
+    $.ajax({url: "/ajax/Lienzo/",}).done(drawBoard); 
 }
 
 $(on_pagina_cargada)

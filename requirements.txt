@@ -5,3 +5,6 @@ django-crispy-forms
 six
 pylint-django==2.3.0
 pytz
+# django-haystack (waiting for django 3.1 support)
+git+https://github.com/django-haystack/django-haystack.git@08dd9471a0137ba87b8145cf1ec5ff9d8d498a2e
+whoosh

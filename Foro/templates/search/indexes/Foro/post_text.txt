@@ -1,0 +1,7 @@
+{{ object.title }}
+
+{{ object.description }}
+
+{{ object.author }}
+
+{{ object.date_posted }}

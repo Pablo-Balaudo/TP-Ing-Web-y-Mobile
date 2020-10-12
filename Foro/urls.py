@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
     PostListView,
     PostDetailedView,
@@ -25,5 +25,5 @@ urlpatterns = [
     path('post/<int:pk>/comment-update/', CommentUpdateView.as_view(), name='comment-update'),
     path('post/<int:pk>/comment-delete/', CommentDeleteView.as_view(), name='comment-delete'),
 
-
+    path('search/', include('haystack.urls')),
 ]

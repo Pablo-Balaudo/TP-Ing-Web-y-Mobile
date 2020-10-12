@@ -7,6 +7,8 @@
 {% block contenido %}
     <h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
     {% for post in Posts %}
+        <hr>
+        <br>
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">

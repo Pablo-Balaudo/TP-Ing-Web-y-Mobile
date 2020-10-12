@@ -32,7 +32,6 @@ class AdminColores(admin.ModelAdmin):
     # Los campos que por los que admin te permitirá Buscar los Objetos
     search_fields = ("Nombre",)
 
-
 admin.site.register(Color, AdminColores)
 
 
@@ -43,6 +42,5 @@ class AdminJugadas(admin.ModelAdmin):
     search_fields = ("pixel", "jugador", "color", )
     # Para establecer una jerarquia de fecha
     date_hierarchy = "fecha_creacion"
-
 
 admin.site.register(Jugada, AdminJugadas)

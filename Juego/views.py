@@ -62,11 +62,10 @@ def cargar_grilla_ajax(request):
 
 
 def cargar_jugadas_ajax(request):
-    if request.method == 'POST':
-
-        datos_recibidos = json.loads(request.body.decode("utf-8"))
+    if request.method == 'GET':
+        datos_recibidos = request.GET["time"]
         # time = fecha y hora de la ultima vez que el usuario actualizó la grilla de su HTML
-        time = datetime.strptime(datos_recibidos["time"][0:28], '%a %b %d %Y %X %Z')
+        time = datetime.strptime(datos_recibidos[0:28], '%a %b %d %Y %X %Z')
         time = time.astimezone(pytz.utc)
         hora_actual = datetime.now(pytz.UTC)
         jugadas = Jugada.objects.filter(fecha_creacion__range=[time, hora_actual])
@@ -88,4 +87,4 @@ def cargar_jugadas_ajax(request):
 
         return JsonResponse(datos, safe=False)
     else:
-        return JsonResponse({"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"})
+        return JsonResponse({"Resultado": False, "Error": "Se debe enviar un GET, no un POST"})

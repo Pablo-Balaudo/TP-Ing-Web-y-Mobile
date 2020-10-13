@@ -1,5 +1,5 @@
 from django.db import models
-
+from Usuarios.models import Denuncia
 from datetime import timedelta, datetime
 import pytz
 from django.core.validators import MaxValueValidator
@@ -75,6 +75,16 @@ class Jugada(models.Model):
     jugador = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+
+
+class DenunciaJugadasHeader(Denuncia):
+    idDenunciaJugada = models.AutoField(primary_key=True)
+
+
+class DenunciaJugadasDetail(Denuncia):
+    Header = models.ForeignKey(DenunciaJugadasHeader, on_delete=models.CASCADE)
+    jugada = models.ForeignKey(Jugada, on_delete=models.CASCADE)
 
 
 # Para que se creen los pixeles automaticamente tras crear un lienzo

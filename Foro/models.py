@@ -1,7 +1,11 @@
 from django.db import models
+
 from django.contrib.auth.models import User
+from Usuarios.models import Denuncia
+
 from django.utils import timezone
 from django.urls import reverse
+
 
 
 class Post(models.Model):
@@ -28,3 +32,9 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
+
+class DenunciaPost(Denuncia):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+class DenunciaComment(Denuncia):    
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)

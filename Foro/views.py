@@ -9,7 +9,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,)
-from .models import Post, Comment
+from .models import *
 
 
 def foro(request):

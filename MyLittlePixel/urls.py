@@ -18,17 +18,26 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from Usuarios import views as user_views
 from Juego.views import cargar_grilla_ajax, realizar_jugada_ajax, cargar_jugadas_ajax
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    
     path('', include('Juego.urls')),
+    
+    
     path('foro/', include('Foro.urls')),
     path('galeria/', include('Galeria.urls')),
     path('miscelaneo/', include('Miscelaneo.urls')),
+    
+    
     path('register/', user_views.register, name='Register'),
     path('login/', auth_views.LoginView.as_view(template_name='Usuarios/Login.html'), name='Login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='Usuarios/Logout.html'), name='Logout'),
     path('profile/', user_views.profile, name='Profile'),
+    
+    
     path('activate/<uidb64>/<token>/', user_views.activate, name='activate'),
 
     # Restablecer contraseña
@@ -66,4 +75,8 @@ urlpatterns = [
     path('ajax/Lienzo/', cargar_grilla_ajax),
     path('ajax/Jugada/', realizar_jugada_ajax),
     path('ajax/Jugadas/', cargar_jugadas_ajax),
+    
+    
+    path('robots.txt', TemplateView.as_view(template_name="Miscelaneo/robots.txt", content_type='text/plain')),
 ]
+

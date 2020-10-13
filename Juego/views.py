@@ -3,7 +3,7 @@ import pytz
 # Para manejar el los archivos Json 
 from django.http import JsonResponse
 import json
-from .models import Lienzo, Pixel, Jugada, Color
+from .models import *
 from django.shortcuts import render
 
 

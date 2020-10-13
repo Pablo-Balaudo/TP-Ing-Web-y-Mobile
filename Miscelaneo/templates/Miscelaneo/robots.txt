@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /activate/
+Disallow: /profile/
+Disallow: /ajax/
+Disallow: /resendverification/
+Disallow: /password-reset-complete/
+Disallow: /password-reset-confirm/
+Disallow: /password-reset/
+
+

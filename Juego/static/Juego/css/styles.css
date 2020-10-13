@@ -99,6 +99,24 @@ ion-icon[name="mail-outline"] {
 	background: #33ccff !important;
 	color: black !important;
 }
+
+.denuncia_btn{
+    width: 40%;
+	background: #33ccff !important;
+	color: black !important;
+}
+
+.textarea-denuncia {
+  width:80%;
+  height:150px;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+}
+
 .login_btn:focus {
 	box-shadow: none !important;
 	outline: 0px !important;

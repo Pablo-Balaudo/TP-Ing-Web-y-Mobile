@@ -29,10 +29,9 @@
         <p id="x">Coord X</p>
         <p id="y">Coord Y</p>
 
-
+        {% if user.is_authenticated %}
         <div class="row c-center">
             <div id="BotonesColores">
-                {% if user.is_authenticated %}
                         {% if request.user.is_superuser %}
                             <div class="btn-group">
                                 <button onclick="drawBoard()">Reset</button>
@@ -60,19 +59,39 @@
                             <button onclick="cambiarColor([0,0,255,255])">Azul</button>
                             <button onclick="cambiarColor([0,0,255,127])">Azul Oscuro</button>
                         </div>
-                {% endif %}
                 <hr>
             </div>
-        
-            <div class = "col-md-12">
-                <canvas id="Canvas" width="1000" height="1000"
-                        style="border: 1px solid #ffffff;
-                        -ms-interpolation-mode: nearest-neighbor;
-                        image-rendering: pixelated;
-                        color:white; background-color: black;">
-                    Activa JavaScript
-                </canvas>
+        </div>
+
+        <hr>
+        <div class="c-center">
+            <div id="form-denuncia" style="display:none">
+                <h4>
+                    Primero selecciona aquellos pixeles que crees que debamos revisar
+                </h4>
+                <textarea id="texto-denuncia" class="textarea-denuncia"
+                          required placeholder="Cuéntanos que es lo que sucede..."></textarea>
+                <div class="mb-1 d-flex justify-content-center">
+                    <input class="btn denuncia_btn" onclick="hacerDenuncia()"
+                           value="Enviar denuncia"/>
+                </div>
             </div>
+            <div class="c-center">
+            <button class="c-center btn btn-secondary"
+                    id="btn-denunciar" onclick="modoDenuncia()"> Denunciar</button>
+            </div>
+            <hr>
+        </div>
+        {% endif %}
+
+        <div class = "col-md-12 c-center">
+            <canvas id="Canvas" width="1000" height="1000"
+                    style="border: 1px solid #ffffff;
+                    -ms-interpolation-mode: nearest-neighbor;
+                    image-rendering: pixelated;
+                    color:white; background-color: black;">
+                Activa JavaScript
+            </canvas>
         </div>
 
         
@@ -82,11 +101,17 @@
             
             var canvas = document.querySelector('Canvas');
 
-            var color_to_paint = [0,0,0,0]
+            var color_to_paint = [0,0,0,0];
+
+            var pixelesdenuncia = [];
+
+            var modo = true;
 
             function cambiarColor(color)
-            { color_to_paint = color }
-
+            {
+                color_to_paint = color;
+                salirModoDenuncia();
+            }
         </script>
 
         
@@ -97,15 +122,20 @@
 
         {% if user.is_authenticated %}
 
-            <script id="RealizarJugada" type="text/javascript" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>         
+            <script id="RealizarJugada" type="text/javascript" src="{% static 'Juego/js/RealizarJugada.js' %}"></script>
+            <script id="Denuncias" type="text/javascript" src="{% static 'Juego/js/Denuncias.js' %}"></script>
 
-            <script id="Click1" type="text/javascript" >
+            <script id="Click1" type="text/javascript">
 
-                canvas.addEventListener('click', function(event) { 
+                canvas.addEventListener('click', function(event) {
                     var coordenadas = getCursorPosition(canvas, event);
-                    EnviarJugada(color_to_paint, coordenadas[0], coordenadas[1]);              
+                    if (modo) {
+                        EnviarJugada(color_to_paint, coordenadas[0], coordenadas[1]);
+                    }
+                    else {
+                        SeleccionarPixel(coordenadas[0], coordenadas[1], pixelesdenuncia);
+                    }
                 });
-
             </script>
 
         {% else %}

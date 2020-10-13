@@ -76,13 +76,19 @@ class Jugada(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):  
+        return '{0} - {1} - {2}'.format(self.pixel, self.jugador, self.fecha_creacion)
+
+    class Meta:
+        ordering = ['-fecha_creacion']
+
 
 
 class DenunciaJugadasHeader(Denuncia):
     idDenunciaJugada = models.AutoField(primary_key=True)
 
 
-class DenunciaJugadasDetail(Denuncia):
+class DenunciaJugadasDetail(models.Model):
     Header = models.ForeignKey(DenunciaJugadasHeader, on_delete=models.CASCADE)
     jugada = models.ForeignKey(Jugada, on_delete=models.CASCADE)
 

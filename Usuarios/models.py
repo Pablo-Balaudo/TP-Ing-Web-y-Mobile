@@ -73,10 +73,12 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+
 class Denuncia(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
+ 
     
 class DenunciaUsuario(Denuncia):
     denunciado = models.ForeignKey(User, on_delete=models.CASCADE)

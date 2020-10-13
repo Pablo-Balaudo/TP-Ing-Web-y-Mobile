@@ -1,23 +1,22 @@
 function hacerDenuncia(){
     // Pixeles denunciados
-    var datos = JSON.stringify(remove_duplicates(pixelesdenuncia));
+    var pixelesdenunciados = remove_duplicates(pixelesdenuncia);
     // Descripcion de la denuncia
     var descripcion = document.getElementById('texto-denuncia').value;
 
-    if (datos == "[]"){
+    if (pixelesdenunciados.length == 0) {
         alert("No se seleccionó ningún pixel. Intentelo de nuevo.");
     }
     else if (descripcion == "") {
         alert("Agregue una descripción a su denuncia.");
     }
-    else{
+    else {
         alert("Tu denuncia fue enviada.");
-        // Acá iría el POST
-        salirModoDenuncia();
+        EnviarDenuncia(pixelesdenunciados, descripcion);
     }
 }
 
-function SeleccionarPixel(x,y, data){
+function SeleccionarPixel(x, y, data){
     var context = canvas.getContext("2d");
     strokeLine(context, x, y);
     data.push({x, y});
@@ -43,18 +42,32 @@ function remove_duplicates(array) {
     return unicos;
 }
 
-function modoDenuncia()
-{
-    if (modo) { modo = false;
-    document.getElementById("btn-denunciar").innerHTML = "Cancelar";
-    document.getElementById("form-denuncia").style.display = "block";
-}
+function modoDenuncia() {
+    if (modo) { 
+        modo = false;
+        document.getElementById("btn-denunciar").innerHTML = "Cancelar";
+        document.getElementById("form-denuncia").style.display = "block";
+    }
     else { salirModoDenuncia(); }
 }
+
 function salirModoDenuncia(){
     modo = true;
     document.getElementById("btn-denunciar").innerHTML = "Denunciar";
     document.getElementById("form-denuncia").style.display = "none";
     pixelesdenuncia = [];
     $(on_pagina_cargada);
+}
+
+function EnviarDenuncia(pixelesdenunciados, descripcion) {
+    var Time = new Date(); 
+    var datos = JSON.stringify({ pixeles: pixelesdenunciados, text: descripcion, time: Time.toString() });
+    console.log(datos);
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken}, 
+        url: "/ajax/Denuncia/",
+        dataType: "json",
+        type: "POST",
+        data: datos,
+    }).done(salirModoDenuncia);
 }

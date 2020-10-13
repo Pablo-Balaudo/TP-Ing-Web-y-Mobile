@@ -88,3 +88,28 @@ def cargar_jugadas_ajax(request):
         return JsonResponse(datos, safe=False)
     else:
         return JsonResponse({"Resultado": False, "Error": "Se debe enviar un GET, no un POST"})
+
+
+def realizar_denuncia_ajax (request):
+    if request.method == 'POST':
+        
+        datos_recibidos = json.loads(request.body.decode("utf-8"))
+        time = datetime.strptime(datos_recibidos["time"][0:28], '%a %b %d %Y %X %Z')
+        time = time.astimezone(pytz.utc)
+
+        denuncia = DenunciaJugadasHeader.objects.create(author=request.user, fecha_creacion=time, text=datos_recibidos["text"])
+
+        for index in datos_recibidos["pixeles"]:   
+            try:
+                pixel = Pixel.objects.get(coordenadaX=index["x"], coordenadaY=index["y"])
+                jugada = Jugada.objects.filter(pixel=pixel).first()
+            except jugada.DoesNotExist:
+                print("se realizo una denuncia a un pixel sin dueño")
+            else: 
+                DenunciaJugadasDetail.objects.create(Header=denuncia, jugada=jugada)
+                
+        resultado = {"Resultado": True}
+    else:
+        resultado = {"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"}
+
+    return JsonResponse(resultado)

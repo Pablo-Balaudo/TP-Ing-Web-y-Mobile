@@ -83,7 +83,6 @@ class Jugada(models.Model):
         ordering = ['-fecha_creacion']
 
 
-
 class DenunciaJugadasHeader(Denuncia):
     idDenunciaJugada = models.AutoField(primary_key=True)
 

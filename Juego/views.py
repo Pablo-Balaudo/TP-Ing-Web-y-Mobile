@@ -1,6 +1,4 @@
-from datetime import datetime
-import pytz
-# Para manejar el los archivos Json 
+# Para manejar el los archivos Json
 from django.http import JsonResponse
 import json
 from .models import *
@@ -90,14 +88,16 @@ def cargar_jugadas_ajax(request):
         return JsonResponse({"Resultado": False, "Error": "Se debe enviar un GET, no un POST"})
 
 
-def realizar_denuncia_ajax (request):
+def realizar_denuncia_ajax(request):
     if request.method == 'POST':
         
         datos_recibidos = json.loads(request.body.decode("utf-8"))
         time = datetime.strptime(datos_recibidos["time"][0:28], '%a %b %d %Y %X %Z')
         time = time.astimezone(pytz.utc)
 
-        denuncia = DenunciaJugadasHeader.objects.create(author=request.user, fecha_creacion=time, text=datos_recibidos["text"])
+        denuncia = DenunciaJugadasHeader.objects.create(author=request.user,
+                                                        fecha_creacion=time,
+                                                        text=datos_recibidos["text"])
 
         for index in datos_recibidos["pixeles"]:   
             try:

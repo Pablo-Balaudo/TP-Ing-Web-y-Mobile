@@ -84,7 +84,6 @@ class DenunciaUsuario(Denuncia):
     denunciado = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-
 class Resendverification(UserCreationForm):
     email = forms.EmailField(label='', max_length=40,
                              widget=forms.TextInput(attrs={'placeholder': 'Correo electrónico'}))

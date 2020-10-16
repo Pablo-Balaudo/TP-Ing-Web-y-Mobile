@@ -1,5 +1,5 @@
 from haystack import indexes
-from Foro.models import Post, Comment
+from Foro.models import Post
 
 
 class PostIndex(indexes.SearchIndex, indexes.Indexable):

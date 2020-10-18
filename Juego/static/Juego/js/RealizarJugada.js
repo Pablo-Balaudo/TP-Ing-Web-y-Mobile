@@ -17,5 +17,8 @@ function ImprimirJugada(data)
         var x = data["X"];
         var y = data["Y"];
         pintar(x, y, canvas, data["Color"]);
+        // aquí iría el tiempo restante en segundos
+        tiempo_restante = 60;
+        inicializarTimer(tiempo_restante);
     }                    
 }

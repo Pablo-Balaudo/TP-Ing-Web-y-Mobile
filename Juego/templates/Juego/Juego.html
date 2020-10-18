@@ -63,24 +63,29 @@
             </div>
         </div>
 
-        <hr>
-        <div class="c-center">
-            <div id="form-denuncia" style="display:none">
-                <h4>
-                    Primero selecciona aquellos pixeles que crees que debamos revisar
-                </h4>
-                <textarea id="texto-denuncia" class="textarea-denuncia"
-                          required placeholder="Cuéntanos que es lo que sucede..."></textarea>
-                <div class="mb-1 d-flex justify-content-center">
-                    <input class="btn denuncia_btn" onclick="hacerDenuncia()"
-                           value="Enviar denuncia"/>
+        <div class="d-flex justify-content-center">
+            <div class="user_card card_game c-center">
+                <div id="form-denuncia" style="display:none">
+                    <h4>
+                        Primero selecciona aquellos pixeles que crees que debamos revisar
+                    </h4>
+                    <textarea id="texto-denuncia" class="textarea-denuncia"
+                              required placeholder="Cuéntanos que es lo que sucede..."></textarea>
+                    <div class="mb-1 d-flex justify-content-center">
+                        <input class="btn denuncia_btn" onclick="hacerDenuncia()"
+                               value="Enviar denuncia"/>
+                    </div>
+                </div>
+                <div class="c-center">
+                <button class="c-center btn btn-secondary"
+                        id="btn-denunciar" onclick="modoDenuncia()"> Denunciar</button>
+                </div>
+                <hr>
+                <div>
+                    <script id="Reloj" type="text/javascript" src="{% static 'Juego/js/Clock.js' %}"></script>
+                    <p id="text-timer"></p>
                 </div>
             </div>
-            <div class="c-center">
-            <button class="c-center btn btn-secondary"
-                    id="btn-denunciar" onclick="modoDenuncia()"> Denunciar</button>
-            </div>
-            <hr>
         </div>
         {% endif %}
 
@@ -112,6 +117,11 @@
                 color_to_paint = color;
                 salirModoDenuncia();
             }
+
+            // Consultar tiempo restante para jugar al ingresar por primera vez
+            {% if user.is_authenticated %}
+                window.onload=consultarTiempoJugada();
+            {% endif %}
         </script>
 
         
@@ -144,7 +154,6 @@
                 canvas.addEventListener('click', function(event) { getCursorPosition(canvas, event); }) ;
             </script>
         {% endif %}
-
                 
         
 

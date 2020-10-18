@@ -94,6 +94,12 @@ ion-icon[name="mail-outline"] {
 	width: 550px;
 	margin-top: 3%;
 }
+
+.card_game{
+	width: 900px;
+	margin-top: 2%;
+}
+
 .login_btn {
 	width: 80%;
 	background: #33ccff !important;

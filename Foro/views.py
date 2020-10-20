@@ -9,6 +9,7 @@ from django.views.generic import (
     DeleteView, )
 from .models import *
 from .forms import CommentForm
+from django import http
 
 
 def foro(request):
@@ -40,7 +41,12 @@ class UserPostListView(ListView):
 def post_detail(request, pk):
     template_name = 'Foro/post_detail.html'
     post = get_object_or_404(Post, pk=pk)
-    author = get_object_or_404(User, id=request.user.id)
+    try:
+        get_object_or_404(User, id=request.user.id)
+    except http.Http404:
+        author = None
+    else:
+        author = get_object_or_404(User, id=request.user.id)
     comments = post.comments.filter(active=True)
     new_comment = None
     # Comment posted

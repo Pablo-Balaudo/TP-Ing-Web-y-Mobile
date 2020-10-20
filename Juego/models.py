@@ -119,5 +119,6 @@ def realizar_jugada(sender, instance, created, **kwargs):
             color=instance.color, 
             owner=instance.jugador
         )
-
-        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=datetime.now(pytz.UTC) + timedelta(minutes=1))
+        nuevoTiempoEspera = datetime.now(pytz.UTC) + timedelta(minutes=1)
+        print(nuevoTiempoEspera)
+        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=nuevoTiempoEspera)

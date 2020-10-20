@@ -21,20 +21,20 @@ def realizar_jugada_ajax(request):
                 Green=datos_recibidos["Color"][1],
                 Blue=datos_recibidos["Color"][2],
                 Alpha=datos_recibidos["Color"][3])
-
+            pixel = Pixel.objects.get(coordenadaX=datos_recibidos["x"], coordenadaY=datos_recibidos["y"])
             jugador = request.user
 
-            pixel = Pixel.objects.get(coordenadaX=datos_recibidos["x"], coordenadaY=datos_recibidos["y"])
-
             Jugada.objects.create(color=color, pixel=pixel, jugador=jugador)
+            tiempoEspera = timedelta(minutes=1).seconds
 
             resultado = {"Resultado": True,
-                         "Espera": request.user.usuario.FechaJuego,
+                         "Espera": tiempoEspera,
                          "Color": datos_recibidos["Color"],
                          "X": datos_recibidos["x"],
                          "Y": datos_recibidos["y"]}
         else:
-            resultado = {"Resultado": False, "Espera": request.user.usuario.FechaJuego}
+            tiempoEspera = request.user.usuario.segundosEspera()
+            resultado = {"Resultado": False, "Espera": tiempoEspera}
     else:
         resultado = {"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"}
 
@@ -111,5 +111,16 @@ def realizar_denuncia_ajax(request):
         resultado = {"Resultado": True}
     else:
         resultado = {"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"}
+
+    return JsonResponse(resultado)
+
+
+def consultar_tiempo_espera_ajax(request):
+    if request.method == 'GET':
+        tiempoEspera = request.user.usuario.segundosEspera()
+        print(tiempoEspera, "consultar_tiempo_espera_ajax")
+        resultado = {"Resultado": True, "Espera": tiempoEspera}
+    else:
+        resultado = {"Resultado": False, "Error": "Se debería estar enviando un GET, no un POST"}
 
     return JsonResponse(resultado)

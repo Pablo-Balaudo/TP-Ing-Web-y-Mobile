@@ -118,7 +118,6 @@ def realizar_denuncia_ajax(request):
 def consultar_tiempo_espera_ajax(request):
     if request.method == 'GET':
         tiempoEspera = request.user.usuario.segundosEspera()
-        print(tiempoEspera, "consultar_tiempo_espera_ajax")
         resultado = {"Resultado": True, "Espera": tiempoEspera}
     else:
         resultado = {"Resultado": False, "Error": "Se debería estar enviando un GET, no un POST"}

@@ -99,14 +99,22 @@ def realizar_denuncia_ajax(request):
                                                         fecha_creacion=time,
                                                         text=datos_recibidos["text"])
 
+        NoExistenJugadas = True
+
         for index in datos_recibidos["pixeles"]:   
-            try:
-                pixel = Pixel.objects.get(coordenadaX=index["x"], coordenadaY=index["y"])
-                jugada = Jugada.objects.filter(pixel=pixel).first()
-            except jugada.DoesNotExist:
-                print("se realizo una denuncia a un pixel sin dueño")
-            else: 
+ 
+            pixel = Pixel.objects.get(coordenadaX=index["x"], coordenadaY=index["y"])
+            Hayjugada = Jugada.objects.filter(pixel=pixel).exists()
+            
+            if Hayjugada:
+                NoExistenJugadas = False
+                jugada = Jugada.objects.filter(pixel=pixel).order_by('-fecha_creacion').first()
                 DenunciaJugadasDetail.objects.create(Header=denuncia, jugada=jugada)
+            else:
+                print("se realizo una denuncia a un pixel sin dueño")
+
+        if NoExistenJugadas:
+            denuncia.delete()       
                 
         resultado = {"Resultado": True}
     else:

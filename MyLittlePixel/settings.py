@@ -33,7 +33,7 @@ if not os.environ.get("EN_HEROKU", False):
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
+    DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 

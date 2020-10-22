@@ -1,50 +1,50 @@
 {% extends "Juego/Base.html" %}
 {% load crispy_forms_tags %}
 {% block titulo %}
-	<title>Reenviar verificación</title>
+<title>Reenviar verificación</title>
 {% endblock titulo %}
 
 {% block contenido %}
 
 <div class="container">
-	<div class="d-flex justify-content-center">
-		<div class="user_card user_card_login">
-			<div class="c-center mb-3">
-		    	<h3 id="form-title"><strong>REENVIAR CORREO DE ACTIVACIÓN</strong></h3>
-		    </div>
-	    	<div class="mb-2">
-				<form method="POST">
-			        {% csrf_token %}
-					<!-- Mostrar otros errores -->
-					<div class="c-center">
-						{% for error in form.non_field_errors %}
-							<div class="mb-2">
-							    <span class="error">{{error}}</span>
-						    </div>
-						{% endfor %}
-					</div>
+    <div class="d-flex justify-content-center">
+        <div class="user_card user_card_login">
+            <div class="c-center mb-3">
+                <h3 id="form-title"><strong>REENVIAR CORREO DE ACTIVACIÓN</strong></h3>
+            </div>
+            <div class="mb-2">
+                <form method="POST">
+                    {% csrf_token %}
+                    <!-- Mostrar otros errores -->
+                    <div class="c-center">
+                        {% for error in form.non_field_errors %}
+                        <div class="mb-2">
+                            <span class="error">{{error}}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
 
-			        <div class="input-group mb-2 d-flex justify-content-center">
-						<div class="input-group-append">
-							<span class="input-group-text"><ion-icon name="mail-outline"></ion-icon></span>
-						</div>
-						{{ form.email }}
-					</div>
-					<!-- Mostrar errores email -->
-			        <div class="c-center">
-						{% for error in form.email.errors %}
-							<div class="mb-4">
-							    <span class="error">{{error}}</span>
-						    </div>
-						{% endfor %}
-					</div>
-					<div class="mb-1 d-flex justify-content-center">
-						<input class="btn login_btn" type="submit" value="Reenviar"/>
-					</div>
-			    </form>
-			</div>
-		</div>
-	</div>
+                    <div class="input-group mb-2 d-flex justify-content-center">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><ion-icon name="mail-outline"></ion-icon></span>
+                        </div>
+                        {{ form.email }}
+                    </div>
+                    <!-- Mostrar errores email -->
+                    <div class="c-center">
+                        {% for error in form.email.errors %}
+                        <div class="mb-4">
+                            <span class="error">{{error}}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-1 d-flex justify-content-center">
+                        <input class="btn login_btn" type="submit" value="Reenviar"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock contenido %}
 
@@ -52,5 +52,6 @@
 <script>
 	var form_fields = document.getElementsByTagName('input')
 	form_fields[1].placeholder='Correo electrónico..';
+
 </script>
 {% endblock javascript %}

@@ -1,96 +1,96 @@
 {% extends "Juego/Base.html" %}
 {% load crispy_forms_tags %}
 {% block titulo %}
-	<title>Registro</title>
+<title>Registro</title>
 {% endblock titulo %}
 
 {% block contenido %}
 <div class="container">
-	<div class="d-flex justify-content-center">
-		<div class="user_card user_card_register">
-			<div class="c-center mb-3">
-		    	<h3 id="form-title"><strong>REGISTRAR CUENTA</strong></h3>
-		    </div>
-	    	<div class="mb-2">
-				<form method="POST">
-			        {% csrf_token %}
-					<!-- Mostrar otros errores -->
-					<div class="c-center">
-						{% for error in form.non_field_errors %}
-							<div class="mb-2">
-							    <span class="error">{{error}}</span>
-						    </div>
-						{% endfor %}
-					</div>
+    <div class="d-flex justify-content-center">
+        <div class="user_card user_card_register">
+            <div class="c-center mb-3">
+                <h3 id="form-title"><strong>REGISTRAR CUENTA</strong></h3>
+            </div>
+            <div class="mb-2">
+                <form method="POST">
+                    {% csrf_token %}
+                    <!-- Mostrar otros errores -->
+                    <div class="c-center">
+                        {% for error in form.non_field_errors %}
+                        <div class="mb-2">
+                            <span class="error">{{error}}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
 
-					<div class="input-group mb-1 d-flex justify-content-center">
-						<div class="input-group-append">
-							<span class="input-group-text"><ion-icon name="person-outline"></ion-icon></span>
-						</div>
-				        {{ form.username }}			        	
-			        </div>
-			        <!-- Mostrar errores username -->
-			        <div class="c-center">
-						{% for error in form.username.errors %}
-							<div class="mb-2">
-							    <span class="error">{{error}}</span>
-						    </div>
-						{% endfor %}
-					</div>
+                    <div class="input-group mb-1 d-flex justify-content-center">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><ion-icon name="person-outline"></ion-icon></span>
+                        </div>
+                        {{ form.username }}
+                    </div>
+                    <!-- Mostrar errores username -->
+                    <div class="c-center">
+                        {% for error in form.username.errors %}
+                        <div class="mb-2">
+                            <span class="error">{{error}}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
 
-			        <div class="input-group mb-1 d-flex justify-content-center">
-						<div class="input-group-append">
-							<span class="input-group-text"><ion-icon name="mail-outline"></ion-icon></span>
-						</div>
-				        {{ form.email }}
-			        </div>			      
-	        		<!-- Mostrar errores email -->
-			        <div class="c-center">
-						{% for error in form.email.errors %}
-							<div class="mb-2">
-							    <span class="error">{{error}}</span>
-						    </div>
-						{% endfor %}
-					</div>
+                    <div class="input-group mb-1 d-flex justify-content-center">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><ion-icon name="mail-outline"></ion-icon></span>
+                        </div>
+                        {{ form.email }}
+                    </div>
+                    <!-- Mostrar errores email -->
+                    <div class="c-center">
+                        {% for error in form.email.errors %}
+                        <div class="mb-2">
+                            <span class="error">{{error}}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
 
-			        <div class="input-group mb-1 d-flex justify-content-center">
-						<div class="input-group-append">
-							<span class="input-group-text"><ion-icon name="key-outline"></ion-icon></span>
-						</div>
-				        {{ form.password1 }}
-			        </div>
+                    <div class="input-group mb-1 d-flex justify-content-center">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><ion-icon name="key-outline"></ion-icon></span>
+                        </div>
+                        {{ form.password1 }}
+                    </div>
 
-			        <div class="input-group mb-1 d-flex justify-content-center">
-						<div class="input-group-append">
-							<span class="input-group-text"><ion-icon name="key-outline"></ion-icon></span>
-						</div>
-						{{ form.password2 }}
-					</div>
-	        		<!-- Mostrar errores password2 -->
-			        <div class="c-center">
-						{% for error in form.password2.errors %}
-							<div class="mb-2">
-							    <span class="error">{{error}}</span>
-						    </div>
-						{% endfor %}
-					</div>
+                    <div class="input-group mb-1 d-flex justify-content-center">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><ion-icon name="key-outline"></ion-icon></span>
+                        </div>
+                        {{ form.password2 }}
+                    </div>
+                    <!-- Mostrar errores password2 -->
+                    <div class="c-center">
+                        {% for error in form.password2.errors %}
+                        <div class="mb-2">
+                            <span class="error">{{error}}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
 
-					<div class="mb-4 d-flex justify-content-center">
-						<div class="g-recaptcha" data-sitekey="6LfqBNYZAAAAAJngI-sGKmVr2y_lfAFwyf7aVmHe"></div>
-					</div>
-					<div class="mb-1 d-flex justify-content-center">
-						<input class="btn login_btn" type="submit" value="Registrarse"/>
-					</div>
-			    </form>
-			</div>
-			<div class="c-center">
-				<a class="link" href="/login">¿Ya tienes cuenta?</a>
-			</div>
-			<div class="c-center">
-				<a class="link" href="/resendverification">Reenviar correo de verificación</a>
-			</div>
-		</div>
-	</div>
+                    <div class="mb-4 d-flex justify-content-center">
+                        <div class="g-recaptcha" data-sitekey="6LfqBNYZAAAAAJngI-sGKmVr2y_lfAFwyf7aVmHe"></div>
+                    </div>
+                    <div class="mb-1 d-flex justify-content-center">
+                        <input class="btn login_btn" type="submit" value="Registrarse"/>
+                    </div>
+                </form>
+            </div>
+            <div class="c-center">
+                <a class="link" href="/login">¿Ya tienes cuenta?</a>
+            </div>
+            <div class="c-center">
+                <a class="link" href="/resendverification">Reenviar correo de verificación</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock contenido %}
 
@@ -103,5 +103,6 @@
 	form_fields[2].placeholder='Correo electrónico';
 	form_fields[3].placeholder='Contraseña';
 	form_fields[4].placeholder='Confirmar contraseña';
+
 </script>
 {% endblock javascript %}

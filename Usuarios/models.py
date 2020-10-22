@@ -1,17 +1,15 @@
-from django.db import models
-
 from datetime import timedelta, datetime
-import pytz
-# Para la extencion de la clase User
-from django.contrib.auth.models import User
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
+import pytz
 # Para los formularios
 from django import forms
+from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
-
+# Para la extencion de la clase User
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Aqui se ubican los posibles tiempos de espera:
 
@@ -20,6 +18,7 @@ tiempo_espera_2 = timedelta(hours=24)
 tiempo_espera_3 = timedelta(hours=12)
 tiempo_espera_4 = timedelta(hours=6)
 tiempo_espera_5 = timedelta(hours=3)
+
 
 # Estados
 # STATUS_USERS = (
@@ -37,26 +36,27 @@ tiempo_espera_5 = timedelta(hours=3)
 
 
 class Usuario(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)    
-    
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+
     FechaRegistro = models.DateTimeField(auto_now_add=True)
     # El tiempo de espera figura en minutos
-    cooldown = models.DurationField(blank=True, null=True)    
+    cooldown = models.DurationField(blank=True, null=True)
     # Fecha a partir de la cual puede pintar otra vez
-    FechaJuego = models.DateTimeField(auto_now_add=True)  
+    FechaJuego = models.DateTimeField(auto_now_add=True)
 
     Puntos = models.IntegerField(default=0)
     WeAreLegion = models.BooleanField(default=False)
     PixelOfLife = models.BooleanField(default=False)
+
     # Estado_Usuario = models.IntegerField(choices=STATUS_USERS)
     # Estado_Moderador = models.IntegerField(choices=ASIGNATION_MOD)
 
-    def segundosEspera(self):
-        tiempoEspera =  self.FechaJuego.astimezone(pytz.utc) - datetime.now(pytz.UTC)
-        if (self.FechaJuego.astimezone(pytz.utc) < datetime.now(pytz.UTC)):
+    def segundos_espera(self):
+        tiempo_espera = self.FechaJuego.astimezone(pytz.utc) - datetime.now(pytz.UTC)
+        if self.FechaJuego.astimezone(pytz.utc) < datetime.now(pytz.UTC):
             return 0
         else:
-            return tiempoEspera.seconds
+            return tiempo_espera.seconds
 
 
 class UserRegisterForm(UserCreationForm):
@@ -81,8 +81,8 @@ class Denuncia(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
- 
-    
+
+
 class DenunciaUsuario(Denuncia):
     denunciado = models.ForeignKey(User, on_delete=models.CASCADE)
 

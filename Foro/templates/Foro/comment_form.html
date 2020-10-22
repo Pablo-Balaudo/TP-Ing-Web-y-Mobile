@@ -1,26 +1,26 @@
 {% extends "Juego/Base.html" %}
 {% load crispy_forms_tags %}
 {% block titulo %}
-	<title>Comment Post</title>
+<title>Comment Post</title>
 {% endblock titulo %}
 
 {% block contenido %}
 <div class="container">
-	<div class="d-flex justify-content-center">
-		<div class="user_card user_card_register">
-			<div class="c-center mb-3">
-		    	<h3 id="form-title"><strong>Comment Post</strong></h3>
-		    </div>
-	    	<div class="mb-2">
-				<form method="POST">
-			        {% csrf_token %}
+    <div class="d-flex justify-content-center">
+        <div class="user_card user_card_register">
+            <div class="c-center mb-3">
+                <h3 id="form-title"><strong>Comment Post</strong></h3>
+            </div>
+            <div class="mb-2">
+                <form method="POST">
+                    {% csrf_token %}
                     {{ form|crispy}}
-					<div class="mb-1 d-flex justify-content-center">
-						<input class="btn login_btn" type="submit" value="Post"/>
-					</div>
+                    <div class="mb-1 d-flex justify-content-center">
+                        <input class="btn login_btn" type="submit" value="Post"/>
+                    </div>
                 </form>
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 {% endblock contenido %}

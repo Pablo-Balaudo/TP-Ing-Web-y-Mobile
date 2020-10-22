@@ -1,4 +1,5 @@
 from haystack import indexes
+
 from Foro.models import Post
 
 

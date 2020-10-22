@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
-import django_heroku
 import os
+from pathlib import Path
+
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -21,10 +22,18 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', '')
+SECRET_KEY = os.getenv('SECRET_KEY', '5pq!7c1&+0u0(jkrqd%y1a(glk1h@jc5&)3r8om$113fpn*quk')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# If we are running locally
+if not os.environ.get("EN_HEROKU", False):
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+# If we are running on deploy
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
@@ -136,11 +145,10 @@ django_heroku.settings(locals())
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'cuentaparatp2020@gmail.com'
-EMAIL_HOST_PASSWORD = os.getenv('PASSWORD_GMAIL', '')
+EMAIL_HOST_PASSWORD = os.getenv('PASSWORD_GMAIL', 'LaPassWord963')
 
 GOOGLE_RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA', '')

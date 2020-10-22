@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from Juego.models import *
 
 
@@ -9,6 +10,7 @@ class AdminPixeles(admin.ModelAdmin):
     list_filter = ("owner",)
     # Los campos que por los que admin te permitirá Buscar los Objetos
     search_fields = ("coordenadaX", "coordenadaY",)
+
 
 admin.site.register(Pixel, AdminPixeles)
 
@@ -21,23 +23,26 @@ class AdminLienzos(admin.ModelAdmin):
     # Para establecer una jerarquia de fecha
     date_hierarchy = "fechainicio"
     # Metodos a aplicar sobre los registros que selecciones
-    actions = ['ReiniciarLienzo', 'VaciarLienzo']
-    
+    actions = ['reiniciar_lienzo', 'vaciar_lienzo']
+
     # Metodo para re-aplicar las jugadas existentes a la grilla
-    def ReiniciarLienzo(self, request, queryset):
+    def reiniciar_lienzo(self, request, queryset):
         for lienzo in queryset:
-            lienzo.limpiarLienzo()
+            lienzo.limpiar_lienzo()
             jugadas = Jugada.objects.all().order_by('fecha_creacion')
             for jugada in jugadas:
-                jugada.aplicarJugada()
-    ReiniciarLienzo.short_description = 'Reiniciar lienzo (without Delete of Jugadas)'
+                jugada.aplicar_jugada()
+
+    reiniciar_lienzo.short_description = 'Reiniciar lienzo (without Delete of Jugadas)'
 
     # Metodo para dejar el lienzo en planco y borrar toda jugada realizada sobre esta
-    def VaciarLienzo(self, request, queryset):
+    def vaciar_lienzo(self, request, queryset):
         for lienzo in queryset:
-            lienzo.limpiarLienzo()
+            lienzo.limpiar_lienzo()
             Jugada.objects.all().delete()
-    VaciarLienzo.short_description = 'Reformatear lienzo (with Delete of Jugadas)'
+
+    vaciar_lienzo.short_description = 'Reformatear lienzo (with Delete of Jugadas)'
+
 
 admin.site.register(Lienzo, AdminLienzos)
 
@@ -47,6 +52,7 @@ class AdminColores(admin.ModelAdmin):
     list_display = ("Nombre", "Red", "Green", "Blue", "Alpha",)
     # Los campos que por los que admin te permitirá Buscar los Objetos
     search_fields = ("Nombre",)
+
 
 admin.site.register(Color, AdminColores)
 
@@ -59,6 +65,7 @@ class AdminJugadas(admin.ModelAdmin):
     # Para establecer una jerarquia de fecha
     date_hierarchy = "fecha_creacion"
 
+
 admin.site.register(Jugada, AdminJugadas)
 
 
@@ -70,16 +77,18 @@ class AdminDenunciasJugadasHeader(admin.ModelAdmin):
     # Para establecer una jerarquia de fecha
     date_hierarchy = "fecha_creacion"
     # Metodos a aplicar sobre los registros que selecciones
-    actions = ['AplicarMedidas']
-    
+    actions = ['aplicar_medidas']
+
     # Metodo para eliminar las jugadas asociadas a las denuncias seleccionadas 
-    def AplicarMedidas(self, request, queryset):
+    def aplicar_medidas(self, request, queryset):
         for denunciaHeader in queryset:
-            denunciasDetails = DenunciaJugadasDetail.objects.filter(Header=denunciaHeader)
-            for denunciaDetail in denunciasDetails:
+            denuncias_details = DenunciaJugadasDetail.objects.filter(Header=denunciaHeader)
+            for denunciaDetail in denuncias_details:
                 instance = denunciaDetail.jugada
                 instance.delete()
-    AplicarMedidas.short_description = 'Eliminar Jugadas Implicadas'
+
+    aplicar_medidas.short_description = 'Eliminar Jugadas Implicadas'
+
 
 admin.site.register(DenunciaJugadasHeader, AdminDenunciasJugadasHeader)
 
@@ -90,7 +99,5 @@ class AdminDenunciasJugadasDetail(admin.ModelAdmin):
     # Los campos que por los que admin te permitirá Buscar los Objetos
     search_fields = ("Header", "jugada",)
 
+
 admin.site.register(DenunciaJugadasDetail, AdminDenunciasJugadasDetail)
-
-
-

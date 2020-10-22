@@ -1,14 +1,13 @@
-from django.db import models
-from Usuarios.models import Denuncia
 from datetime import timedelta, datetime
+
 import pytz
 from django.core.validators import MaxValueValidator
-
-from Usuarios.models import Usuario
-
+from django.db import models
 # Para definir metodos que se ejecuten tras la creacion de on objeto de una clase determinada
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from Usuarios.models import Denuncia, Usuario
 
 # Estados
 # STATUS_LIENZO = (
@@ -30,12 +29,12 @@ class Lienzo(models.Model):
     tamano_max_Y = models.IntegerField(default=51)
     # booleanos que representan el estado del lienzo
     principal = models.BooleanField(default=False)
+
     # Estado_Lienzo = models.IntegerField(choices=STATUS_LIENZO)
 
-    def limpiarLienzo(self):
-        colorDefault = Color.objects.get(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1)
-        Pixel.objects.filter(lienzo=self).update(color=colorDefault, vidas=1, owner=None)
-
+    def limpiar_lienzo(self):
+        color_default = Color.objects.get(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1)
+        Pixel.objects.filter(lienzo=self).update(color=color_default, vidas=1, owner=None)
 
 
 class Color(models.Model):
@@ -81,21 +80,20 @@ class Jugada(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
-    def aplicarJugada(self):
+    def aplicar_jugada(self):
         Pixel.objects.filter(
-            coordenadaX= self.pixel.coordenadaX, 
-            coordenadaY= self.pixel.coordenadaY
+            coordenadaX=self.pixel.coordenadaX,
+            coordenadaY=self.pixel.coordenadaY
         ).update(
-            color= self.color, 
-            owner= self.jugador
+            color=self.color,
+            owner=self.jugador
         )
 
-    def __str__(self):  
+    def __str__(self):
         return '{0} - {1} - {2}'.format(self.pixel, self.jugador, self.fecha_creacion)
 
     class Meta:
         ordering = ['-fecha_creacion']
-
 
 
 class DenunciaJugadasHeader(Denuncia):
@@ -114,8 +112,8 @@ def crear_pixeles(sender, instance, created, **kwargs):
         for X in range(1, CanvasSize):
             for Y in range(1, CanvasSize):
                 pixel = Pixel(
-                    coordenadaX=X, 
-                    coordenadaY=Y, 
+                    coordenadaX=X,
+                    coordenadaY=Y,
                     lienzo=instance,
                     color=Color.objects.get(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1)
                 )
@@ -125,7 +123,7 @@ def crear_pixeles(sender, instance, created, **kwargs):
 # Para que, al crearse una nueva jugada, el cambio se vea reflejado directamente sobre el pixel que referencia
 @receiver(post_save, sender=Jugada)
 def realizar_jugada(sender, instance, created, **kwargs):
-    if created:       
-        instance.aplicarJugada()
-        nuevoTiempoEspera = datetime.now(pytz.UTC) + timedelta(minutes=1)
-        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=nuevoTiempoEspera)
+    if created:
+        instance.aplicar_jugada()
+        nuevo_tiempo_espera = datetime.now(pytz.UTC) + timedelta(minutes=1)
+        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=nuevo_tiempo_espera)

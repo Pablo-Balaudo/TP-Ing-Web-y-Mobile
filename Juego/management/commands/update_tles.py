@@ -2,13 +2,11 @@ from django.core.management.base import BaseCommand
 
 
 def cargar_colores():
-
     from Juego.models import Color
     import json
 
     ubicacion_archivo_json = 'Juego/fixtures/Colores.json'
     with open(ubicacion_archivo_json) as json_datos:
-
         colores = json.load(json_datos)
 
         for key, value in colores.items():

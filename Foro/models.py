@@ -1,9 +1,8 @@
-from django.db import models
-
 from django.contrib.auth.models import User
-from Usuarios.models import Denuncia
-
+from django.db import models
 from django.urls import reverse
+
+from Usuarios.models import Denuncia
 
 
 class Post(models.Model):
@@ -43,5 +42,5 @@ class DenunciaPost(Denuncia):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
 
-class DenunciaComment(Denuncia):    
+class DenunciaComment(Denuncia):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)

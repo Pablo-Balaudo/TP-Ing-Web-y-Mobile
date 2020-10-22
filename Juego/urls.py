@@ -1,10 +1,11 @@
 from django.urls import path
-from . import views
+
 from Juego.views import (cargar_grilla_ajax,
                          realizar_jugada_ajax,
                          cargar_jugadas_ajax,
                          realizar_denuncia_ajax,
                          consultar_tiempo_espera_ajax)
+from . import views
 
 urlpatterns = [
     path('', views.juego, name='Juego'),

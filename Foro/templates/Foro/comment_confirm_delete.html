@@ -1,26 +1,27 @@
 {% extends "Juego/Base.html" %}
 {% block titulo %}
-	<title>Blog Post</title>
+<title>Blog Post</title>
 {% endblock titulo %}
 
 {% block contenido %}
 <div class="container">
-	<div class="d-flex justify-content-center">
-		<div class="user_card user_card_register">
-			<div class="c-center mb-3">
-		    	<h1 id="form-title"><strong>Delete Comment</strong></h1>
-                <h3>¿Estas seguro que quieres eliminar el comentario hecho el "{{ object.date_posted|date:"d/m/Y - H:i A" }}"</h3>
-		    </div>
-	    	<div class="mb-2">
-				<form method="POST">
-			        {% csrf_token %}
-					<div class="mb-1 d-flex justify-content-center">
-						<input class="btn btn-outline-danger" type="submit" value="Eliminar"/>
-						<a class="btn btn-outline-secondary" href="{% url 'post-detail' object.post.id %}">Cancelar</a>
-					</div>
+    <div class="d-flex justify-content-center">
+        <div class="user_card user_card_register">
+            <div class="c-center mb-3">
+                <h1 id="form-title"><strong>Delete Comment</strong></h1>
+                <h3>¿Estas seguro que quieres eliminar el comentario hecho el "{{ object.date_posted|date:"d/m/Y - H:i
+                    A" }}"</h3>
+            </div>
+            <div class="mb-2">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-1 d-flex justify-content-center">
+                        <input class="btn btn-outline-danger" type="submit" value="Eliminar"/>
+                        <a class="btn btn-outline-secondary" href="{% url 'post-detail' object.post.id %}">Cancelar</a>
+                    </div>
                 </form>
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 {% endblock contenido %}

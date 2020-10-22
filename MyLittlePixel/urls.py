@@ -14,29 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from Usuarios import views as user_views
+from django.urls import path, include
 from django.views.generic import TemplateView
+
+from Usuarios import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    
+
     path('', include('Juego.urls')),
-    
-    
+
     path('foro/', include('Foro.urls')),
     path('galeria/', include('Galeria.urls')),
     path('miscelaneo/', include('Miscelaneo.urls')),
-    
-    
+
     path('register/', user_views.register, name='Register'),
     path('login/', auth_views.LoginView.as_view(template_name='Usuarios/Login.html'), name='Login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='Usuarios/Logout.html'), name='Logout'),
     path('profile/', user_views.profile, name='Profile'),
-    
-    
+
     path('activate/<uidb64>/<token>/', user_views.activate, name='activate'),
 
     # Restablecer contraseña
@@ -68,8 +65,6 @@ urlpatterns = [
          name='password_reset_complete'),
 
     path('resendverification/', user_views.resendverification, name='ResendVerification'),
-    
-    
+
     path('robots.txt', TemplateView.as_view(template_name="Miscelaneo/robots.txt", content_type='text/plain')),
 ]
-

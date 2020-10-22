@@ -1,15 +1,16 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django import http
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     UserPassesTestMixin)
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (
     ListView,
     CreateView,
     UpdateView,
     DeleteView, )
-from .models import *
+
 from .forms import CommentForm
-from django import http
+from .models import *
 
 
 def foro(request):

@@ -1,56 +1,56 @@
 {% extends "Juego/Base.html" %}
 
 {% block titulo %}
-    <title>Foro</title>
+<title>Foro</title>
 {% endblock titulo %}
 
 {% block contenido %}
-    <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-post' post.author.username %}">{{ post.author }}</a> -
-                    <small class="text-muted">{{ post.date_posted|date:"d/m/Y - H:i A" }}</small>
-                </div>
-                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.text }}</p>
-                {% if post.author == user %}
-                      <div>
-                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">Update</a>
-                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">Delete</a>
-                      </div>
-                    {% endif %}
-            </div>
-    </article>
-       <div>
-        <br/>
-        <hr>
-        <h2>Comments</h2>
-            {% for comment in comments %}
-                    <strong>
-                        <a class="mr-2" href="{% url 'user-post' comment.author.username %}">{{ comment.author }}</a> -
-                        <small class="text-muted">{{ comment.date_posted|date:"d/m/Y - H:i A" }}</small>
-                    </strong>
-                    <br/>
-                    {{ comment.text }}
-                    <br/>
-                    {% if comment.author == user %}
-                        <div>
-                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'comment-update' comment.id %}">Update</a>
-                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">Delete</a>
-                        </div>
-                    {% endif %}
-                    <br>
-            {% endfor %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-post' post.author.username %}">{{ post.author }}</a> -
+            <small class="text-muted">{{ post.date_posted|date:"d/m/Y - H:i A" }}</small>
         </div>
-    <br>
-    {% if user.is_authenticated %}
-        {% load crispy_forms_tags %}
-        <h3>Leave a comment</h3>
-        <form method="post" style="margin-top: 1.3em;">
-            {{ comment_form | crispy }}
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Comentar</button>
-        </form>
+        <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.text }}</p>
+        {% if post.author == user %}
+        <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">Delete</a>
+        </div>
+        {% endif %}
+    </div>
+</article>
+<div>
+    <br/>
+    <hr>
+    <h2>Comments</h2>
+    {% for comment in comments %}
+    <strong>
+        <a class="mr-2" href="{% url 'user-post' comment.author.username %}">{{ comment.author }}</a> -
+        <small class="text-muted">{{ comment.date_posted|date:"d/m/Y - H:i A" }}</small>
+    </strong>
+    <br/>
+    {{ comment.text }}
+    <br/>
+    {% if comment.author == user %}
+    <div>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'comment-update' comment.id %}">Update</a>
+        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">Delete</a>
+    </div>
     {% endif %}
     <br>
+    {% endfor %}
+</div>
+<br>
+{% if user.is_authenticated %}
+{% load crispy_forms_tags %}
+<h3>Leave a comment</h3>
+<form method="post" style="margin-top: 1.3em;">
+    {{ comment_form | crispy }}
+    {% csrf_token %}
+    <button class="btn btn-primary" type="submit">Comentar</button>
+</form>
+{% endif %}
+<br>
 {% endblock contenido %}

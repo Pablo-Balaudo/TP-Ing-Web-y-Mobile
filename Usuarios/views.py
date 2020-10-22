@@ -1,19 +1,19 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import *
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+import json
+import os
+import urllib
 
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Para el registro
 from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from .utils import generate_token
 from django.core.mail import EmailMessage
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
-from django.conf import settings
-import urllib
-import json
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
+from .models import *
+from .utils import generate_token
 
 
 def send_email_activation(user, email, request):
@@ -57,7 +57,7 @@ def register(request):
 
             # MENSAJES DE ERROR
             bandera = False
-            if not result['success']:      
+            if not result['success'] and os.environ.get("EN_HEROKU", False):
                 form.add_error(None, 'reCAPTCHA inválido. Inténtelo de nuevo.')
                 bandera = True
             if User.objects.filter(email=email).exists():

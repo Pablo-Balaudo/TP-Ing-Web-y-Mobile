@@ -1,8 +1,10 @@
 # Para manejar el los archivos Json
-from django.http import JsonResponse
 import json
-from .models import *
+
+from django.http import JsonResponse
 from django.shortcuts import render
+
+from .models import *
 
 
 def juego(request):
@@ -25,16 +27,16 @@ def realizar_jugada_ajax(request):
             jugador = request.user
 
             Jugada.objects.create(color=color, pixel=pixel, jugador=jugador)
-            tiempoEspera = timedelta(minutes=1).seconds
+            tiempo_espera = timedelta(minutes=1).seconds
 
             resultado = {"Resultado": True,
-                         "Espera": tiempoEspera,
+                         "Espera": tiempo_espera,
                          "Color": datos_recibidos["Color"],
                          "X": datos_recibidos["x"],
                          "Y": datos_recibidos["y"]}
         else:
-            tiempoEspera = request.user.usuario.segundosEspera()
-            resultado = {"Resultado": False, "Espera": tiempoEspera}
+            tiempo_espera = request.user.usuario.segundos_espera()
+            resultado = {"Resultado": False, "Espera": tiempo_espera}
     else:
         resultado = {"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"}
 
@@ -90,7 +92,7 @@ def cargar_jugadas_ajax(request):
 
 def realizar_denuncia_ajax(request):
     if request.method == 'POST':
-        
+
         datos_recibidos = json.loads(request.body.decode("utf-8"))
         time = datetime.strptime(datos_recibidos["time"][0:28], '%a %b %d %Y %X %Z')
         time = time.astimezone(pytz.utc)
@@ -99,23 +101,23 @@ def realizar_denuncia_ajax(request):
                                                         fecha_creacion=time,
                                                         text=datos_recibidos["text"])
 
-        NoExistenJugadas = True
+        no_existen_jugadas = True
 
-        for index in datos_recibidos["pixeles"]:   
- 
+        for index in datos_recibidos["pixeles"]:
+
             pixel = Pixel.objects.get(coordenadaX=index["x"], coordenadaY=index["y"])
-            Hayjugada = Jugada.objects.filter(pixel=pixel).exists()
-            
-            if Hayjugada:
-                NoExistenJugadas = False
+            hay_jugada = Jugada.objects.filter(pixel=pixel).exists()
+
+            if hay_jugada:
+                no_existen_jugadas = False
                 jugada = Jugada.objects.filter(pixel=pixel).order_by('-fecha_creacion').first()
                 DenunciaJugadasDetail.objects.create(Header=denuncia, jugada=jugada)
             else:
                 print("se realizo una denuncia a un pixel sin dueño")
 
-        if NoExistenJugadas:
-            denuncia.delete()       
-                
+        if no_existen_jugadas:
+            denuncia.delete()
+
         resultado = {"Resultado": True}
     else:
         resultado = {"Resultado": False, "Error": "Se debería estar enviando un POST, no un GET"}
@@ -125,8 +127,8 @@ def realizar_denuncia_ajax(request):
 
 def consultar_tiempo_espera_ajax(request):
     if request.method == 'GET':
-        tiempoEspera = request.user.usuario.segundosEspera()
-        resultado = {"Resultado": True, "Espera": tiempoEspera}
+        tiempo_espera = request.user.usuario.segundos_espera()
+        resultado = {"Resultado": True, "Espera": tiempo_espera}
     else:
         resultado = {"Resultado": False, "Error": "Se debería estar enviando un GET, no un POST"}
 

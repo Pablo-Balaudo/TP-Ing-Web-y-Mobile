@@ -4,13 +4,11 @@ from django.apps import AppConfig
 # Este metodo es para cargar los colores en la base de 
 # datos, desde el archivo json de la carpeta fixtures
 def cargar_colores():
-
     from Juego.models import Color
     import json
 
     ubicacion_archivo_json = 'Juego/fixtures/Colores.json'
     with open(ubicacion_archivo_json) as json_datos:
-
         colores = json.load(json_datos)
 
         for key, value in colores.items():

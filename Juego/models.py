@@ -32,6 +32,11 @@ class Lienzo(models.Model):
     principal = models.BooleanField(default=False)
     # Estado_Lienzo = models.IntegerField(choices=STATUS_LIENZO)
 
+    def limpiarLienzo(self):
+        colorDefault = Color.objects.get(Nombre="black", Red=0, Green=0, Blue=0, Alpha=1)
+        Pixel.objects.filter(lienzo=self).update(color=colorDefault, vidas=1, owner=None)
+
+
 
 class Color(models.Model):
     Nombre = models.CharField(max_length=30)
@@ -76,11 +81,21 @@ class Jugada(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
+    def aplicarJugada(self):
+        Pixel.objects.filter(
+            coordenadaX= self.pixel.coordenadaX, 
+            coordenadaY= self.pixel.coordenadaY
+        ).update(
+            color= self.color, 
+            owner= self.jugador
+        )
+
     def __str__(self):  
         return '{0} - {1} - {2}'.format(self.pixel, self.jugador, self.fecha_creacion)
 
     class Meta:
         ordering = ['-fecha_creacion']
+
 
 
 class DenunciaJugadasHeader(Denuncia):
@@ -111,13 +126,6 @@ def crear_pixeles(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Jugada)
 def realizar_jugada(sender, instance, created, **kwargs):
     if created:       
-        
-        Pixel.objects.filter(
-            coordenadaX=instance.pixel.coordenadaX, 
-            coordenadaY=instance.pixel.coordenadaY
-        ).update(
-            color=instance.color, 
-            owner=instance.jugador
-        )
-
-        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=datetime.now(pytz.UTC) + timedelta(minutes=1))
+        instance.aplicarJugada()
+        nuevoTiempoEspera = datetime.now(pytz.UTC) + timedelta(minutes=1)
+        Usuario.objects.filter(user=instance.jugador).update(FechaJuego=nuevoTiempoEspera)

@@ -1,7 +1,7 @@
 from django.db import models
 
 from datetime import timedelta, datetime
-
+import pytz
 # Para la extencion de la clase User
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -51,9 +51,12 @@ class Usuario(models.Model):
     # Estado_Usuario = models.IntegerField(choices=STATUS_USERS)
     # Estado_Moderador = models.IntegerField(choices=ASIGNATION_MOD)
 
-    def definir_espera(self):
-        self.TiempoEspera = tiempo_espera_1                   
-        self.FechaJuego = datetime.now() + self.TiempoEspera
+    def segundosEspera(self):
+        tiempoEspera =  self.FechaJuego.astimezone(pytz.utc) - datetime.now(pytz.UTC)
+        if (self.FechaJuego.astimezone(pytz.utc) < datetime.now(pytz.UTC)):
+            return 0
+        else:
+            return tiempoEspera.seconds
 
 
 class UserRegisterForm(UserCreationForm):

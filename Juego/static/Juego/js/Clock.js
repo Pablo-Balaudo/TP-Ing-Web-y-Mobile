@@ -38,8 +38,12 @@ function formatTime(time) {
   }
 }
 
-function consultarTiempoJugada(){
-    // aquí iría el tiempo restante en segundos
-    tiempo_restante = 60;
+function consultarTiempoJugada(data){
+  if (data["Resultado"]) {
+    tiempo_restante = data["Espera"];
     inicializarTimer(tiempo_restante);
+  }
 }
+
+
+window.onload=$.ajax({url: "/ajax/Espera/", type: "GET"}).done(consultarTiempoJugada);

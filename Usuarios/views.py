@@ -107,7 +107,7 @@ def activate(request, uidb64, token):
     return render(request, 'Usuarios/Email_activation_failed.html')
 
 
-def resendverification(request):
+def resend_verification(request):
     if request.method == 'POST':
         form = Resendverification(request.POST)
         if form.is_valid():

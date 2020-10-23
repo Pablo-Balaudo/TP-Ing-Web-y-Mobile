@@ -34,13 +34,16 @@ class Comment(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.post.pk})
 
-    def get_post_number(self):
-        return self.post
-
 
 class DenunciaPost(Denuncia):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.post.pk})
+
 
 class DenunciaComment(Denuncia):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.post.pk})

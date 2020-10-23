@@ -8,17 +8,17 @@
     <div class="d-flex justify-content-center">
         <div class="user_card user_card_register">
             <div class="c-center mb-3">
-                <h3 id="form-title"><strong>Report Post</strong></h3>
-                <h2>Cuentanos que tiene de malo este Post "{{ post.title }}"?</h2>
+                <h3 id="form-title"><strong>Report Comment</strong></h3>
+                <h2>Cuentanos que tiene de malo este Comentario del Post "{{ comment.post.title }}"?</h2>
             </div>
             <div class="mb-2">
                 {% if user.is_authenticated %}
                 {% load crispy_forms_tags %}
                 <form method="POST" style="margin-top: 1.3em;">
-                    {{ post_report_form | crispy }}
+                    {{ comment_report_form | crispy }}
                     {% csrf_token %}
                     <input class="btn btn-outline-danger" type="submit" value="Denunciar"/>
-                    <a class="btn btn-outline-secondary" href="{% url 'post-detail' post.id %}">Cancelar</a>
+                    <a class="btn btn-outline-secondary" href="{% url 'post-detail' comment.post.id %}">Cancelar</a>
                 </form>
                 {% endif %}
             </div>

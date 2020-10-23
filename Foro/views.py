@@ -1,7 +1,8 @@
-from django import http
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     UserPassesTestMixin)
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (
     ListView,
@@ -9,13 +10,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView, )
 
-from .forms import CommentForm
+from .forms import CommentForm, PostReportForm, CommentReportForm
 from .models import *
-
-
-def foro(request):
-    contenido = {'Posts': Post.objects.all()}
-    return render(request, 'Foro/Foro.html', contenido)
 
 
 class PostListView(ListView):
@@ -44,7 +40,7 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     try:
         get_object_or_404(User, id=request.user.id)
-    except http.Http404:
+    except Http404:
         author = None
     else:
         author = get_object_or_404(User, id=request.user.id)
@@ -106,6 +102,31 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
+@login_required
+def post_report(request, pk):
+    template_name = 'Foro/post_confirm_report.html'
+    post = get_object_or_404(Post, pk=pk)
+    author = get_object_or_404(User, id=request.user.id)
+    new_report = None
+    if request.method == 'POST':
+        post_report_form = PostReportForm(data=request.POST)
+        if post_report_form.is_valid():
+            # Create Report object but don't save to database yet
+            new_report = post_report_form.save(commit=False)
+            # Assign the current post to the report
+            new_report.post = post
+            new_report.author = author
+            # Save the report to the database
+            new_report.save()
+        return redirect('post-detail', pk=post.pk)
+    else:
+        post_report_form = PostReportForm()
+
+    return render(request, template_name, {'post': post,
+                                           'new_report': new_report,
+                                           'post_report_form': post_report_form})
+
+
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment  # Use the Comment model
     fields = ['text', ]
@@ -132,3 +153,28 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+
+@login_required
+def comment_report(request, pk):
+    template_name = 'Foro/comment_confirm_report.html'
+    comment = get_object_or_404(Comment, pk=pk)
+    author = get_object_or_404(User, id=request.user.id)
+    new_report = None
+    if request.method == 'POST':
+        comment_report_form = CommentReportForm(data=request.POST)
+        if comment_report_form.is_valid():
+            # Create Report object but don't save to database yet
+            new_report = comment_report_form.save(commit=False)
+            # Assign the current post to the report
+            new_report.comment = comment
+            new_report.author = author
+            # Save the report to the database
+            new_report.save()
+        return redirect('post-detail', pk=comment.post.pk)
+    else:
+        comment_report_form = CommentReportForm()
+
+    return render(request, template_name, {'comment': comment,
+                                           'new_report': new_report,
+                                           'comment_report_form': comment_report_form})

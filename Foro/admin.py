@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Post, Comment
+from .models import Post, Comment, DenunciaPost, DenunciaComment
 
 
 class AdminPost(admin.ModelAdmin):
@@ -29,3 +29,23 @@ class AdminComment(admin.ModelAdmin):
 
 
 admin.site.register(Comment, AdminComment)
+
+
+class AdminDenunciaPost(admin.ModelAdmin):
+    list_display = ("post", "author", "text", "fecha_creacion")
+    list_filter = ("post", "fecha_creacion", "author")
+    # Para establecer una jerarquia de fecha
+    date_hierarchy = "fecha_creacion"
+
+
+admin.site.register(DenunciaPost, AdminDenunciaPost)
+
+
+class AdminDenunciaComment(admin.ModelAdmin):
+    list_display = ("comment", "author", "text", "fecha_creacion")
+    list_filter = ("comment", "fecha_creacion", "author")
+    # Para establecer una jerarquia de fecha
+    date_hierarchy = "fecha_creacion"
+
+
+admin.site.register(DenunciaComment, AdminDenunciaComment)

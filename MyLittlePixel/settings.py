@@ -27,13 +27,13 @@ SECRET_KEY = os.getenv('SECRET_KEY', '5pq!7c1&+0u0(jkrqd%y1a(glk1h@jc5&)3r8om$11
 # If we are running locally
 if not os.environ.get("EN_HEROKU", False):
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+
 # If we are running on deploy
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 

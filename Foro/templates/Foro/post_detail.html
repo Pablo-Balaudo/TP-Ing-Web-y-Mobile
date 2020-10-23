@@ -19,6 +19,11 @@
             <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">Delete</a>
         </div>
         {% endif %}
+        {% if user.is_authenticated %}
+        <div>
+            <a class="btn btn-dark btn-sm mt-1 mb-1" href="{% url 'post-report' post.id %}">Report</a>
+        </div>
+        {% endif %}
     </div>
 </article>
 <div>
@@ -37,6 +42,11 @@
     <div>
         <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'comment-update' comment.id %}">Update</a>
         <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">Delete</a>
+    </div>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <div>
+        <a class="btn btn-dark btn-sm mt-1 mb-1" href="{% url 'comment-report' comment.id %}">Report</a>
     </div>
     {% endif %}
     <br>

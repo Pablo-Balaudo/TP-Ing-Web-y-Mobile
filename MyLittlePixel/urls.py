@@ -64,7 +64,7 @@ urlpatterns = [
          ),
          name='password_reset_complete'),
 
-    path('resendverification/', user_views.resendverification, name='ResendVerification'),
+    path('resend_verification/', user_views.resend_verification, name='ResendVerification'),
 
     path('robots.txt', TemplateView.as_view(template_name="Miscelaneo/robots.txt", content_type='text/plain')),
 ]

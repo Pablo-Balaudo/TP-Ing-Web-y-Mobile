@@ -19,6 +19,26 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
+    def deactivate_post(self):
+        """Set Post Active state to False"""
+        self.active = False
+        self.save()
+
+    def activate_post(self):
+        """Set Post Active state to True"""
+        self.active = True
+        self.save()
+
+    def deactivate_post_author(self):
+        """Set Post Author state to False"""
+        self.author.is_active = False
+        self.author.save()
+
+    def activate_post_author(self):
+        """Set Post Author state to True"""
+        self.author.is_active = True
+        self.author.save()
+
 
 class Comment(models.Model):
     id = models.AutoField(primary_key=True)
@@ -33,6 +53,26 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.post.pk})
+
+    def deactivate_comment(self):
+        """Set Comment Active state to False"""
+        self.active = False
+        self.save()
+
+    def activate_comment(self):
+        """Set Comment Active state to True"""
+        self.active = True
+        self.save()
+
+    def deactivate_comment_author(self):
+        """Set Comment Author state to False"""
+        self.author.is_active = False
+        self.author.save()
+
+    def activate_comment_author(self):
+        """Set Comment Author state to True"""
+        self.author.is_active = True
+        self.author.save()
 
 
 class DenunciaPost(Denuncia):

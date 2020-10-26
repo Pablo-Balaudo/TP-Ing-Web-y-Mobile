@@ -81,6 +81,8 @@ class Denuncia(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
+    aplicada = models.BooleanField(default=False)
+    # este ultimo atributo es para indicar si se realizaron acciones al respecto o no ante la denuncia
 
 
 class DenunciaUsuario(Denuncia):

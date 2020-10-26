@@ -1,6 +1,9 @@
 from django.contrib import admin
-
+from django.http import HttpResponse
 from Juego.models import *
+import csv
+
+
 
 
 class AdminPixeles(admin.ModelAdmin):
@@ -71,9 +74,11 @@ admin.site.register(Jugada, AdminJugadas)
 
 class AdminDenunciasJugadasHeader(admin.ModelAdmin):
     # Los campos que mostrara el admin al navegar entre los Objetos
-    list_display = ("idDenunciaJugada", "author", "fecha_creacion",)
+    list_display = ("idDenunciaJugada", "author", "fecha_creacion", "aplicada",)
     # Los campos que por los que admin te permitirá Buscar los Objetos
     search_fields = ("author", "text", "color",)
+    # Los campos que por los que admin te permitirá filtrar los usuarios
+    list_filter = ("aplicada",)
     # Para establecer una jerarquia de fecha
     date_hierarchy = "fecha_creacion"
     # Metodos a aplicar sobre los registros que selecciones
@@ -82,10 +87,24 @@ class AdminDenunciasJugadasHeader(admin.ModelAdmin):
     # Metodo para eliminar las jugadas asociadas a las denuncias seleccionadas 
     def aplicar_medidas(self, request, queryset):
         for denunciaHeader in queryset:
+            
+            identificador = denunciaHeader.idDenunciaJugada
+            DenunciaJugadasHeader.objects.filter(idDenunciaJugada=identificador).update(aplicada=True)
+            
             denuncias_details = DenunciaJugadasDetail.objects.filter(Header=denunciaHeader)
             for denunciaDetail in denuncias_details:
                 instance = denunciaDetail.jugada
                 instance.delete()
+
+            lienzo = Lienzo.objects.get(principal=True)
+            lienzo.limpiar_lienzo()
+            
+            jugadas = Jugada.objects.all().order_by('fecha_creacion')
+            for jugada in jugadas:
+                jugada.aplicar_jugada()
+
+    change_form_template = 'Juego/Grilla.html'
+
 
     aplicar_medidas.short_description = 'Eliminar Jugadas Implicadas'
 

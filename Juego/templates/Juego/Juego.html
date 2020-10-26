@@ -100,6 +100,12 @@
 </div>
 
 
+
+<script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}" type="text/javascript"></script>
+<script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"
+        type="text/javascript"></script>
+<script id="ActualizarGrilla" src="{% static 'Juego/js/ActualizarGrilla.js' %}" type="text/javascript"></script>
+
 <script id="VariablesGlobales" type="text/javascript">
             
             var csrftoken = '{{csrf_token}}';
@@ -118,17 +124,12 @@
                 salirModoDenuncia();
             }
 
+            function on_pagina_cargada()
+            { $.ajax({url: "/ajax/Lienzo/",}).done(drawBoard); }
 
-
-
+            $(on_pagina_cargada)
 
 </script>
-
-
-<script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}" type="text/javascript"></script>
-<script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"
-        type="text/javascript"></script>
-<script id="ActualizarGrilla" src="{% static 'Juego/js/ActualizarGrilla.js' %}" type="text/javascript"></script>
 
 
 {% if user.is_authenticated %}

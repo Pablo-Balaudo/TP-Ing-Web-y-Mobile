@@ -1,3 +1,5 @@
+var canvas = document.querySelector('Canvas');
+
 function pintar(x, y, canvas, color_RGBA)
 {
     var c = canvas
@@ -21,7 +23,7 @@ function pintar(x, y, canvas, color_RGBA)
 
 function cargarPixeles(data) {
     
-    for (let index = 0; index < data.length; index++) {       
+    for (let index = 0; index < data.length; index++) {             
         var x = data[index]["X"];
         var y = data[index]["Y"];
         var color_RGBA = data[index]["color"];  
@@ -36,10 +38,3 @@ function drawBoard(data) {
     cargarPixeles(data);  
 }
 
-
-
-function on_pagina_cargada() {
-    $.ajax({url: "/ajax/Lienzo/",}).done(drawBoard); 
-}
-
-$(on_pagina_cargada)

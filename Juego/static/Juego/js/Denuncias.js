@@ -65,7 +65,7 @@ function EnviarDenuncia(pixelesdenunciados, descripcion) {
     console.log(datos);
     $.ajax({
         headers: {"X-CSRFToken": csrftoken}, 
-        url: "/ajax/Denuncia/",
+        url: "/ajax/Denuncia/Realizar/",
         dataType: "json",
         type: "POST",
         data: datos,

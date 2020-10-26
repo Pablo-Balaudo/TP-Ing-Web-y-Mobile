@@ -125,6 +125,36 @@ def realizar_denuncia_ajax(request):
     return JsonResponse(resultado)
 
 
+def obtener_denuncia_ajax(request):
+    if request.method == 'GET':
+
+        datos_recibidos = request.GET["id"]
+        
+        denuncia = DenunciaJugadasHeader.objects.get(id = datos_recibidos)
+
+        DenunciasDetails = DenunciaJugadasDetail.objects.filter(Header=denuncia)
+        
+        datos = []
+
+        for DenunciaDetail in DenunciasDetails:
+            
+            pixel = DenunciaDetail.jugada.pixel
+            color = DenunciaDetail.jugada.color
+
+            dato = {
+                "X": pixel.coordenadaX,
+                "Y": pixel.coordenadaY,
+                "color": [color.Red, color.Green, color.Blue, color.Alpha],
+                "vidas": pixel.vidas,
+            }
+
+            datos.append(dato)
+
+        return JsonResponse(datos, safe=False)
+    else:
+        return JsonResponse({"Resultado": False, "Error": "Se debe enviar un GET, no un POST"})
+
+
 def consultar_tiempo_espera_ajax(request):
     if request.method == 'GET':
         tiempo_espera = request.user.usuario.segundos_espera()

@@ -89,19 +89,8 @@
 </div>
 {% endif %}
 
-<div class="col-md-12 c-center">
-    <canvas height="1000" id="Canvas" style="border: 1px solid #ffffff;
-                    -ms-interpolation-mode: nearest-neighbor;
-                    image-rendering: pixelated;
-                    color:white; background-color: black;"
-            width="1000">
-        Activa JavaScript
-    </canvas>
-</div>
+{% include 'Juego/Grilla.html' %}
 
-
-
-<script id="CargarGrilla" src="{% static 'Juego/js/CargarGrilla.js' %}" type="text/javascript"></script>
 <script id="ObtenerCoordenadasCursor" src="{% static 'Juego/js/ObtenerCoordenadasCursor.js' %}"
         type="text/javascript"></script>
 <script id="ActualizarGrilla" src="{% static 'Juego/js/ActualizarGrilla.js' %}" type="text/javascript"></script>

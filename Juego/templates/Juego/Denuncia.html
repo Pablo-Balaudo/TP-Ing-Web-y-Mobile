@@ -1,0 +1,28 @@
+{% extends 'admin/change_form.html' %}
+
+{% block submit_buttons_bottom %}
+    
+    {% if not original.aplicada %}
+
+        {% include 'Juego/Grilla.html' %}
+
+        <script id="inicio_operaciones" type="text/javascript">
+            
+            var idDenuncia = {{ original.id }}
+
+            function on_pagina_cargada()
+            { $.ajax({
+                url: "/ajax/Denuncia/Obtener/",
+                type: "GET",
+                data: { "id": idDenuncia }
+            }).done(drawBoard); }
+        
+            $(on_pagina_cargada)
+        
+        </script>
+
+    {% endif %}
+
+    {{ block.super }}
+    
+{% endblock %}

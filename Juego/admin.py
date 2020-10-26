@@ -103,8 +103,7 @@ class AdminDenunciasJugadasHeader(admin.ModelAdmin):
             for jugada in jugadas:
                 jugada.aplicar_jugada()
 
-    change_form_template = 'Juego/Grilla.html'
-
+    change_form_template = 'Juego/Denuncia.html'
 
     aplicar_medidas.short_description = 'Eliminar Jugadas Implicadas'
 

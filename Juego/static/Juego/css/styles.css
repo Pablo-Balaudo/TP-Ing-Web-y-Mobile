@@ -13,8 +13,8 @@ p{
     font-size:12px;
 }
 
-btn{
-    background-color:white !important;
+.btn-navbar{
+    font-size:11px !important;
 }
 
 .notes{	
@@ -157,6 +157,11 @@ ion-icon[name="mail-outline"] {
 }
 .article-content{
     font-size:14px;
+}
+
+/* Buttons */
+.Button:active, .active {
+    background-color:gold;
 }
 
 /* Apariencia en otros dispositivos */

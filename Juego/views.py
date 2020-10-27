@@ -129,15 +129,14 @@ def obtener_denuncia_ajax(request):
     if request.method == 'GET':
 
         datos_recibidos = request.GET["id"]
-        
-        denuncia = DenunciaJugadasHeader.objects.get(id = datos_recibidos)
+
+        denuncia = DenunciaJugadasHeader.objects.get(id=datos_recibidos)
 
         DenunciasDetails = DenunciaJugadasDetail.objects.filter(Header=denuncia)
-        
+
         datos = []
 
         for DenunciaDetail in DenunciasDetails:
-            
             pixel = DenunciaDetail.jugada.pixel
             color = DenunciaDetail.jugada.color
 

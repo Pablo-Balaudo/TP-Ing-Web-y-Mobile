@@ -3,7 +3,7 @@ from django.urls import path
 from Juego.views import (cargar_grilla_ajax,
                          realizar_jugada_ajax,
                          cargar_jugadas_ajax,
-                         consultar_tiempo_espera_ajax, 
+                         consultar_tiempo_espera_ajax,
                          realizar_denuncia_ajax,
                          obtener_denuncia_ajax)
 from . import views

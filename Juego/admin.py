@@ -1,9 +1,6 @@
 from django.contrib import admin
-from django.http import HttpResponse
+
 from Juego.models import *
-import csv
-
-
 
 
 class AdminPixeles(admin.ModelAdmin):
@@ -87,10 +84,10 @@ class AdminDenunciasJugadasHeader(admin.ModelAdmin):
     # Metodo para eliminar las jugadas asociadas a las denuncias seleccionadas 
     def aplicar_medidas(self, request, queryset):
         for denunciaHeader in queryset:
-            
+
             identificador = denunciaHeader.idDenunciaJugada
             DenunciaJugadasHeader.objects.filter(idDenunciaJugada=identificador).update(aplicada=True)
-            
+
             denuncias_details = DenunciaJugadasDetail.objects.filter(Header=denunciaHeader)
             for denunciaDetail in denuncias_details:
                 instance = denunciaDetail.jugada
@@ -98,7 +95,7 @@ class AdminDenunciasJugadasHeader(admin.ModelAdmin):
 
             lienzo = Lienzo.objects.get(principal=True)
             lienzo.limpiar_lienzo()
-            
+
             jugadas = Jugada.objects.all().order_by('fecha_creacion')
             for jugada in jugadas:
                 jugada.aplicar_jugada()

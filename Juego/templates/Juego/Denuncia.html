@@ -1,28 +1,28 @@
 {% extends 'admin/change_form.html' %}
 
 {% block submit_buttons_bottom %}
-    
-    {% if not original.aplicada %}
 
-        {% include 'Juego/Grilla.html' %}
+{% if not original.aplicada %}
 
-        <script id="inicio_operaciones" type="text/javascript">
+{% include 'Juego/Grilla.html' %}
+
+<script id="inicio_operaciones" type="text/javascript">
             
-            var idDenuncia = {{ original.id }}
+var idDenuncia = {{ original.id }}
 
-            function on_pagina_cargada()
-            { $.ajax({
-                url: "/ajax/Denuncia/Obtener/",
-                type: "GET",
-                data: { "id": idDenuncia }
-            }).done(drawBoard); }
-        
-            $(on_pagina_cargada)
-        
-        </script>
+function on_pagina_cargada()
+{ $.ajax({
+    url: "/ajax/Denuncia/Obtener/",
+    type: "GET",
+    data: { "id": idDenuncia }
+}).done(drawBoard); }
 
-    {% endif %}
+$(on_pagina_cargada)
 
-    {{ block.super }}
-    
+</script>
+
+{% endif %}
+
+{{ block.super }}
+
 {% endblock %}

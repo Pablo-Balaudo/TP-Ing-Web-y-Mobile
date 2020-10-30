@@ -35,7 +35,7 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -88,12 +88,25 @@ WSGI_APPLICATION = 'MyLittlePixel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# If we are running locally
+if not os.environ.get("EN_DOCKER", False):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+# If we are running on Docker
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            # Since the Database is not in the BASE_DIR, we need to change it to go to "BASE_DIR/data"
+            # 'NAME': os.path.join(BASE_DIR, 'data', 'db.sqlite3'), or maybe use this
+            'NAME': BASE_DIR / 'data/db.sqlite3',
+        }
+    }
 
 HAYSTACK_CONNECTIONS = {
     'default': {

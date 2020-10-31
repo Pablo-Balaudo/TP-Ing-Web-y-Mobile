@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.8
+FROM python:3.8.5
 
 # These two environment variables prevent __pycache__/ files.
 ENV PYTHONUNBUFFERED 1
@@ -21,7 +21,7 @@ RUN pip install --upgrade pip
 # Install the requirements.
 RUN pip install -r requirements.txt
 
-# Copy the rest of the code. 
+# Copy the rest of the code that isn't on the ".dockerignore" file.
 COPY . /app_grupo1/
 
 # Make a new directory to put the database in.
@@ -30,6 +30,4 @@ RUN mkdir /app_grupo1/data
 # Use environment variable to detect Database on BASE_DIR/data
 ENV EN_DOCKER = True
 
-ENTRYPOINT ["bash", "entrypoint.sh"]
-
-CMD ["run"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

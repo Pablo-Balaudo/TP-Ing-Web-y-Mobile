@@ -102,8 +102,9 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            # Since the Database is not in the BASE_DIR, we need to change it to go to "BASE_DIR/data"
-            'NAME': BASE_DIR / 'data/db.sqlite3',
+            # Since the Database should be outside BASE_DIR
+            # we need to change it so that it's on the same level as "/app_grupo1"
+            'NAME': '/data/db.sqlite3',
         }
     }
 

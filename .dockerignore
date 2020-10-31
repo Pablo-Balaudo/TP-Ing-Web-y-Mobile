@@ -1,3 +1,8 @@
 Documentacion
-*/__pycache__
+/__pycache__
 *.sqlite3
+Dockerfile
+.gitignore
+Procfile
+whoosh_index
+.idea

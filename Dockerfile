@@ -5,8 +5,8 @@ FROM python:3.8.5
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
-# Make a new directory to put the code in.
-RUN mkdir /app_grupo1
+# Make a new directory to put the code and the database in.
+RUN mkdir /app_grupo1 /data
 
 # Change the working directory. 
 # Every command after this will be run from the /app_grupo1 directory.
@@ -23,9 +23,6 @@ RUN pip install -r requirements.txt
 
 # Copy the rest of the code that isn't on the ".dockerignore" file.
 COPY . /app_grupo1/
-
-# Make a new directory to put the database in.
-RUN mkdir /app_grupo1/data
 
 # Use environment variable to detect Database on BASE_DIR/data
 ENV EN_DOCKER = True

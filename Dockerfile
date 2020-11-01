@@ -24,7 +24,7 @@ RUN pip install -r requirements.txt
 # Copy the rest of the code that isn't on the ".dockerignore" file.
 COPY . /app_grupo1/
 
-# Use environment variable to detect Database on BASE_DIR/data
+# Use environment variable to detect Database on /data
 ENV EN_DOCKER = True
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
